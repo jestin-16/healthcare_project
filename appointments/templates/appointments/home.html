@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron text-center p-5 bg-white rounded shadow-sm">
+    <h1 class="display-4">Your Health, Our Priority</h1>
+    <p class="lead">Connect with the best doctors and book your appointments in seconds.</p>
+    <hr class="my-4">
+    <p>Join thousands of patients who trust our professional medical network.</p>
+    <div class="mt-4">
+        <a class="btn btn-primary btn-lg mx-2" href="{% url 'doctor_list' %}" role="button">Find a Doctor</a>
+        {% if not user.is_authenticated %}
+            <a class="btn btn-outline-primary btn-lg mx-2" href="{% url 'register' %}" role="button">Get Started</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5 text-center">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h3>Easy Booking</h3>
+            <p>Simple interface to book your slots anytime, anywhere.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h3>Verified Doctors</h3>
+            <p>All our doctors are verified professionals with years of experience.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h3>Instant Approval</h3>
+            <p>Get notified as soon as your appointment is confirmed by the doctor.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
