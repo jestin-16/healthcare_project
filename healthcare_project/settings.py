@@ -86,6 +86,7 @@ DATABASES = {
 
 # TiDB requires SSL configuration passed as a nested dictionary in OPTIONS
 if 'mysql' in DATABASES['default'].get('ENGINE', ''):
+    DATABASES['default'].setdefault('OPTIONS', {})
     DATABASES['default']['OPTIONS']['ssl'] = {
         'ca': '/etc/ssl/certs/ca-certificates.crt'
     }
