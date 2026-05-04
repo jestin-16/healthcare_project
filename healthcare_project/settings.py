@@ -84,6 +84,14 @@ DATABASES = {
     )
 }
 
+# TiDB requires SSL configuration passed as a nested dictionary in OPTIONS
+if 'mysql' in DATABASES['default'].get('ENGINE', ''):
+    DATABASES['default']['OPTIONS']['ssl'] = {
+        'ca': '/etc/ssl/certs/ca-certificates.crt'
+    }
+    # Remove ssl_ca from OPTIONS if it was added by dj_database_url parsing the URL
+    DATABASES['default']['OPTIONS'].pop('ssl_ca', None)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
