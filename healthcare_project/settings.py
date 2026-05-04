@@ -89,6 +89,7 @@ if 'mysql' in DATABASES['default'].get('ENGINE', ''):
     DATABASES['default']['OPTIONS']['ssl'] = {
         'ca': '/etc/ssl/certs/ca-certificates.crt'
     }
+    DATABASES['default']['OPTIONS']['ssl_mode'] = 'VERIFY_IDENTITY'
     # Remove ssl_ca from OPTIONS if it was added by dj_database_url parsing the URL
     DATABASES['default']['OPTIONS'].pop('ssl_ca', None)
 
