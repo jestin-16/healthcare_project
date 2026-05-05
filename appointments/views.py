@@ -38,8 +38,10 @@ def register(request):
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def add_staff(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         form = StaffRegistrationForm(request.POST)
         if form.is_valid():
@@ -62,8 +64,10 @@ def add_staff(request):
         form = StaffRegistrationForm()
     return render(request, 'appointments/add_staff.html', {'form': form})
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def add_admin(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         form = AdminRegistrationForm(request.POST)
         if form.is_valid():
@@ -104,8 +108,10 @@ def dashboard(request):
         return render(request, 'appointments/nurse_dashboard.html')
     return redirect('home')
 
-@user_passes_test(lambda u: u.is_superuser)
+@login_required
 def admin_dashboard(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     doctors_count = Doctor.objects.count()
     nurses_count = Nurse.objects.count()
     patients_count = Profile.objects.filter(role='patient').count()
@@ -156,3 +162,11 @@ def manage_appointment(request, appointment_id, action):
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
+
+def setup_admin(request):
+    from django.contrib.auth.models import User
+    if not User.objects.filter(username='admin_test').exists():
+        User.objects.create_superuser('admin_test', 'admin@example.com', 'Admin123!')
+        messages.success(request, "Admin account created successfully! Use admin_test / Admin123! to login.")
+        return redirect('login')
+    return redirect('login')
