@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AppointmentForm
+from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AdminRegistrationForm, AppointmentForm
 from .models import Profile, Doctor, Nurse, Appointment
 from django.core.exceptions import PermissionDenied
 
@@ -61,6 +61,26 @@ def add_staff(request):
     else:
         form = StaffRegistrationForm()
     return render(request, 'appointments/add_staff.html', {'form': form})
+
+@user_passes_test(lambda u: u.is_superuser)
+def add_admin(request):
+    if request.method == 'POST':
+        form = AdminRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+            
+            # Admins don't strictly need a profile role, but let's set it to 'staff' or similar if needed
+            # For now, superuser status is enough for the admin_dashboard redirect
+            
+            messages.success(request, f"Admin {user.username} created successfully!")
+            return redirect('admin_dashboard')
+    else:
+        form = AdminRegistrationForm()
+    return render(request, 'appointments/add_admin.html', {'form': form})
 
 @login_required
 def dashboard(request):
