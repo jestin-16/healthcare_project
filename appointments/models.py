@@ -14,6 +14,7 @@ class Profile(models.Model):
     ROLE_CHOICES = (
         ('patient', 'Patient'),
         ('doctor', 'Doctor'),
+        ('nurse', 'Nurse'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
@@ -30,6 +31,14 @@ class Doctor(models.Model):
     
     def __str__(self):
         return f"Dr. {self.user.get_full_name() or self.user.username} ({self.specialization})"
+
+class Nurse(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='nurse_profile')
+    department = models.CharField(max_length=100)
+    shift = models.CharField(max_length=50, choices=(('day', 'Day'), ('night', 'Night')), default='day')
+
+    def __str__(self):
+        return f"Nurse {self.user.get_full_name() or self.user.username} ({self.department})"
 
 class Appointment(models.Model):
     STATUS_CHOICES = (

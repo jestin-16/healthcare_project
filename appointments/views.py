@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from .forms import UserRegistrationForm, DoctorProfileForm, AppointmentForm
-from .models import Profile, Doctor, Appointment
+from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AppointmentForm
+from .models import Profile, Doctor, Nurse, Appointment
 from django.core.exceptions import PermissionDenied
 
 def role_required(allowed_roles=[]):
@@ -27,25 +27,46 @@ def register(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             
-            # Profile is created by signal, just update role
-            role = form.cleaned_data['role']
-            user.profile.role = role
+            # Profile is created by signal, force patient role
+            user.profile.role = 'patient'
             user.profile.save()
             
-            if role == 'doctor':
-                # If doctor, we might need extra info, but for now we just mark it
-                # Realistically we should redirect to a doctor profile setup page
-                Doctor.objects.create(user=user, specialization="General Physician")
-            
             login(request, user)
-            messages.success(request, f"Account created for {user.username} as {role}!")
+            messages.success(request, f"Account created for {user.username} as a Patient!")
             return redirect('dashboard')
     else:
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+@user_passes_test(lambda u: u.is_superuser)
+def add_staff(request):
+    if request.method == 'POST':
+        form = StaffRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            
+            role = form.cleaned_data['role']
+            user.profile.role = role
+            user.profile.save()
+            
+            if role == 'doctor':
+                Doctor.objects.create(user=user, specialization="General Physician")
+            elif role == 'nurse':
+                Nurse.objects.create(user=user, department="General")
+            
+            messages.success(request, f"{role.capitalize()} {user.username} added successfully!")
+            return redirect('admin_dashboard') # Assuming an admin dashboard exists or just redirect somewhere
+    else:
+        form = StaffRegistrationForm()
+    return render(request, 'appointments/add_staff.html', {'form': form})
+
 @login_required
 def dashboard(request):
+    if request.user.is_superuser:
+        return redirect('admin_dashboard')
+    
     role = request.user.profile.role
     if role == 'patient':
         appointments = Appointment.objects.filter(patient=request.user).order_by('-date')
@@ -58,7 +79,28 @@ def dashboard(request):
              return redirect('home')
         appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('-date')
         return render(request, 'appointments/doctor_dashboard.html', {'appointments': appointments})
+    elif role == 'nurse':
+        # Nurses might see a general dashboard for now
+        return render(request, 'appointments/nurse_dashboard.html')
     return redirect('home')
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_dashboard(request):
+    doctors_count = Doctor.objects.count()
+    nurses_count = Nurse.objects.count()
+    patients_count = Profile.objects.filter(role='patient').count()
+    total_appointments = Appointment.objects.count()
+    
+    recent_appointments = Appointment.objects.order_by('-created_at')[:5]
+    
+    context = {
+        'doctors_count': doctors_count,
+        'nurses_count': nurses_count,
+        'patients_count': patients_count,
+        'total_appointments': total_appointments,
+        'recent_appointments': recent_appointments,
+    }
+    return render(request, 'appointments/admin_dashboard.html', context)
 
 @login_required
 @role_required(allowed_roles=['patient'])

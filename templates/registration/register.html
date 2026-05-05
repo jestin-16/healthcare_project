@@ -1,29 +1,80 @@
 {% extends 'base.html' %}
 {% block title %}Register - HealthCare Pro{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card p-4">
-            <h3 class="text-center mb-4">Create Account</h3>
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="mb-3">
-                        <label class="form-label">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="text-danger small">{{ field.errors }}</div>
-                        {% endif %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0 fw-bold">Join Our Community</h3>
+                    <p class="mb-0 opacity-75">Register as a Patient to book appointments</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold text-muted small text-uppercase">{{ field.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0 text-muted">
+                                        {% if 'username' in field.name %}<i class="fas fa-user"></i>
+                                        {% elif 'email' in field.name %}<i class="fas fa-envelope"></i>
+                                        {% elif 'password' in field.name %}<i class="fas fa-lock"></i>
+                                        {% elif 'first_name' in field.name or 'last_name' in field.name %}<i class="fas fa-signature"></i>
+                                        {% else %}<i class="fas fa-pen"></i>{% endif %}
+                                    </span>
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">{{ field.errors }}</div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <div class="text-muted small mt-1">{{ field.help_text|safe }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg shadow-sm rounded-pill py-3 fw-bold">
+                                Create Account
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p class="text-muted mb-0">Already have an account? <a href="{% url 'login' %}" class="text-primary fw-bold text-decoration-none">Login here</a></p>
                     </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
-            </form>
-            <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
-    input, select { display: block; width: 100%; padding: .375rem .75rem; border: 1px solid #dee2e6; border-radius: .375rem; }
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+    .input-group-text {
+        border-radius: 10px 0 0 10px;
+    }
+    input {
+        border-radius: 0 10px 10px 0 !important;
+        padding: 12px 15px !important;
+        border-left: 0 !important;
+    }
+    input:focus {
+        box-shadow: none !important;
+        border-color: #dee2e6 !important;
+    }
+    .btn-primary {
+        background: linear-gradient(90deg, #0d6efd, #0b5ed7);
+        border: none;
+    }
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #0b5ed7, #0a58ca);
+        transform: translateY(-2px);
+    }
 </style>
 {% endblock %}
