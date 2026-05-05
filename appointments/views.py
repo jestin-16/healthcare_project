@@ -162,11 +162,3 @@ def manage_appointment(request, appointment_id, action):
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
-
-def setup_admin(request):
-    from django.contrib.auth.models import User
-    if not User.objects.filter(username='admin_test').exists():
-        User.objects.create_superuser('admin_test', 'admin@example.com', 'Admin123!')
-        messages.success(request, "Admin account created successfully! Use admin_test / Admin123! to login.")
-        return redirect('login')
-    return redirect('login')
