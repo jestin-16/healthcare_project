@@ -1,30 +1,83 @@
 {% extends 'base.html' %}
-{% block title %}Book Appointment{% endblock %}
+{% block title %}Book Consultation | HealthCare Pro{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card p-4">
-            <h3 class="mb-4">Book an Appointment</h3>
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="mb-3">
-                        <label class="form-label font-weight-bold">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.help_text %}
-                            <div class="form-text">{{ field.help_text }}</div>
-                        {% endif %}
-                        {% if field.errors %}
-                            <div class="text-danger small">{{ field.errors }}</div>
-                        {% endif %}
+<div class="row justify-content-center py-5 fade-in">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-lg overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-5 bg-primary d-none d-md-flex flex-column justify-content-center p-5 text-white">
+                    <div class="mb-4">
+                        <i class="fas fa-calendar-check fa-4x opacity-50"></i>
                     </div>
-                {% endfor %}
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-primary px-4">Confirm Booking</button>
-                    <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                    <h2 class="hero-title h3 mb-4 text-white">Clinical Appointment</h2>
+                    <p class="opacity-75 mb-4">Secure your consultation with our verified medical experts. We prioritize your health with precision scheduling.</p>
+                    <ul class="list-unstyled small opacity-75">
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Verified Doctors</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Instant Slot Selection</li>
+                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Role-Based Access</li>
+                    </ul>
                 </div>
-            </form>
+                <div class="col-md-7 p-4 p-md-5 bg-white">
+                    <div class="mb-4">
+                        <h3 class="h4 fw-bold mb-1">Consultation Details</h3>
+                        <p class="text-muted small">Please provide the necessary information to book your slot.</p>
+                    </div>
+                    
+                    <form method="post" class="needs-validation">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger border-0 small mb-4">
+                                {% for error in form.non_field_errors %}
+                                    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label for="{{ field.id_for_label }}" class="form-label text-uppercase x-small ls-wide fw-bold">
+                                    {{ field.label }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        {% if field.name == 'doctor' %}<i class="fas fa-user-md text-primary"></i>
+                                        {% elif field.name == 'date' %}<i class="fas fa-calendar text-primary"></i>
+                                        {% elif field.name == 'time' %}<i class="fas fa-clock text-primary"></i>
+                                        {% else %}<i class="fas fa-comment-medical text-primary"></i>
+                                        {% endif %}
+                                    </span>
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <div class="text-danger x-small mt-1 fw-bold">
+                                        {% for error in field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <div class="form-text x-small text-muted">{{ field.help_text }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">Discard</a>
+                            <button type="submit" class="btn btn-primary px-5 shadow-sm fw-bold">
+                                Confirm Booking <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .input-group-text { border-radius: var(--radius-sm) 0 0 var(--radius-sm); border: 1px solid var(--border-color); color: #64748b; }
+    .form-control, .form-select { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; border: 1px solid var(--border-color); padding: 0.75rem; font-size: 0.9rem; }
+    .form-control:focus, .form-select:focus { border-color: var(--primary-color); box-shadow: none; }
+    .x-small { font-size: 0.75rem; }
+</style>
 {% endblock %}
+

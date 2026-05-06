@@ -131,20 +131,23 @@ def admin_dashboard(request):
 @login_required
 @role_required(allowed_roles=['patient'])
 def book_appointment(request):
+    doctor_id = request.GET.get('doctor')
+    initial_data = {}
+    if doctor_id:
+        initial_data['doctor'] = doctor_id
+
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
             appointment.patient = request.user
-            try:
-                appointment.save()
-                messages.success(request, "Appointment booked successfully! Waiting for approval.")
-                return redirect('dashboard')
-            except Exception as e:
-                messages.error(request, "This slot is already booked for this doctor.")
+            appointment.save()
+            messages.success(request, "Appointment booked successfully! Waiting for approval.")
+            return redirect('dashboard')
     else:
-        form = AppointmentForm()
+        form = AppointmentForm(initial=initial_data)
     return render(request, 'appointments/book_appointment.html', {'form': form})
+
 
 @login_required
 @role_required(allowed_roles=['doctor'])

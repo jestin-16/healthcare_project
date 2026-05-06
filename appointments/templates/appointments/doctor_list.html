@@ -1,29 +1,54 @@
 {% extends 'base.html' %}
-{% block title %}Our Doctors{% endblock %}
+{% block title %}Our Doctors | HealthCare Pro{% endblock %}
 {% block content %}
-<h2 class="mb-4">Meet Our Professional Doctors</h2>
-<div class="row">
+<div class="row mb-5 fade-in">
+    <div class="col-12 text-center">
+        <h2 class="hero-title h2 mb-2">Our Medical Specialists</h2>
+        <p class="text-muted">Expert care from verified professionals across multiple specializations.</p>
+    </div>
+</div>
+
+<div class="row g-4">
     {% for doctor in doctors %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <span style="font-size: 4rem;">👨‍⚕️</span>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm hover-lift">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-md fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h5>
+                        <div class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill small">{{ doctor.specialization }}</div>
+                    </div>
                 </div>
-                <h5 class="card-title">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h5>
-                <h6 class="card-subtitle mb-2 text-primary">{{ doctor.specialization }}</h6>
-                <p class="card-text small text-muted">{{ doctor.bio|truncatechars:100 }}</p>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <span class="badge bg-info text-dark">{{ doctor.experience }} Years Exp.</span>
-                    <a href="{% url 'book_appointment' %}" class="btn btn-sm btn-primary">Book Now</a>
+                <p class="text-muted small mb-4" style="height: 4.5em; overflow: hidden;">
+                    {{ doctor.bio|default:"Experienced medical professional dedicated to providing compassionate and evidence-based patient care."|truncatechars:150 }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <div class="small">
+                        <i class="fas fa-star text-warning me-1"></i>
+                        <span class="fw-bold text-dark">{{ doctor.experience }}+</span> 
+                        <span class="text-muted">Years Exp.</span>
+                    </div>
+                    <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="btn btn-primary btn-sm px-4">Book Visit</a>
                 </div>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12 text-center py-5">
-        <p>No doctors available at the moment.</p>
+        <div class="bg-white p-5 rounded shadow-sm">
+            <i class="fas fa-user-slash fa-3x text-muted mb-3 opacity-25"></i>
+            <p class="text-muted lead">Our specialists are currently unavailable. Please check back later.</p>
+        </div>
     </div>
     {% endfor %}
 </div>
+
+<style>
+    .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; }
+</style>
 {% endblock %}
+
