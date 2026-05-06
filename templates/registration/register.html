@@ -1,85 +1,90 @@
 {% extends 'base.html' %}
-{% block title %}Patient Registration | HealthCare Pro{% endblock %}
+{% block title %}Register | ProHealth{% endblock %}
 {% block content %}
 <div class="row justify-content-center py-5 fade-in">
-    <div class="col-lg-8">
-        <div class="text-center mb-5">
-            <div class="bg-success bg-opacity-10 d-inline-flex p-4 rounded-circle mb-4 shadow-sm">
-                <i class="fas fa-user-plus fa-3x text-success"></i>
-            </div>
-            <h1 class="hero-title h2 mb-1">Join Our Network</h1>
-            <p class="text-muted">Register as a patient to manage your clinical history and bookings</p>
-        </div>
-
-        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 2rem;">
+    <div class="col-lg-11">
+        <div class="card border-0 shadow-premium overflow-hidden rounded-5">
             <div class="row g-0">
-                <div class="col-md-4 bg-success text-white p-5 d-flex flex-column justify-content-center position-relative overflow-hidden">
-                    <div class="position-relative z-index-1">
-                        <h3 class="fw-bold mb-4">Patient Benefits</h3>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Book appointments 24/7</li>
-                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Access prescriptions</li>
-                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> View medical history</li>
-                            <li class="d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Direct specialist contact</li>
+                <!-- Visual Side -->
+                <div class="col-md-5 d-none d-md-block position-relative bg-primary overflow-hidden">
+                    <img src="/static/images/prohealth_hero.png" class="w-100 h-100 object-fit-cover opacity-50" alt="Register Visual">
+                    <div class="position-absolute inset-0 d-flex flex-column justify-content-center p-5 text-white">
+                        <div class="badge bg-white bg-opacity-20 text-white mb-4 align-self-start px-3 py-2 rounded-pill small fw-bold">JOIN PROHEALTH</div>
+                        <h2 class="display-6 fw-bold mb-4">Your Health, <br>Our Priority</h2>
+                        <ul class="list-unstyled mb-0 opacity-75">
+                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>24/7 Appointment Booking</span></li>
+                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Instant Digital Prescriptions</span></li>
+                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Secure Medical Records</span></li>
+                            <li class="d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Verified Specialist Network</span></li>
                         </ul>
                     </div>
-                    <div class="position-absolute end-0 bottom-0 p-3 opacity-10">
-                        <i class="fas fa-heartbeat fa-10x"></i>
+                    <div class="position-absolute end-0 bottom-0 p-4 opacity-10">
+                        <i class="fas fa-hand-holding-heart fa-10x"></i>
                     </div>
                 </div>
-                <div class="col-md-8 p-5 bg-white">
+                <!-- Form Side -->
+                <div class="col-md-7 bg-white p-5">
+                    <div class="mb-5">
+                        <h2 class="fw-bold text-dark mb-1">Create Patient Account</h2>
+                        <p class="text-muted small">Join thousands of patients receiving world-class care.</p>
+                    </div>
+                    
                     <form method="post" class="row g-4">
                         {% csrf_token %}
                         
                         <div class="col-12">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Username</label>
-                            {{ form.username }}
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-user"></i></span>
+                                {{ form.username }}
+                            </div>
                             {% if form.username.errors %}<div class="text-danger x-small mt-1">{{ form.username.errors.0 }}</div>{% endif %}
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">First Name</label>
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">First Name</label>
                             {{ form.first_name }}
                             {% if form.first_name.errors %}<div class="text-danger x-small mt-1">{{ form.first_name.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Last Name</label>
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Last Name</label>
                             {{ form.last_name }}
                             {% if form.last_name.errors %}<div class="text-danger x-small mt-1">{{ form.last_name.errors.0 }}</div>{% endif %}
                         </div>
 
                         <div class="col-12">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Email Address</label>
-                            {{ form.email }}
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-envelope"></i></span>
+                                {{ form.email }}
+                            </div>
                             {% if form.email.errors %}<div class="text-danger x-small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Security Password</label>
-                            {{ form.password }}
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-lock"></i></span>
+                                {{ form.password }}
+                            </div>
                             {% if form.password.errors %}<div class="text-danger x-small mt-1">{{ form.password.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Confirm Identity</label>
-                            {{ form.confirm_password }}
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Confirm Identity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-shield-alt"></i></span>
+                                {{ form.confirm_password }}
+                            </div>
                             {% if form.confirm_password.errors %}<div class="text-danger x-small mt-1">{{ form.confirm_password.errors.0 }}</div>{% endif %}
                         </div>
 
-                        {% if form.errors %}
-                            <div class="col-12">
-                                <div class="alert alert-danger border-0 small py-2">
-                                    <i class="fas fa-exclamation-circle me-2"></i> Please check the form for errors.
-                                </div>
-                            </div>
-                        {% endif %}
-
                         <div class="col-12 mt-5">
-                            <button type="submit" class="btn btn-success btn-lg w-100 py-3 fw-bold shadow-sm rounded-pill">
-                                Initialize Account <i class="fas fa-check-circle ms-2"></i>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-lg rounded-pill">
+                                Initialize Account <i class="fas fa-arrow-right ms-2"></i>
                             </button>
                             <div class="text-center mt-4">
-                                <span class="text-muted small">Already registered?</span>
-                                <a href="{% url 'login' %}" class="fw-bold text-success text-decoration-none ms-1">Sign In to Portal</a>
+                                <span class="text-muted small">Already a patient?</span>
+                                <a href="{% url 'login' %}" class="fw-bold text-primary text-decoration-none ms-1">Sign In to Portal</a>
                             </div>
                         </div>
                     </form>
@@ -88,4 +93,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .input-group-text { border: 1px solid #dee2e6; }
+    input.form-control { border: 1px solid #dee2e6 !important; border-radius: 1rem !important; padding: 0.75rem 1.25rem; }
+    .input-group input.form-control { border-left: 0 !important; border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
+    input.form-control:focus { border-color: var(--primary-color) !important; box-shadow: none !important; }
+</style>
 {% endblock %}

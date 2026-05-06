@@ -1,60 +1,69 @@
 {% extends 'base.html' %}
-{% block title %}Secure Access | HealthCare Pro{% endblock %}
+{% block title %}Login | ProHealth{% endblock %}
 {% block content %}
 <div class="row justify-content-center align-items-center min-vh-75 fade-in">
-    <div class="col-md-5">
-        <div class="text-center mb-5">
-            <div class="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mb-4 shadow-sm">
-                <i class="fas fa-user-lock fa-3x text-primary"></i>
-            </div>
-            <h1 class="hero-title h2 mb-1">Clinical Login</h1>
-            <p class="text-muted">Access your professional healthcare dashboard</p>
-        </div>
-        
-        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
-            <div class="card-body p-5">
-                <form method="post" class="needs-validation">
-                    {% csrf_token %}
-                    
-                    <div class="mb-4">
-                        <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Identifier</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-light border-0"><i class="fas fa-id-card text-muted"></i></span>
-                            <input type="text" name="username" class="form-control border-0 bg-light" placeholder="Enter username" required>
-                        </div>
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-premium overflow-hidden rounded-5">
+            <div class="row g-0">
+                <!-- Visual Side -->
+                <div class="col-md-6 d-none d-md-block position-relative">
+                    <img src="/static/images/prohealth_hero.png" class="w-100 h-100 object-fit-cover" alt="Login Visual">
+                    <div class="position-absolute inset-0 bg-primary opacity-25"></div>
+                    <div class="position-absolute bottom-0 start-0 p-5 text-white">
+                        <h2 class="display-6 fw-bold mb-3">Welcome Back</h2>
+                        <p class="opacity-75">Access your personalized healthcare portal and manage your medical journey with ease.</p>
+                    </div>
+                </div>
+                <!-- Form Side -->
+                <div class="col-md-6 bg-white p-5">
+                    <div class="text-center mb-5">
+                        <div class="text-primary fw-bold text-uppercase ls-wide small mb-2">ProHealth Access</div>
+                        <h2 class="fw-bold text-dark">Sign In</h2>
                     </div>
                     
-                    <div class="mb-5">
-                        <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Security Password</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-light border-0"><i class="fas fa-key text-muted"></i></span>
-                            <input type="password" name="password" class="form-control border-0 bg-light" placeholder="••••••••" required>
+                    <form method="post" class="px-lg-4">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-user"></i></span>
+                                <input type="text" name="username" class="form-control border-start-0 rounded-4 bg-white py-3 shadow-none" placeholder="Enter your username" required>
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="mb-5">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted mb-0">Password</label>
+                                <a href="#" class="x-small text-primary fw-bold text-decoration-none">Forgot?</a>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control border-start-0 rounded-4 bg-white py-3 shadow-none" placeholder="••••••••" required>
+                            </div>
+                        </div>
 
-                    <div class="d-grid gap-3">
-                        <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-pill">
-                            Authorize Access <i class="fas fa-sign-in-alt ms-2"></i>
-                        </button>
-                        <div class="text-center mt-3">
-                            <span class="text-muted small">New to the network?</span>
-                            <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none ms-1">Create Patient Account</a>
+                        <div class="d-grid gap-4">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-lg rounded-pill">
+                                Login to Account
+                            </button>
+                            <div class="text-center">
+                                <span class="text-muted small">Don't have an account?</span>
+                                <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none ms-1">Register Now</a>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer bg-light border-0 p-4 text-center">
-                <p class="mb-0 x-small text-muted fw-bold text-uppercase ls-wide">
-                    <i class="fas fa-shield-alt me-1"></i> End-to-End Encryption Enabled
-                </p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .min-vh-75 { min-height: 75vh; }
-    .input-group-text { border-radius: 1rem 0 0 1rem !important; }
-    .form-control { border-radius: 0 1rem 1rem 0 !important; }
+    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .input-group-text { border: 1px solid #dee2e6; }
+    .form-control { border: 1px solid #dee2e6; }
+    .form-control:focus { border-color: var(--primary-color); }
 </style>
 {% endblock %}

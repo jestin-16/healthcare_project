@@ -1,145 +1,173 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Welcoming Hero Section -->
-<div class="row align-items-center py-5 mb-5 fade-in">
-    <div class="col-lg-7 mb-5 mb-lg-0">
-        <h1 class="display-3 fw-800 text-dark mb-4 ls-tight">
-            Find the right <br>
-            <span class="text-primary">Doctor for you.</span>
+<!-- ProHealth Inspired Hero -->
+<div class="row align-items-center py-5 fade-in">
+    <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
+        <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
+            PROHEALTH
+        </div>
+        <h1 class="display-3 fw-bold text-dark mb-4 ls-tight" style="font-family: var(--font-heading);">
+            Compassionate care, <br>
+            <span class="text-primary fw-normal italic">exceptional results.</span>
         </h1>
-        <p class="lead text-secondary mb-5 fs-4 opacity-75">
-            Book appointments with top-rated specialists in your area. Fast, secure, and hassle-free healthcare at your fingertips.
+        <p class="text-muted lead mb-5 opacity-75">
+            Our team of experienced doctors and healthcare professionals are committed to providing quality care and personalized attention to our patients.
         </p>
-        
-        <!-- Booking Search Bar -->
-        <div class="card border-0 shadow-lg p-2 rounded-pill bg-white mb-5" style="max-width: 600px;">
-            <form action="{% url 'doctor_list' %}" method="get" class="d-flex align-items-center px-2">
-                <div class="flex-grow-1 px-3 d-flex align-items-center">
-                    <i class="fas fa-search text-muted me-3"></i>
-                    <input type="text" name="search" class="form-control border-0 bg-transparent shadow-none" placeholder="Search by name or specialty (e.g. Cardiology)...">
+        <div class="d-flex align-items-center gap-4 mb-5">
+            <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg">Find Doctor</a>
+            <a href="#" class="d-flex align-items-center gap-2 text-dark text-decoration-none fw-bold">
+                <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="fas fa-play small"></i>
                 </div>
-                <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold">
-                    Search
-                </button>
-            </form>
-        </div>
-
-        <div class="d-flex align-items-center gap-4 text-muted small">
-            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> Verified Doctors</div>
-            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> Instant Confirmation</div>
-            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> 24/7 Access</div>
+                See how we work
+            </a>
         </div>
     </div>
-    
-    <div class="col-lg-5">
-        <div class="position-relative">
-            <div class="rounded-5 overflow-hidden shadow-lg border-5 border-white">
-                <img src="/static/images/friendly_doctor.png" class="img-fluid w-100" alt="Consult our Doctors">
-            </div>
-            <!-- Trust Badge -->
-            <div class="position-absolute bottom-0 end-0 mb-n3 me-n3 bg-white p-3 rounded-4 shadow-sm border d-none d-md-block">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div>
-                        <div class="fw-800 small text-dark">ISO Certified</div>
-                        <div class="x-small text-muted">Quality Healthcare</div>
-                    </div>
+    <div class="col-lg-6 position-relative">
+        <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white">
+            <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
+        </div>
+        <!-- Floating Stat Badge -->
+        <div class="position-absolute top-0 end-0 mt-4 me-n2 bg-white p-3 rounded-4 shadow-lg d-none d-md-block" style="z-index: 5; min-width: 200px;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="avatar-group d-flex">
+                    <div class="bg-light rounded-circle border border-white" style="width: 32px; height: 32px; margin-right: -10px;"><i class="fas fa-user-md p-2 x-small"></i></div>
+                    <div class="bg-light rounded-circle border border-white" style="width: 32px; height: 32px; margin-right: -10px;"><i class="fas fa-user-md p-2 x-small"></i></div>
+                    <div class="bg-light rounded-circle border border-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fas fa-check text-primary x-small"></i></div>
+                </div>
+                <div>
+                    <div class="fw-bold text-dark small">150K +</div>
+                    <div class="x-small text-muted">Patient Recover</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- How it Works -->
-<div class="row py-5 mb-5 fade-in bg-white rounded-5 shadow-sm">
-    <div class="col-12 text-center mb-5">
-        <h2 class="fw-800">Booking made easy</h2>
-        <p class="text-muted">Three simple steps to your next consultation.</p>
-    </div>
-    <div class="col-md-4 text-center px-4">
-        <div class="h1 text-primary opacity-25 fw-800 mb-3">01</div>
-        <h4 class="fw-700">Find a Doctor</h4>
-        <p class="text-muted small">Search through our network of verified specialists by specialty or name.</p>
-    </div>
-    <div class="col-md-4 text-center px-4">
-        <div class="h1 text-primary opacity-25 fw-800 mb-3">02</div>
-        <h4 class="fw-700">Select a Slot</h4>
-        <p class="text-muted small">Choose a time that works for you from the doctor's live availability calendar.</p>
-    </div>
-    <div class="col-md-4 text-center px-4">
-        <div class="h1 text-primary opacity-25 fw-800 mb-3">03</div>
-        <h4 class="fw-700">Book Instantly</h4>
-        <p class="text-muted small">Confirm your booking and receive instant details on your personal dashboard.</p>
-    </div>
-</div>
-
-<!-- Specializations -->
-<div class="row py-5 fade-in">
-    <div class="col-12 d-flex justify-content-between align-items-end mb-5">
-        <div>
-            <h2 class="fw-800 mb-2">Explore Specialties</h2>
-            <p class="text-muted mb-0">Quality care across all medical fields.</p>
-        </div>
-        <a href="{% url 'doctor_list' %}" class="btn btn-link text-primary fw-bold text-decoration-none">View All Doctors <i class="fas fa-arrow-right ms-2"></i></a>
-    </div>
-    
-    <div class="col-md-3 mb-4">
-        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
-            <div class="h1 mb-3"><i class="fas fa-heartbeat text-danger"></i></div>
-            <h5 class="fw-700">Cardiology</h5>
-            <p class="x-small text-muted mb-0">Heart & vascular health.</p>
-        </div>
-    </div>
-    <div class="col-md-3 mb-4">
-        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
-            <div class="h1 mb-3"><i class="fas fa-brain text-info"></i></div>
-            <h5 class="fw-700">Neurology</h5>
-            <p class="x-small text-muted mb-0">Brain & nervous system.</p>
-        </div>
-    </div>
-    <div class="col-md-3 mb-4">
-        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
-            <div class="h1 mb-3"><i class="fas fa-bone text-warning"></i></div>
-            <h5 class="fw-700">Orthopedics</h5>
-            <p class="x-small text-muted mb-0">Joints & bone health.</p>
-        </div>
-    </div>
-    <div class="col-md-3 mb-4">
-        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
-            <div class="h1 mb-3"><i class="fas fa-baby text-success"></i></div>
-            <h5 class="fw-700">Pediatrics</h5>
-            <p class="x-small text-muted mb-0">Child & adolescent care.</p>
-        </div>
-    </div>
-</div>
-
-<!-- Simple CTA -->
-<div class="row py-5 mt-5">
+<!-- Glassmorphism Stats Row -->
+<div class="row mt-n5 mb-5 position-relative z-index-10">
     <div class="col-12">
-        <div class="card border-0 rounded-5 bg-primary text-white p-5 text-center shadow-lg">
-            <h2 class="display-5 fw-800 mb-4">Ready to start?</h2>
-            <p class="lead mb-5 opacity-75">Join thousands of patients who trust HealthCare Pro for their clinical needs.</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="{% url 'register' %}" class="btn btn-white btn-lg px-5 rounded-pill fw-bold text-primary">Get Started</a>
-                <a href="{% url 'doctor_list' %}" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">Browse Doctors</a>
+        <div class="glass-stats-card p-4 rounded-5 text-white d-flex flex-wrap justify-content-around align-items-center shadow-lg border border-white border-opacity-20" style="background: rgba(13, 110, 253, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
+            <div class="stat-item text-center px-4">
+                <div class="h2 fw-bold mb-0">20+</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Years of experience</div>
+            </div>
+            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
+                <div class="h2 fw-bold mb-0">95%</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Patient satisfaction</div>
+            </div>
+            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
+                <div class="h2 fw-bold mb-0">5000+</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Patients served</div>
+            </div>
+            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
+                <div class="h2 fw-bold mb-0">10+</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Providers on staff</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="row py-5 my-5 align-items-center fade-in">
+    <div class="col-lg-6 mb-5 mb-lg-0 order-lg-2">
+        <div class="ps-lg-5">
+            <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">About Us</div>
+            <h2 class="display-6 fw-bold text-dark mb-4">ProHealth is a team of experienced medical professional</h2>
+            <p class="text-muted mb-4">Dedicated to providing top-quality healthcare services. We believe in a holistic approach to healthcare that focuses on treating the whole person, not just the illness or symptoms.</p>
+            <ul class="list-unstyled">
+                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Verified Medical Specialists</span></li>
+                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Advanced Diagnostic Technology</span></li>
+                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">24/7 Patient Support System</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+        <div class="rounded-5 overflow-hidden shadow-lg">
+            <img src="/static/images/doctors_group.png" class="img-fluid w-100" alt="Our Team">
+        </div>
+    </div>
+</div>
+
+<!-- Departments Grid -->
+<div class="row py-5 fade-in">
+    <div class="col-12 mb-5">
+        <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">Our Departments</div>
+        <h2 class="display-6 fw-bold text-dark">For Your Health</h2>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-ambulance fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Emergency</h5>
+                <p class="x-small text-muted mb-0">Department</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-child fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Pediatric</h5>
+                <p class="x-small text-muted mb-0">Department</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-venus fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Gynecology</h5>
+                <p class="x-small text-muted mb-0">Department</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-heartbeat fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Cardiology</h5>
+                <p class="x-small text-muted mb-0">Department</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-brain fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Neurology</h5>
+                <p class="x-small text-muted mb-0">Department</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
+            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-head-side-virus fa-2x"></i></div>
+            <div>
+                <h5 class="fw-bold mb-1">Psychiatry</h5>
+                <p class="x-small text-muted mb-0">Department</p>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .fw-800 { font-weight: 800; }
-    .fw-700 { font-weight: 700; }
     .ls-tight { letter-spacing: -2px; }
-    .btn-white { background: white; color: var(--primary-color); border: none; }
-    .btn-white:hover { background: #f8fafc; transform: scale(1.02); }
-    .hover-up:hover {
+    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
+    .mt-n5 { margin-top: -3rem; }
+    .z-index-10 { z-index: 10; }
+    .italic { font-style: italic; }
+    .hover-primary-border:hover {
+        border-color: var(--primary-color) !important;
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
-        border: 1px solid var(--primary-color) !important;
+        transition: all 0.3s ease;
     }
-    .min-vh-75 { min-height: 75vh; }
+    .dept-icon { transition: all 0.3s ease; }
+    .hover-primary-border:hover .dept-icon {
+        background: var(--primary-color) !important;
+        color: white !important;
+    }
+    .avatar-group i { color: #ccc; }
 </style>
 {% endblock %}
