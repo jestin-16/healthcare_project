@@ -140,6 +140,22 @@ def add_medicine(request):
     return render(request, 'appointments/add_medicine.html', {'form': form})
 
 @login_required
+def edit_medicine(request, medicine_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    medicine = get_object_or_404(Medicine, id=medicine_id)
+    if request.method == 'POST':
+        form = MedicineForm(request.POST, instance=medicine)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"{medicine.name} updated successfully!")
+            return redirect('medicine_list')
+    else:
+        form = MedicineForm(instance=medicine)
+    return render(request, 'appointments/add_medicine.html', {'form': form, 'edit_mode': True})
+
+
+@login_required
 @role_required(allowed_roles=['doctor'])
 def prescribe_medicine(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, doctor=request.user.doctor_profile)
