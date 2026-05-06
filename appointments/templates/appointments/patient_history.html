@@ -72,10 +72,15 @@
                         </td>
                         <td>
                             {% if appt.prescription %}
-                                <div class="small">
-                                    {% for pm in appt.prescription.prescribedmedicine_set.all %}
-                                        <span class="d-block"><i class="fas fa-pills me-1 opacity-50"></i>{{ pm.medicine.name }}</span>
-                                    {% endfor %}
+                                <div class="d-flex align-items-center">
+                                    <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
+                                        <div class="small">
+                                            {% for pm in appt.prescription.prescribedmedicine_set.all %}
+                                                <span class="d-block"><i class="fas fa-pills me-1 opacity-50"></i>{{ pm.medicine.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </button>
+                                    {% include 'appointments/_prescription_modal.html' %}
                                 </div>
                             {% else %}
                                 <span class="text-muted small italic">None</span>

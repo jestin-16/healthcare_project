@@ -9,7 +9,12 @@ from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
-from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AdminRegistrationForm, AppointmentForm, MedicineForm, PrescriptionForm, PrescriptionFormSet
+from .forms import (
+    UserRegistrationForm, DoctorProfileForm, NurseProfileForm, 
+    StaffRegistrationForm, AdminRegistrationForm, AppointmentForm, 
+    MedicineForm, PrescriptionForm, PrescriptionFormSet,
+    UserUpdateForm, ProfileUpdateForm
+)
 from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription, PrescribedMedicine
 
 def role_required(allowed_roles=[]):
@@ -380,6 +385,11 @@ def delete_user(request, user_id):
         user_to_delete.delete()
         messages.success(request, f"User {username} has been deleted.")
     return redirect('user_management')
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('login')
 
 def ping(request):
     return JsonResponse({'status': 'alive'})

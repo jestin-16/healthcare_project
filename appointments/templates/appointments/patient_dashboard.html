@@ -93,44 +93,7 @@
                                     <i class="fas fa-file-medical me-2"></i>View Script
                                 </button>
                                 
-                                <!-- Prescription Modal -->
-                                <div class="modal fade" id="prescriptionModal{{ appt.id }}" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
-                                            <div class="modal-header border-0 bg-primary text-white p-4">
-                                                <h5 class="modal-title fw-bold"><i class="fas fa-prescription me-2"></i>Medical Prescription</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body p-4 text-start">
-                                                <div class="mb-4 text-center">
-                                                    <div class="text-muted small text-uppercase ls-wide">Issued By</div>
-                                                    <h4 class="fw-bold text-dark">Dr. {{ appt.doctor.user.get_full_name }}</h4>
-                                                    <div class="small">{{ appt.doctor.specialization }}</div>
-                                                </div>
-                                                <hr class="opacity-10">
-                                                <h6 class="fw-bold mb-3">Prescribed Medications:</h6>
-                                                <div class="list-group list-group-flush mb-4">
-                                                    {% for pm in appt.prescription.prescribedmedicine_set.all %}
-                                                        <div class="list-group-item px-0 border-0 d-flex justify-content-between align-items-center">
-                                                            <div>
-                                                                <div class="fw-bold text-dark">{{ pm.medicine.name }}</div>
-                                                                <div class="text-muted small">Dosage: {{ pm.dosage }} | Duration: {{ pm.duration }}</div>
-                                                            </div>
-                                                            <i class="fas fa-pills text-primary opacity-50"></i>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                                <div class="bg-light p-3 rounded-3 mb-0">
-                                                    <small class="fw-bold text-muted text-uppercase d-block mb-1">Clinical Notes:</small>
-                                                    <p class="small mb-0 italic">"{{ appt.prescription.notes|default:"No specific notes provided." }}"</p>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer border-0 p-4 pt-0">
-                                                <button type="button" class="btn btn-primary w-100 py-3 rounded-pill" data-bs-dismiss="modal">Acknowledged</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% include 'appointments/_prescription_modal.html' %}
                             {% else %}
                                 <span class="text-muted x-small fw-bold text-uppercase">No Action Available</span>
                             {% endif %}

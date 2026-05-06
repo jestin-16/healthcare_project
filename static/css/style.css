@@ -274,3 +274,43 @@ h1, h2, h3, h4, h5, h6 {
 .bg-gradient-to-t {
     background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
 }
+/* Modal Refinement */
+.modal-content {
+    border: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem 2rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem 2rem;
+}
+
+.rounded-pill { border-radius: 50rem !important; }
+.rounded-4 { border-radius: 1rem !important; }
+
+/* Interactive Hover Effects */
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-link.text-decoration-none:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Custom Table Styles */
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.02);
+}
+
+.italic { font-style: italic; }

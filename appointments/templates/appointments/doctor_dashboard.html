@@ -122,7 +122,7 @@
                         </td>
                         <td class="text-end pe-4">
                             {% if appt.status == 'pending' %}
-                                <div class="btn-group">
+                                <div class="btn-group shadow-sm rounded-pill overflow-hidden">
                                     <a href="{% url 'manage_appointment' appt.id 'approve' %}" class="btn btn-sm btn-success px-3 appointment-action">
                                         <i class="fas fa-check me-1"></i> Approve
                                     </a>
@@ -131,11 +131,23 @@
                                     </a>
                                 </div>
                             {% elif appt.status == 'approved' %}
-                                <a href="{% url 'prescribe_medicine' appt.id %}" class="btn btn-sm btn-primary px-4 shadow-sm">
-                                    <i class="fas fa-prescription me-2"></i>E-Prescribe
-                                </a>
+                                <div class="d-flex gap-2 justify-content-end">
+                                    {% if appt.prescription %}
+                                        <button type="button" class="btn btn-sm btn-outline-primary px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
+                                            <i class="fas fa-eye me-1"></i> View
+                                        </button>
+                                        <a href="{% url 'prescribe_medicine' appt.id %}" class="btn btn-sm btn-primary px-3 shadow-sm rounded-pill">
+                                            <i class="fas fa-edit me-1"></i> Edit Rx
+                                        </a>
+                                        {% include 'appointments/_prescription_modal.html' %}
+                                    {% else %}
+                                        <a href="{% url 'prescribe_medicine' appt.id %}" class="btn btn-sm btn-primary px-4 shadow-sm rounded-pill">
+                                            <i class="fas fa-prescription me-2"></i>E-Prescribe
+                                        </a>
+                                    {% endif %}
+                                </div>
                             {% else %}
-                                <span class="text-muted x-small fw-bold text-uppercase">History</span>
+                                <span class="badge bg-light text-muted border px-3">Archived</span>
                             {% endif %}
                         </td>
                     </tr>
