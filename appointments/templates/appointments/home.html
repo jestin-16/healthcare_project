@@ -26,33 +26,62 @@
         </div>
     </div>
     <div class="col-lg-6 position-relative">
-        <div class="card border-0 shadow-lg p-3 overflow-hidden" style="border-radius: 2rem;">
-            <div class="bg-primary bg-opacity-5 p-5 text-center">
-                <i class="fas fa-hospital-symbol fa-10x text-primary opacity-25"></i>
-                <div class="mt-4">
-                    <h3 class="fw-bold text-dark">HealthCare Pro v2.5</h3>
-                    <p class="text-muted">Clinical Management Suite</p>
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 2rem;">
+            <div class="position-relative">
+                <img src="/static/images/hero_dashboard.png" class="img-fluid" alt="Clinical Intelligence Dashboard" style="filter: brightness(0.9); transition: all 0.5s ease;">
+                <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-to-t from-dark to-transparent opacity-50"></div>
+                
+                <div class="position-absolute bottom-0 start-0 p-4 w-100">
+                    <div class="glass-morphism p-3 rounded-4 border border-white border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="pulse-red"></span>
+                                <span class="text-white small fw-bold text-uppercase ls-wide">Live Diagnostics</span>
+                            </div>
+                            <span class="badge bg-success bg-opacity-25 text-success border-0 small">Secure Link</span>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <div class="text-white-50 x-small text-uppercase">Latency</div>
+                                <div class="text-white fw-bold">12ms</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-white-50 x-small text-uppercase">Uptime</div>
+                                <div class="text-white fw-bold">99.9%</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-white-50 x-small text-uppercase">Nodes</div>
+                                <div class="text-white fw-bold">Active</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body p-4 bg-white">
-                <div class="d-flex gap-3 mb-3">
-                    <div class="bg-success bg-opacity-10 p-2 rounded-circle"><i class="fas fa-pulse text-success"></i></div>
-                    <div class="small fw-bold">System Status: <span class="text-success">Operational</span></div>
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex gap-3 align-items-center">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle"><i class="fas fa-microchip text-primary"></i></div>
+                        <div>
+                            <div class="small fw-bold text-dark">Neural Processor</div>
+                            <div class="x-small text-muted">Optimizing data flows...</div>
+                        </div>
+                    </div>
+                    <div class="text-primary fw-bold">85%</div>
                 </div>
-                <div class="progress mb-3" style="height: 6px;">
-                    <div class="progress-bar bg-primary" style="width: 85%;"></div>
-                </div>
-                <div class="d-flex justify-content-between x-small text-muted fw-bold text-uppercase">
-                    <span>Active Consultations</span>
-                    <span>85% Capacity</span>
+                <div class="progress mb-2" style="height: 6px; background-color: #f0f0f0;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: 85%;"></div>
                 </div>
             </div>
         </div>
-        <!-- Decorative Elements -->
-        <div class="position-absolute top-0 end-0 mt-n3 me-n3 bg-white shadow-sm p-3 rounded-4 d-none d-lg-block" style="z-index: 2;">
-            <div class="d-flex align-items-center gap-2">
-                <div class="bg-warning p-2 rounded-circle"></div>
-                <span class="fw-bold small">Live Dashboard</span>
+        
+        <!-- Floating Badge -->
+        <div class="position-absolute top-0 end-0 mt-n2 me-n2 bg-white shadow p-3 rounded-4 d-none d-lg-block border" style="z-index: 2;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-success p-2 rounded-circle pulse-green shadow-sm"></div>
+                <div>
+                    <div class="fw-bold small text-dark">Clinical Core v3.0</div>
+                    <div class="x-small text-muted text-uppercase fw-bold">Verified Operational</div>
+                </div>
             </div>
         </div>
     </div>
