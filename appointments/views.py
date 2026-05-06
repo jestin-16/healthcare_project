@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AdminRegistrationForm, AppointmentForm
-from .models import Profile, Doctor, Nurse, Appointment
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+from .forms import UserRegistrationForm, DoctorProfileForm, NurseProfileForm, StaffRegistrationForm, AdminRegistrationForm, AppointmentForm, MedicineForm, PrescriptionForm, PrescriptionFormSet
+from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription, PrescribedMedicine
 
 def role_required(allowed_roles=[]):
     def decorator(view_func):
@@ -26,17 +28,21 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            
-            # Profile is created by signal, force patient role
             user.profile.role = 'patient'
             user.profile.save()
-            
             login(request, user)
             messages.success(request, f"Account created for {user.username} as a Patient!")
             return redirect('dashboard')
     else:
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def change_password(request):
+    return PasswordChangeView.as_view(
+        template_name='registration/change_password.html',
+        success_url=reverse_lazy('dashboard')
+    )(request)
 
 @login_required
 def add_staff(request):
@@ -48,18 +54,16 @@ def add_staff(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            
             role = form.cleaned_data['role']
             user.profile.role = role
             user.profile.save()
-            
             if role == 'doctor':
-                Doctor.objects.create(user=user, specialization="General Physician")
+                spec = form.cleaned_data.get('specialization') or "General Physician"
+                Doctor.objects.create(user=user, specialization=spec)
             elif role == 'nurse':
                 Nurse.objects.create(user=user, department="General")
-            
             messages.success(request, f"{role.capitalize()} {user.username} added successfully!")
-            return redirect('admin_dashboard') # Assuming an admin dashboard exists or just redirect somewhere
+            return redirect('admin_dashboard')
     else:
         form = StaffRegistrationForm()
     return render(request, 'appointments/add_staff.html', {'form': form})
@@ -76,10 +80,6 @@ def add_admin(request):
             user.is_staff = True
             user.is_superuser = True
             user.save()
-            
-            # Admins don't strictly need a profile role, but let's set it to 'staff' or similar if needed
-            # For now, superuser status is enough for the admin_dashboard redirect
-            
             messages.success(request, f"Admin {user.username} created successfully!")
             return redirect('admin_dashboard')
     else:
@@ -90,13 +90,11 @@ def add_admin(request):
 def dashboard(request):
     if request.user.is_superuser:
         return redirect('admin_dashboard')
-    
     role = request.user.profile.role
     if role == 'patient':
         appointments = Appointment.objects.filter(patient=request.user).order_by('-date')
         return render(request, 'appointments/patient_dashboard.html', {'appointments': appointments})
     elif role == 'doctor':
-        # Ensure Doctor profile exists
         doctor_profile = getattr(request.user, 'doctor_profile', None)
         if not doctor_profile:
              messages.error(request, "Doctor profile not found.")
@@ -104,7 +102,6 @@ def dashboard(request):
         appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('-date')
         return render(request, 'appointments/doctor_dashboard.html', {'appointments': appointments})
     elif role == 'nurse':
-        # Nurses might see a general dashboard for now
         return render(request, 'appointments/nurse_dashboard.html')
     return redirect('home')
 
@@ -112,21 +109,55 @@ def dashboard(request):
 def admin_dashboard(request):
     if not request.user.is_superuser:
         raise PermissionDenied
-    doctors_count = Doctor.objects.count()
-    nurses_count = Nurse.objects.count()
-    patients_count = Profile.objects.filter(role='patient').count()
-    total_appointments = Appointment.objects.count()
-    
-    recent_appointments = Appointment.objects.order_by('-created_at')[:5]
-    
     context = {
-        'doctors_count': doctors_count,
-        'nurses_count': nurses_count,
-        'patients_count': patients_count,
-        'total_appointments': total_appointments,
-        'recent_appointments': recent_appointments,
+        'doctors_count': Doctor.objects.count(),
+        'nurses_count': Nurse.objects.count(),
+        'patients_count': Profile.objects.filter(role='patient').count(),
+        'total_appointments': Appointment.objects.count(),
+        'recent_appointments': Appointment.objects.order_by('-created_at')[:5],
     }
     return render(request, 'appointments/admin_dashboard.html', context)
+
+@login_required
+def medicine_list(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    medicines = Medicine.objects.all()
+    return render(request, 'appointments/medicine_list.html', {'medicines': medicines})
+
+@login_required
+def add_medicine(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    if request.method == 'POST':
+        form = MedicineForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Medicine added successfully!")
+            return redirect('medicine_list')
+    else:
+        form = MedicineForm()
+    return render(request, 'appointments/add_medicine.html', {'form': form})
+
+@login_required
+@role_required(allowed_roles=['doctor'])
+def prescribe_medicine(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id, doctor=request.user.doctor_profile)
+    prescription, created = Prescription.objects.get_or_create(appointment=appointment)
+    if request.method == 'POST':
+        form = PrescriptionForm(request.POST, instance=prescription)
+        formset = PrescriptionFormSet(request.POST, instance=prescription)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, "Prescription saved successfully!")
+            return redirect('dashboard')
+    else:
+        form = PrescriptionForm(instance=prescription)
+        formset = PrescriptionFormSet(instance=prescription)
+    return render(request, 'appointments/prescribe_medicine.html', {
+        'form': form, 'formset': formset, 'appointment': appointment
+    })
 
 @login_required
 @role_required(allowed_roles=['patient'])
@@ -135,7 +166,6 @@ def book_appointment(request):
     initial_data = {}
     if doctor_id:
         initial_data['doctor'] = doctor_id
-
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
@@ -147,7 +177,6 @@ def book_appointment(request):
     else:
         form = AppointmentForm(initial=initial_data)
     return render(request, 'appointments/book_appointment.html', {'form': form})
-
 
 @login_required
 @role_required(allowed_roles=['doctor'])
@@ -165,3 +194,4 @@ def manage_appointment(request, appointment_id, action):
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
+

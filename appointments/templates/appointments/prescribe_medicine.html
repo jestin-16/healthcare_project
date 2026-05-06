@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Issue Prescription | HealthCare Pro{% endblock %}
+{% block content %}
+<div class="row justify-content-center py-5 fade-in">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-lg overflow-hidden">
+            <div class="card-header bg-primary p-4 text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="h3 mb-0 fw-bold">Official Medical Prescription</h2>
+                        <p class="mb-0 opacity-75 small">Patient: {{ appointment.patient.get_full_name|default:appointment.patient.username }} | Date: {{ appointment.date }}</p>
+                    </div>
+                    <i class="fas fa-file-prescription fa-3x opacity-50"></i>
+                </div>
+            </div>
+            
+            <div class="card-body p-4 p-md-5">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-5">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-pills me-2 text-primary"></i>Medication Schedule</h5>
+                        {{ formset.management_form }}
+                        <div class="table-responsive">
+                            <table class="table table-borderless align-middle">
+                                <thead>
+                                    <tr class="text-muted small text-uppercase ls-wide">
+                                        <th style="width: 40%;">Medicine</th>
+                                        <th style="width: 25%;">Dosage (e.g. 1-0-1)</th>
+                                        <th style="width: 25%;">Duration</th>
+                                        <th class="text-center">Del</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for form in formset %}
+                                        <tr class="border-bottom">
+                                            <td>
+                                                {{ form.id }}
+                                                {{ form.medicine }}
+                                                {% if form.medicine.errors %}<div class="text-danger x-small">{{ form.medicine.errors }}</div>{% endif %}
+                                            </td>
+                                            <td>
+                                                {{ form.dosage }}
+                                                {% if form.dosage.errors %}<div class="text-danger x-small">{{ form.dosage.errors }}</div>{% endif %}
+                                            </td>
+                                            <td>
+                                                {{ form.duration }}
+                                                {% if form.duration.errors %}<div class="text-danger x-small">{{ form.duration.errors }}</div>{% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                {% if formset.can_delete %}
+                                                    {{ form.DELETE }}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-sticky-note me-2 text-primary"></i>Doctor's Notes & Instructions</h5>
+                        {{ form.notes }}
+                        {% if form.notes.errors %}<div class="text-danger small">{{ form.notes.errors }}</div>{% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                        <a href="{% url 'dashboard' %}" class="btn btn-light border px-4">Discard</a>
+                        <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                            Authorize & Save Prescription <i class="fas fa-file-contract ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select { border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.6rem; font-size: 0.85rem; }
+    .form-control:focus { border-color: var(--primary-color); box-shadow: none; }
+    .x-small { font-size: 0.7rem; }
+</style>
+{% endblock %}
