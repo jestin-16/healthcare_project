@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, Doctor, Nurse, Appointment
+from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription, PrescribedMedicine
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
