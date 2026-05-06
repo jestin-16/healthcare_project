@@ -211,9 +211,66 @@ def manage_appointment(request, appointment_id, action):
     appointment.save()
     return redirect('dashboard')
 
+@login_required
+@role_required('patient')
+def cancel_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+    if appointment.status in ['pending', 'approved']:
+        appointment.delete()
+        messages.success(request, "Your appointment has been successfully cancelled.")
+    else:
+        messages.error(request, "This appointment cannot be cancelled.")
+    return redirect('dashboard')
+
 def doctor_list(request):
+    query = request.GET.get('q')
+    spec = request.GET.get('specialization')
     doctors = Doctor.objects.all()
-    return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
+    
+    if query:
+        doctors = doctors.filter(user__first_name__icontains=query) | doctors.filter(user__username__icontains=query)
+    
+    if spec:
+        doctors = doctors.filter(specialization=spec)
+        
+    specializations = Doctor.objects.values_list('specialization', flat=True).distinct()
+    
+    return render(request, 'appointments/doctor_list.html', {
+        'doctors': doctors,
+        'specializations': specializations,
+        'selected_spec': spec,
+        'query': query
+    })
+
+
+@login_required
+@role_required('doctor')
+def patient_history(request, patient_id):
+    patient = get_object_or_404(User, id=patient_id)
+    appointments = Appointment.objects.filter(patient=patient).order_by('-date', '-time')
+    return render(request, 'appointments/patient_history.html', {
+        'patient': patient,
+        'appointments': appointments
+    })
+
+@login_required
+def profile_settings(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your profile has been updated!')
+            return redirect('profile_settings')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    return render(request, 'appointments/profile_settings.html', {
+        'u_form': u_form,
+        'p_form': p_form
+    })
 
 def get_booked_slots(request):
     doctor_id = request.GET.get('doctor_id')

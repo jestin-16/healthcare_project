@@ -91,7 +91,9 @@
                                     <span class="fw-bold">{{ appt.patient.username|slice:":1"|upper }}</span>
                                 </div>
                                 <div>
-                                    <div class="fw-bold text-dark fs-6">{{ appt.patient.get_full_name|default:appt.patient.username }}</div>
+                                    <a href="{% url 'patient_history' appt.patient.id %}" class="fw-bold text-dark fs-6 text-decoration-none hover-primary">
+                                        {{ appt.patient.get_full_name|default:appt.patient.username }}
+                                    </a>
                                     <div class="text-muted x-small">ID: PM-{{ appt.id|stringformat:"05d" }}</div>
                                 </div>
                             </div>

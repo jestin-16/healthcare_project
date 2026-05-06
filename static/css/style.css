@@ -226,3 +226,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .ls-wide { letter-spacing: 0.1em; }
 .x-small { font-size: 0.75rem; }
+
+.hover-primary:hover {
+    color: var(--primary-color) !important;
+}

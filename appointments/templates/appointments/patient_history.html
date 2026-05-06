@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Patient Records | Dr. {{ user.last_name }}{% endblock %}
+{% block content %}
+<div class="row mb-5 fade-in">
+    <div class="col-lg-8 mx-auto text-center">
+        <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
+            <i class="fas fa-file-medical me-2"></i>MEDICAL RECORDS
+        </div>
+        <h2 class="display-6 fw-bold text-dark mb-2">{{ patient.get_full_name|default:patient.username }}</h2>
+        <p class="text-muted">Comprehensive history of consultations and clinical interventions.</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5 fade-in">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-3">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Total Consultations</div>
+            <div class="stat-value">{{ appointments.count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+            <div class="stat-icon bg-success bg-opacity-10 text-success mb-3">
+                <i class="fas fa-prescription"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Prescriptions Issued</div>
+            <div class="stat-value">{% with count=0 %}{% for a in appointments %}{% if a.prescription %}{{ count|add:1 }}{% endif %}{% endfor %}{{ count }}{% endwith %}</div>
+        </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-light w-100 py-3 rounded-pill border">
+            <i class="fas fa-arrow-left me-2"></i>Back to Queue
+        </a>
+    </div>
+</div>
+
+<div class="card border-0 shadow-lg fade-in">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Date & Timing</th>
+                        <th>Attending Physician</th>
+                        <th>Clinical Status</th>
+                        <th>Prescribed Meds</th>
+                        <th class="pe-4">Clinical Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td class="ps-4 py-4">
+                            <div class="fw-bold text-dark">{{ appt.date|date:"M d, Y" }}</div>
+                            <div class="text-muted x-small">{{ appt.time|time:"H:i A" }}</div>
+                        </td>
+                        <td>
+                            <div class="small fw-semibold text-dark">Dr. {{ appt.doctor.user.get_full_name }}</div>
+                            <div class="text-muted x-small">{{ appt.doctor.specialization }}</div>
+                        </td>
+                        <td>
+                            {% if appt.status == 'approved' %}
+                                <span class="badge bg-success bg-opacity-10 text-success border-0">Completed</span>
+                            {% elif appt.status == 'pending' %}
+                                <span class="badge bg-warning bg-opacity-10 text-warning border-0">Awaiting</span>
+                            {% else %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger border-0">Declined</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if appt.prescription %}
+                                <div class="small">
+                                    {% for pm in appt.prescription.prescribedmedicine_set.all %}
+                                        <span class="d-block"><i class="fas fa-pills me-1 opacity-50"></i>{{ pm.medicine.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span class="text-muted small italic">None</span>
+                            {% endif %}
+                        </td>
+                        <td class="pe-4">
+                            <p class="small text-muted mb-0" style="max-width: 250px;">
+                                {{ appt.prescription.notes|default:appt.reason|truncatechars:100 }}
+                            </p>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <p class="text-muted mb-0">No historical records found for this patient.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
