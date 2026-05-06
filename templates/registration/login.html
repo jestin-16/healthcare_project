@@ -1,52 +1,52 @@
 {% extends 'base.html' %}
-{% block title %}Sign In | HealthCare Pro{% endblock %}
+{% block title %}Secure Access | HealthCare Pro{% endblock %}
 {% block content %}
 <div class="row justify-content-center align-items-center min-vh-75 fade-in">
     <div class="col-md-5">
+        <div class="text-center mb-5">
+            <div class="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mb-4 shadow-sm">
+                <i class="fas fa-user-lock fa-3x text-primary"></i>
+            </div>
+            <h1 class="hero-title h2 mb-1">Clinical Login</h1>
+            <p class="text-muted">Access your professional healthcare dashboard</p>
+        </div>
+        
         <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
             <div class="card-body p-5">
-                <div class="text-center mb-5">
-                    <div class="bg-primary bg-opacity-10 d-inline-flex p-3 rounded-circle mb-3">
-                        <i class="fas fa-lock fa-2x text-primary"></i>
-                    </div>
-                    <h2 class="fw-bold text-dark">Welcome Back</h2>
-                    <p class="text-muted small">Please sign in to access your clinical dashboard</p>
-                </div>
-
                 <form method="post" class="needs-validation">
                     {% csrf_token %}
                     
                     <div class="mb-4">
-                        <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Username</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0"><i class="fas fa-user text-muted"></i></span>
-                            <input type="text" name="username" class="form-control bg-light border-0 py-3" placeholder="Enter username" required>
+                        <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Identifier</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light border-0"><i class="fas fa-id-card text-muted"></i></span>
+                            <input type="text" name="username" class="form-control border-0 bg-light" placeholder="Enter username" required>
                         </div>
                     </div>
-
+                    
                     <div class="mb-5">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary mb-0">Password</label>
-                        </div>
-                        <div class="input-group">
+                        <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Security Password</label>
+                        <div class="input-group input-group-lg">
                             <span class="input-group-text bg-light border-0"><i class="fas fa-key text-muted"></i></span>
-                            <input type="password" name="password" class="form-control bg-light border-0 py-3" placeholder="••••••••" required>
+                            <input type="password" name="password" class="form-control border-0 bg-light" placeholder="••••••••" required>
                         </div>
                     </div>
 
-                    <div class="d-grid gap-2">
+                    <div class="d-grid gap-3">
                         <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-pill">
-                            Authenticate <i class="fas fa-arrow-right ms-2"></i>
+                            Authorize Access <i class="fas fa-sign-in-alt ms-2"></i>
                         </button>
+                        <div class="text-center mt-3">
+                            <span class="text-muted small">New to the network?</span>
+                            <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none ms-1">Create Patient Account</a>
+                        </div>
                     </div>
                 </form>
-
-                <div class="text-center mt-5">
-                    <p class="text-muted small">New to the platform? <a href="{% url 'register' %}" class="text-primary fw-bold text-decoration-none">Create an account</a></p>
-                </div>
             </div>
-            <div class="bg-light p-3 text-center border-top">
-                <span class="x-small text-muted text-uppercase ls-wide">Patient Management System v2.1</span>
+            <div class="card-footer bg-light border-0 p-4 text-center">
+                <p class="mb-0 x-small text-muted fw-bold text-uppercase ls-wide">
+                    <i class="fas fa-shield-alt me-1"></i> End-to-End Encryption Enabled
+                </p>
             </div>
         </div>
     </div>
@@ -54,9 +54,7 @@
 
 <style>
     .min-vh-75 { min-height: 75vh; }
-    .ls-wide { letter-spacing: 0.1em; }
-    .x-small { font-size: 0.7rem; }
-    .input-group-text { border-top-left-radius: 0.75rem !important; border-bottom-left-radius: 0.75rem !important; }
-    .form-control { border-top-right-radius: 0.75rem !important; border-bottom-right-radius: 0.75rem !important; }
+    .input-group-text { border-radius: 1rem 0 0 1rem !important; }
+    .form-control { border-radius: 0 1rem 1rem 0 !important; }
 </style>
 {% endblock %}

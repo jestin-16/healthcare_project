@@ -2,64 +2,84 @@
 {% block title %}Patient Registration | HealthCare Pro{% endblock %}
 {% block content %}
 <div class="row justify-content-center py-5 fade-in">
-    <div class="col-lg-6">
-        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
-            <div class="card-header bg-primary p-4 border-0 text-center text-white">
-                <div class="bg-white bg-opacity-20 d-inline-flex p-3 rounded-circle mb-3">
-                    <i class="fas fa-user-plus fa-2x"></i>
-                </div>
-                <h2 class="fw-bold mb-0">Join HealthCare Pro</h2>
-                <p class="opacity-75 small mb-0">Complete your patient profile to begin booking</p>
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <div class="bg-success bg-opacity-10 d-inline-flex p-4 rounded-circle mb-4 shadow-sm">
+                <i class="fas fa-user-plus fa-3x text-success"></i>
             </div>
-            
-            <div class="card-body p-4 p-md-5">
-                <form method="post" class="needs-validation">
-                    {% csrf_token %}
-                    
-                    <div class="row g-4">
-                        {% for field in form %}
-                        <div class="col-md-{% if field.name == 'username' or field.name == 'email' %}12{% else %}6{% endif %}">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.help_text %}
-                                <div class="form-text x-small text-muted opacity-75">{{ field.help_text }}</div>
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <div class="text-danger x-small mt-1">{{ error }}</div>
-                            {% endfor %}
+            <h1 class="hero-title h2 mb-1">Join Our Network</h1>
+            <p class="text-muted">Register as a patient to manage your clinical history and bookings</p>
+        </div>
+
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 2rem;">
+            <div class="row g-0">
+                <div class="col-md-4 bg-success text-white p-5 d-flex flex-column justify-content-center position-relative overflow-hidden">
+                    <div class="position-relative z-index-1">
+                        <h3 class="fw-bold mb-4">Patient Benefits</h3>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Book appointments 24/7</li>
+                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Access prescriptions</li>
+                            <li class="mb-3 d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> View medical history</li>
+                            <li class="d-flex align-items-center"><i class="fas fa-check-circle me-3"></i> Direct specialist contact</li>
+                        </ul>
+                    </div>
+                    <div class="position-absolute end-0 bottom-0 p-3 opacity-10">
+                        <i class="fas fa-heartbeat fa-10x"></i>
+                    </div>
+                </div>
+                <div class="col-md-8 p-5 bg-white">
+                    <form method="post" class="row g-4">
+                        {% csrf_token %}
+                        
+                        <div class="col-12">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Username</label>
+                            {{ form.username }}
                         </div>
-                        {% endfor %}
-                    </div>
 
-                    <div class="d-grid gap-2 mt-5">
-                        <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-pill">
-                            Create Patient Account <i class="fas fa-check-circle ms-2"></i>
-                        </button>
-                    </div>
-                </form>
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
 
-                <div class="text-center mt-4">
-                    <p class="text-muted small">Already a member? <a href="{% url 'login' %}" class="text-primary fw-bold text-decoration-none">Sign in here</a></p>
+                        <div class="col-12">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Email Address</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Security Password</label>
+                            {{ form.password }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-success">Confirm Identity</label>
+                            {{ form.confirm_password }}
+                        </div>
+
+                        {% if form.errors %}
+                            <div class="col-12">
+                                <div class="alert alert-danger border-0 small py-2">
+                                    <i class="fas fa-exclamation-circle me-2"></i> Please check the form for errors.
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="col-12 mt-5">
+                            <button type="submit" class="btn btn-success btn-lg w-100 py-3 fw-bold shadow-sm rounded-pill">
+                                Initialize Account <i class="fas fa-check-circle ms-2"></i>
+                            </button>
+                            <div class="text-center mt-4">
+                                <span class="text-muted small">Already registered?</span>
+                                <a href="{% url 'login' %}" class="fw-bold text-success text-decoration-none ms-1">Sign In to Portal</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .ls-wide { letter-spacing: 0.1em; }
-    .x-small { font-size: 0.7rem; }
-    .form-control { 
-        background-color: #f8f9fa; 
-        border: 1px solid transparent; 
-        border-radius: 0.75rem; 
-        padding: 0.75rem 1rem;
-        transition: all 0.2s ease;
-    }
-    .form-control:focus {
-        background-color: #fff;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
-    }
-</style>
 {% endblock %}
