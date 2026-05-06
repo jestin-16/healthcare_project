@@ -21,27 +21,27 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='PrescribedMedicine',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('dosage', models.CharField(max_length=100)),
-                ('duration', models.CharField(max_length=100)),
-                ('medicine', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appointments.medicine')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Prescription',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('notes', models.TextField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('appointment', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='prescription', to='appointments.appointment')),
-                ('medicines', models.ManyToManyField(through='appointments.PrescribedMedicine', to='appointments.medicine')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PrescribedMedicine',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('dosage', models.CharField(max_length=100)),
+                ('duration', models.CharField(max_length=100)),
+                ('medicine', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appointments.medicine')),
+                ('prescription', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appointments.prescription')),
             ],
         ),
         migrations.AddField(
-            model_name='prescribedmedicine',
-            name='prescription',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appointments.prescription'),
+            model_name='prescription',
+            name='medicines',
+            field=models.ManyToManyField(through='appointments.PrescribedMedicine', to='appointments.medicine'),
         ),
     ]
