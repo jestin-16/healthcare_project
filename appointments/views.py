@@ -211,3 +211,61 @@ def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
 
+# User Management CRUD for Admin
+@login_required
+def user_list(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    users = User.objects.all().select_related('profile').order_by('id')
+    return render(request, 'appointments/user_list.html', {'users': users})
+
+@login_required
+def edit_user(request, user_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    user_to_edit = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        user_to_edit.first_name = request.POST.get('first_name')
+        user_to_edit.last_name = request.POST.get('last_name')
+        user_to_edit.email = request.POST.get('email')
+        
+        # Role update
+        new_role = request.POST.get('role')
+        user_to_edit.profile.role = new_role
+        user_to_edit.profile.save()
+        
+        # Profile handling
+        if new_role == 'doctor':
+            spec = request.POST.get('specialization', 'General')
+            Doctor.objects.update_or_create(user=user_to_edit, defaults={'specialization': spec})
+            # Remove from nurse if exists
+            Nurse.objects.filter(user=user_to_edit).delete()
+        elif new_role == 'nurse':
+            dept = request.POST.get('department', 'General')
+            Nurse.objects.update_or_create(user=user_to_edit, defaults={'department': dept})
+            # Remove from doctor if exists
+            Doctor.objects.filter(user=user_to_edit).delete()
+        else:
+            # Patient - remove both if exist
+            Doctor.objects.filter(user=user_to_edit).delete()
+            Nurse.objects.filter(user=user_to_edit).delete()
+            
+        user_to_edit.save()
+        messages.success(request, f"User {user_to_edit.username} updated successfully.")
+        return redirect('user_management')
+        
+    return render(request, 'appointments/edit_user.html', {'user_to_edit': user_to_edit})
+
+@login_required
+def delete_user(request, user_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    user_to_delete = get_object_or_404(User, id=user_id)
+    if user_to_delete == request.user:
+        messages.error(request, "You cannot delete your own admin account.")
+    else:
+        username = user_to_delete.username
+        user_to_delete.delete()
+        messages.success(request, f"User {username} has been deleted.")
+    return redirect('user_management')
+

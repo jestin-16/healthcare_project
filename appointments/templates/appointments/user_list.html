@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}User Directory | HealthCare Pro{% endblock %}
+{% block content %}
+<div class="row mb-5 fade-in">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="hero-title h3 mb-1">User Administration</h2>
+            <p class="text-muted small">Comprehensive directory of patients, doctors, and nursing staff.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'add_staff' %}" class="btn btn-primary px-4 shadow-sm rounded-pill">
+                <i class="fas fa-plus me-2"></i> Register New Staff
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm overflow-hidden mb-5 fade-in">
+    <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+            <thead class="bg-light">
+                <tr>
+                    <th class="px-4 py-3">User Details</th>
+                    <th>Role</th>
+                    <th>Credentials</th>
+                    <th>Status</th>
+                    <th class="text-end px-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td class="px-4 py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-dark">{{ u.get_full_name|default:u.username }}</div>
+                                <div class="text-muted x-small">{{ u.username }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {% if u.profile.role == 'doctor' %}
+                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3">Doctor</span>
+                        {% elif u.profile.role == 'nurse' %}
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3">Nurse</span>
+                        {% else %}
+                            <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-3">Patient</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">
+                        {{ u.email }}
+                    </td>
+                    <td>
+                        {% if u.is_active %}
+                            <span class="text-success small"><i class="fas fa-circle me-1" style="font-size: 8px;"></i> Active</span>
+                        {% else %}
+                            <span class="text-danger small"><i class="fas fa-circle me-1" style="font-size: 8px;"></i> Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end px-4">
+                        <div class="btn-group">
+                            <a href="{% url 'edit_user' u.id %}" class="btn btn-sm btn-outline-primary px-3 rounded-pill me-2">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            {% if u != user %}
+                            <button type="button" class="btn btn-sm btn-outline-danger px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal{{ u.id }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+
+                {% if u != user %}
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteModal{{ u.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow">
+                            <div class="modal-body p-4 text-center">
+                                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                <h4 class="fw-bold">Security Confirmation</h4>
+                                <p class="text-muted">Are you sure you want to permanently remove <strong>{{ u.username }}</strong> from the system? This action cannot be undone.</p>
+                                <div class="d-flex gap-2 justify-content-center mt-4">
+                                    <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_user' u.id %}" class="btn btn-danger px-4 shadow-sm">Confirm Deletion</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
