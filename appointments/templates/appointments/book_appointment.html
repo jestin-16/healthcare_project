@@ -1,83 +1,160 @@
 {% extends 'base.html' %}
-{% block title %}Book Consultation | HealthCare Pro{% endblock %}
+{% block title %}Book Appointment | HealthCare Pro{% endblock %}
 {% block content %}
 <div class="row justify-content-center py-5 fade-in">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-lg overflow-hidden">
-            <div class="row g-0">
-                <div class="col-md-5 bg-primary d-none d-md-flex flex-column justify-content-center p-5 text-white">
-                    <div class="mb-4">
-                        <i class="fas fa-calendar-check fa-4x opacity-50"></i>
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
+            <div class="card-header bg-primary p-4 border-0 text-white">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-20 rounded p-3 me-3">
+                        <i class="fas fa-calendar-check fa-2x"></i>
                     </div>
-                    <h2 class="hero-title h3 mb-4 text-white">Clinical Appointment</h2>
-                    <p class="opacity-75 mb-4">Secure your consultation with our verified medical experts. We prioritize your health with precision scheduling.</p>
-                    <ul class="list-unstyled small opacity-75">
-                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Verified Doctors</li>
-                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Instant Slot Selection</li>
-                        <li class="mb-2"><i class="fas fa-check-circle me-2"></i> Role-Based Access</li>
-                    </ul>
+                    <div>
+                        <h2 class="h4 mb-0 fw-bold">Schedule Consultation</h2>
+                        <p class="mb-0 opacity-75 small">Secure your time slot with our medical specialists</p>
+                    </div>
                 </div>
-                <div class="col-md-7 p-4 p-md-5 bg-white">
-                    <div class="mb-4">
-                        <h3 class="h4 fw-bold mb-1">Consultation Details</h3>
-                        <p class="text-muted small">Please provide the necessary information to book your slot.</p>
-                    </div>
+            </div>
+            
+            <div class="card-body p-4 p-md-5">
+                <form method="post" id="appointment-form">
+                    {% csrf_token %}
                     
-                    <form method="post" class="needs-validation">
-                        {% csrf_token %}
-                        
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger border-0 small mb-4">
-                                {% for error in form.non_field_errors %}
-                                    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        {% for field in form %}
-                            <div class="mb-4">
-                                <label for="{{ field.id_for_label }}" class="form-label text-uppercase x-small ls-wide fw-bold">
-                                    {{ field.label }}
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0">
-                                        {% if field.name == 'doctor' %}<i class="fas fa-user-md text-primary"></i>
-                                        {% elif field.name == 'date' %}<i class="fas fa-calendar text-primary"></i>
-                                        {% elif field.name == 'time' %}<i class="fas fa-clock text-primary"></i>
-                                        {% else %}<i class="fas fa-comment-medical text-primary"></i>
-                                        {% endif %}
-                                    </span>
-                                    {{ field }}
-                                </div>
-                                {% if field.errors %}
-                                    <div class="text-danger x-small mt-1 fw-bold">
-                                        {% for error in field.errors %}{{ error }}{% endfor %}
-                                    </div>
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <div class="form-text x-small text-muted">{{ field.help_text }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
-                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4">Discard</a>
-                            <button type="submit" class="btn btn-primary px-5 shadow-sm fw-bold">
-                                Confirm Booking <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Select Doctor</label>
+                            {{ form.doctor }}
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Consultation Date</label>
+                            {{ form.date }}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Reason for Visit</label>
+                            {{ form.reason }}
+                        </div>
+
+                        <div class="col-12 mt-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">Select Time Slot</h5>
+                                <span class="badge bg-light text-dark border px-3 py-2" id="slot-count">Available Slots</span>
+                            </div>
+                            
+                            <div id="time-slots-container" class="row g-2">
+                                <!-- Time slots will be generated here -->
+                                <div class="col-12 text-center py-4 bg-light rounded-3 text-muted">
+                                    <p class="small mb-0">Please select a doctor and date to view available slots.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Hidden input for the selected time -->
+                            <input type="hidden" name="time" id="id_time" required>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                        <a href="{% url 'dashboard' %}" class="btn btn-light border px-4 rounded-pill">Cancel</a>
+                        <button type="submit" id="submit-btn" class="btn btn-primary px-5 fw-bold shadow-sm rounded-pill" disabled>
+                            Confirm Booking <i class="fas fa-check ms-2"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .input-group-text { border-radius: var(--radius-sm) 0 0 var(--radius-sm); border: 1px solid var(--border-color); color: #64748b; }
-    .form-control, .form-select { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; border: 1px solid var(--border-color); padding: 0.75rem; font-size: 0.9rem; }
-    .form-control:focus, .form-select:focus { border-color: var(--primary-color); box-shadow: none; }
-    .x-small { font-size: 0.75rem; }
+    .ls-wide { letter-spacing: 0.1em; }
+    .x-small { font-size: 0.7rem; }
+    .form-control, .form-select { 
+        background-color: #f8f9fa; 
+        border: 1px solid transparent; 
+        border-radius: 0.75rem; 
+        padding: 0.75rem 1rem;
+    }
+    .slot-btn {
+        transition: all 0.2s ease;
+        border: 2px solid #f8f9fa;
+        background: #f8f9fa;
+        color: #444;
+        padding: 0.75rem 0.5rem;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+    .slot-btn:hover:not(.booked) {
+        border-color: var(--primary-color);
+        background: #fff;
+        color: var(--primary-color);
+    }
+    .slot-btn.active {
+        background: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+    }
+    .slot-btn.booked {
+        opacity: 0.5;
+        background: #e9ecef;
+        cursor: not-allowed;
+        text-decoration: line-through;
+        color: #adb5bd;
+    }
 </style>
-{% endblock %}
 
+<script>
+    const doctorSelect = document.getElementById('id_doctor');
+    const dateInput = document.getElementById('id_date');
+    const timeInput = document.getElementById('id_time');
+    const slotsContainer = document.getElementById('time-slots-container');
+    const submitBtn = document.getElementById('submit-btn');
+
+    const availableTimes = [
+        "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+        "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
+    ];
+
+    function updateSlots() {
+        const doctorId = doctorSelect.value;
+        const date = dateInput.value;
+
+        if (!doctorId || !date) return;
+
+        fetch(`/ajax/get-booked-slots/?doctor_id=${doctorId}&date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                const bookedSlots = data.booked_slots;
+                slotsContainer.innerHTML = '';
+                
+                availableTimes.forEach(time => {
+                    const isBooked = bookedSlots.includes(time);
+                    const col = document.createElement('div');
+                    col.className = 'col-3 col-md-2';
+                    
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = `btn w-100 slot-btn rounded-3 ${isBooked ? 'booked' : ''}`;
+                    btn.innerText = time;
+                    
+                    if (!isBooked) {
+                        btn.onclick = () => {
+                            document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            timeInput.value = time + ":00"; // Django expects HH:MM:SS or similar
+                            submitBtn.disabled = false;
+                        };
+                    }
+                    
+                    col.appendChild(btn);
+                    slotsContainer.appendChild(col);
+                });
+            });
+    }
+
+    doctorSelect.addEventListener('change', updateSlots);
+    dateInput.addEventListener('change', updateSlots);
+
+    // Initial check if values already exist (e.g. from URL params)
+    if (doctorSelect.value && dateInput.value) updateSlots();
+</script>
+{% endblock %}

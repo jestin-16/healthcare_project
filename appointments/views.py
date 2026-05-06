@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
+
 from django.contrib.auth.models import User
 
 from django.contrib.auth.decorators import login_required
@@ -212,6 +214,20 @@ def manage_appointment(request, appointment_id, action):
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'appointments/doctor_list.html', {'doctors': doctors})
+
+def get_booked_slots(request):
+    doctor_id = request.GET.get('doctor_id')
+    date_str = request.GET.get('date')
+    if doctor_id and date_str:
+        booked_times = Appointment.objects.filter(
+            doctor_id=doctor_id, 
+            date=date_str
+        ).values_list('time', flat=True)
+        # Convert time objects to HH:MM strings
+        booked_slots = [t.strftime('%H:%M') for t in booked_times]
+        return JsonResponse({'booked_slots': booked_slots})
+    return JsonResponse({'booked_slots': []})
+
 
 # User Management CRUD for Admin
 @login_required

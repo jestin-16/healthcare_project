@@ -1,47 +1,45 @@
 {% extends 'base.html' %}
-{% block title %}Register - HealthCare Pro{% endblock %}
+{% block title %}Patient Registration | HealthCare Pro{% endblock %}
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-lg border-0 rounded-lg overflow-hidden">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h3 class="mb-0 fw-bold">Join Our Community</h3>
-                    <p class="mb-0 opacity-75">Register as a Patient to book appointments</p>
+<div class="row justify-content-center py-5 fade-in">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
+            <div class="card-header bg-primary p-4 border-0 text-center text-white">
+                <div class="bg-white bg-opacity-20 d-inline-flex p-3 rounded-circle mb-3">
+                    <i class="fas fa-user-plus fa-2x"></i>
                 </div>
-                <div class="card-body p-4 p-md-5">
-                    <form method="post" class="needs-validation" novalidate>
-                        {% csrf_token %}
+                <h2 class="fw-bold mb-0">Join HealthCare Pro</h2>
+                <p class="opacity-75 small mb-0">Complete your patient profile to begin booking</p>
+            </div>
+            
+            <div class="card-body p-4 p-md-5">
+                <form method="post" class="needs-validation">
+                    {% csrf_token %}
+                    
+                    <div class="row g-4">
                         {% for field in form %}
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold text-muted small text-uppercase">{{ field.label }}</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0 text-muted">
-                                        {% if 'username' in field.name %}<i class="fas fa-user"></i>
-                                        {% elif 'email' in field.name %}<i class="fas fa-envelope"></i>
-                                        {% elif 'password' in field.name %}<i class="fas fa-lock"></i>
-                                        {% elif 'first_name' in field.name or 'last_name' in field.name %}<i class="fas fa-signature"></i>
-                                        {% else %}<i class="fas fa-pen"></i>{% endif %}
-                                    </span>
-                                    {{ field }}
-                                </div>
-                                {% if field.errors %}
-                                    <div class="text-danger small mt-1">{{ field.errors }}</div>
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <div class="text-muted small mt-1">{{ field.help_text|safe }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <div class="d-grid gap-2 mt-5">
-                            <button type="submit" class="btn btn-primary btn-lg shadow-sm rounded-pill py-3 fw-bold">
-                                Create Account
-                            </button>
+                        <div class="col-md-{% if field.name == 'username' or field.name == 'email' %}12{% else %}6{% endif %}">
+                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text x-small text-muted opacity-75">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger x-small mt-1">{{ error }}</div>
+                            {% endfor %}
                         </div>
-                    </form>
-                    <div class="text-center mt-4">
-                        <p class="text-muted mb-0">Already have an account? <a href="{% url 'login' %}" class="text-primary fw-bold text-decoration-none">Login here</a></p>
+                        {% endfor %}
                     </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm rounded-pill">
+                            Create Patient Account <i class="fas fa-check-circle ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted small">Already a member? <a href="{% url 'login' %}" class="text-primary fw-bold text-decoration-none">Sign in here</a></p>
                 </div>
             </div>
         </div>
@@ -49,32 +47,19 @@
 </div>
 
 <style>
-    body {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        min-height: 100vh;
+    .ls-wide { letter-spacing: 0.1em; }
+    .x-small { font-size: 0.7rem; }
+    .form-control { 
+        background-color: #f8f9fa; 
+        border: 1px solid transparent; 
+        border-radius: 0.75rem; 
+        padding: 0.75rem 1rem;
+        transition: all 0.2s ease;
     }
-    .card {
-        transition: transform 0.3s ease-in-out;
-    }
-    .input-group-text {
-        border-radius: 10px 0 0 10px;
-    }
-    input {
-        border-radius: 0 10px 10px 0 !important;
-        padding: 12px 15px !important;
-        border-left: 0 !important;
-    }
-    input:focus {
-        box-shadow: none !important;
-        border-color: #dee2e6 !important;
-    }
-    .btn-primary {
-        background: linear-gradient(90deg, #0d6efd, #0b5ed7);
-        border: none;
-    }
-    .btn-primary:hover {
-        background: linear-gradient(90deg, #0b5ed7, #0a58ca);
-        transform: translateY(-2px);
+    .form-control:focus {
+        background-color: #fff;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
     }
 </style>
 {% endblock %}

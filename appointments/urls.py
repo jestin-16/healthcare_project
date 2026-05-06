@@ -22,7 +22,9 @@ urlpatterns = [
     path('users/', views.user_list, name='user_management'),
     path('users/edit/<int:user_id>/', views.edit_user, name='edit_user'),
     path('users/delete/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('ajax/get-booked-slots/', views.get_booked_slots, name='get_booked_slots'),
 ]
+
 
 
 
