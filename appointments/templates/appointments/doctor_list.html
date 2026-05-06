@@ -1,54 +1,65 @@
 {% extends 'base.html' %}
-{% block title %}Our Doctors | HealthCare Pro{% endblock %}
+{% block title %}Our Clinical Specialists | HealthCare Pro{% endblock %}
 {% block content %}
 <div class="row mb-5 fade-in">
-    <div class="col-12 text-center">
-        <h2 class="hero-title h2 mb-2">Our Medical Specialists</h2>
-        <p class="text-muted">Expert care from verified professionals across multiple specializations.</p>
+    <div class="col-lg-8 mx-auto text-center">
+        <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
+            <i class="fas fa-stethoscope me-2"></i>WORLD-CLASS MEDICAL STAFF
+        </div>
+        <h2 class="display-5 fw-bold text-dark mb-3">Our Clinical Specialists</h2>
+        <p class="text-muted lead">Connect with highly qualified medical experts dedicated to your health and well-being.</p>
     </div>
 </div>
 
-<div class="row g-4">
+<div class="row g-4 fade-in">
     {% for doctor in doctors %}
     <div class="col-md-6 col-lg-4">
-        <div class="card h-100 border-0 shadow-sm hover-lift">
+        <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: var(--radius-lg);">
             <div class="card-body p-4">
-                <div class="d-flex align-items-start mb-4">
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-user-md fa-2x"></i>
+                <div class="text-center mb-4 pt-3">
+                    <div class="position-relative d-inline-block">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border: 4px solid #fff; box-shadow: var(--shadow-md);">
+                            <i class="fas fa-user-md fa-3x"></i>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width: 20px; height: 20px; border-width: 3px !important;" title="Verified Professional"></div>
                     </div>
-                    <div>
-                        <h5 class="fw-bold mb-1">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h5>
-                        <div class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-10 rounded-pill small">{{ doctor.specialization }}</div>
+                    <h5 class="fw-bold mb-1 text-dark">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h5>
+                    <div class="text-primary small fw-bold text-uppercase ls-wide mb-3">{{ doctor.specialization }}</div>
+                </div>
+                
+                <p class="text-muted small text-center mb-4 px-2" style="height: 4.5em; overflow: hidden;">
+                    {{ doctor.bio|default:"Dedicated to providing advanced clinical solutions and compassionate patient-centered care through evidence-based medicine."|truncatechars:140 }}
+                </p>
+                
+                <div class="bg-light rounded-4 p-3 mb-4">
+                    <div class="row g-0 text-center">
+                        <div class="col-6 border-end">
+                            <div class="fw-bold text-dark">{{ doctor.experience }}+</div>
+                            <div class="text-muted x-small text-uppercase">Years Exp.</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="fw-bold text-dark">4.9/5</div>
+                            <div class="text-muted x-small text-uppercase">Rating</div>
+                        </div>
                     </div>
                 </div>
-                <p class="text-muted small mb-4" style="height: 4.5em; overflow: hidden;">
-                    {{ doctor.bio|default:"Experienced medical professional dedicated to providing compassionate and evidence-based patient care."|truncatechars:150 }}
-                </p>
-                <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                    <div class="small">
-                        <i class="fas fa-star text-warning me-1"></i>
-                        <span class="fw-bold text-dark">{{ doctor.experience }}+</span> 
-                        <span class="text-muted">Years Exp.</span>
-                    </div>
-                    <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="btn btn-primary btn-sm px-4">Book Visit</a>
+
+                <div class="d-grid">
+                    <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="btn btn-primary shadow-sm rounded-pill py-2">
+                        Schedule Consultation <i class="fas fa-calendar-check ms-2"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12 text-center py-5">
-        <div class="bg-white p-5 rounded shadow-sm">
-            <i class="fas fa-user-slash fa-3x text-muted mb-3 opacity-25"></i>
-            <p class="text-muted lead">Our specialists are currently unavailable. Please check back later.</p>
+        <div class="card border-0 bg-white p-5 shadow-sm rounded-4">
+            <i class="fas fa-user-slash fa-4x text-muted mb-3 opacity-25"></i>
+            <h4 class="fw-bold text-dark">Consultants Temporarily Unavailable</h4>
+            <p class="text-muted lead">Our specialists are currently updating their schedules. Please check back shortly.</p>
         </div>
     </div>
     {% endfor %}
 </div>
-
-<style>
-    .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; }
-</style>
 {% endblock %}
-

@@ -1,93 +1,84 @@
 {% extends 'base.html' %}
-{% block title %}Register Medical Staff | HealthCare Pro{% endblock %}
+{% block title %}Onboard Medical Staff | HealthCare Pro{% endblock %}
 {% block content %}
 <div class="row justify-content-center py-5 fade-in">
-    <div class="col-lg-10 col-xl-8">
-        <div class="card border-0 shadow-lg overflow-hidden">
+    <div class="col-lg-11 col-xl-10">
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: var(--radius-lg);">
             <div class="row g-0">
-                <div class="col-md-4 bg-primary text-white p-5 d-flex flex-column justify-content-center">
-                    <div class="mb-4">
-                        <i class="fas fa-user-shield fa-4x opacity-50"></i>
+                <div class="col-md-4 bg-primary text-white p-5 d-flex flex-column justify-content-center position-relative overflow-hidden">
+                    <div class="position-relative z-index-1">
+                        <div class="mb-4">
+                            <i class="fas fa-user-shield fa-4x opacity-50"></i>
+                        </div>
+                        <h2 class="fw-bold mb-4">Professional Onboarding</h2>
+                        <p class="opacity-75 lead">Expand the clinical network by registering new medical specialists and nursing staff with verified credentials.</p>
+                        <div class="mt-5 small">
+                            <div class="d-flex align-items-center mb-2"><i class="fas fa-check-circle me-2"></i> Role-based access control</div>
+                            <div class="d-flex align-items-center mb-2"><i class="fas fa-check-circle me-2"></i> Verified profile generation</div>
+                            <div class="d-flex align-items-center"><i class="fas fa-check-circle me-2"></i> Automated department assignment</div>
+                        </div>
                     </div>
-                    <h2 class="hero-title h3 mb-4 text-white">Staff Onboarding</h2>
-                    <p class="opacity-75 small">Register qualified medical professionals to the HealthCare Pro network. Ensure all credentials are verified before submission.</p>
+                    <div class="position-absolute end-0 bottom-0 p-3 opacity-10">
+                        <i class="fas fa-hospital-user fa-15x"></i>
+                    </div>
                 </div>
                 <div class="col-md-8 p-4 p-md-5 bg-white">
                     <form method="post">
                         {% csrf_token %}
                         
                         <div class="row g-4">
+                            <div class="col-12 mb-2">
+                                <h4 class="fw-bold text-dark mb-0">Staff Credentials</h4>
+                                <p class="text-muted small">Please fill in the system identification details below.</p>
+                            </div>
+
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">User Role</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-id-badge text-primary"></i></span>
-                                    {{ form.role }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Role</label>
+                                {{ form.role }}
                             </div>
                             <div class="col-md-6" id="spec_field" style="display: none;">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Specialization</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-stethoscope text-primary"></i></span>
-                                    {{ form.specialization }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Medical Specialization</label>
+                                {{ form.specialization }}
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Username</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-primary"></i></span>
-                                    {{ form.username }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Username</label>
+                                {{ form.username }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-envelope text-primary"></i></span>
-                                    {{ form.email }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Professional Email</label>
+                                {{ form.email }}
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">First Name</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-signature text-primary"></i></span>
-                                    {{ form.first_name }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">First Name</label>
+                                {{ form.first_name }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Last Name</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-signature text-primary"></i></span>
-                                    {{ form.last_name }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Last Name</label>
+                                {{ form.last_name }}
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-lock text-primary"></i></span>
-                                    {{ form.password }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Security Password</label>
+                                {{ form.password }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide">Confirm Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0"><i class="fas fa-check-double text-primary"></i></span>
-                                    {{ form.confirm_password }}
-                                </div>
+                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Confirm Password</label>
+                                {{ form.confirm_password }}
                             </div>
                         </div>
 
                         {% if form.errors %}
-                            <div class="alert alert-danger border-0 small mt-4">
-                                <i class="fas fa-exclamation-circle me-2"></i> Please correct the errors in the form.
+                            <div class="alert alert-danger border-0 small mt-4 fade show" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i> Please review and correct the validation errors.
                             </div>
                         {% endif %}
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
-                            <a href="{% url 'admin_dashboard' %}" class="btn btn-light border px-4">Discard</a>
-                            <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
-                                Register Professional <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{% url 'admin_dashboard' %}" class="btn btn-light border px-4 rounded-pill">Discard</a>
+                            <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm rounded-pill">
+                                Register Professional <i class="fas fa-check-circle ms-2"></i>
                             </button>
                         </div>
                     </form>
@@ -96,13 +87,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .input-group-text { border-radius: var(--radius-sm) 0 0 var(--radius-sm); border: 1px solid var(--border-color); }
-    .form-control, .form-select { border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; border: 1px solid var(--border-color); padding: 0.7rem; font-size: 0.9rem; }
-    .form-control:focus, .form-select:focus { border-color: var(--primary-color); box-shadow: none; }
-    .x-small { font-size: 0.75rem; }
-</style>
 
 <script>
     const roleSelect = document.querySelector('select[name="role"]');
@@ -117,7 +101,6 @@
     }
 
     roleSelect.addEventListener('change', toggleSpec);
-    toggleSpec(); // Run on load
+    toggleSpec();
 </script>
 {% endblock %}
-

@@ -1,92 +1,156 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard | Patient{% endblock %}
+{% block title %}My Health Dashboard | Patient{% endblock %}
 {% block content %}
 <div class="row mb-5 fade-in">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="hero-title h3 mb-1">Welcome back, {{ user.username }}</h2>
-                <p class="text-muted small">Manage your medical appointments and health records.</p>
+    <div class="col-lg-8">
+        <h1 class="hero-title">Hello, {{ user.first_name|default:user.username }}</h1>
+        <p class="text-muted lead">Monitor your health journey, view prescriptions, and schedule your next visit.</p>
+    </div>
+    <div class="col-lg-4 d-flex align-items-center justify-content-lg-end mt-3 mt-lg-0">
+        <a href="{% url 'book_appointment' %}" class="btn btn-primary btn-lg px-5 shadow-lg rounded-pill">
+            <i class="fas fa-calendar-plus me-2"></i>New Appointment
+        </a>
+    </div>
+</div>
+
+<!-- Quick Stats Section -->
+<div class="row g-4 mb-5 fade-in">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-3">
+                <i class="fas fa-notes-medical"></i>
             </div>
-            <a href="{% url 'book_appointment' %}" class="btn btn-primary px-4 shadow-sm">
-                <i class="fas fa-calendar-plus me-2"></i>New Appointment
-            </a>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Medical Visits</div>
+            <div class="stat-value">{{ appointments.count }}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--warning-color);">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-3">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Scheduled Slots</div>
+            <div class="stat-value">{% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--success-color);">
+            <div class="stat-icon bg-success bg-opacity-10 text-success mb-3">
+                <i class="fas fa-prescription-bottle-alt"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Active Prescriptions</div>
+            <div class="stat-value">{% with active=0 %}{% for a in appointments %}{% if a.prescription %}{{ active|add:1 }}{% endif %}{% endfor %}{{ active }}{% endwith %}</div>
         </div>
     </div>
 </div>
 
-<div class="row g-4 mb-5">
-    <div class="col-md-4">
-        <div class="card stat-card p-3 h-100">
-            <div class="text-muted small fw-bold text-uppercase mb-2">Total Visits</div>
-            <div class="h3 mb-0">{{ appointments.count }}</div>
-        </div>
+<!-- Main History Section -->
+<div class="card border-0 shadow-lg mb-5 fade-in">
+    <div class="card-header border-0 bg-white pt-4 px-4 pb-0">
+        <h4 class="fw-bold text-dark"><i class="fas fa-history me-2 text-primary"></i>Medical History & Appointments</h4>
     </div>
-    <div class="col-md-4">
-        <div class="card stat-card p-3 h-100" style="border-left-color: #f59e0b;">
-            <div class="text-muted small fw-bold text-uppercase mb-2">Pending</div>
-            <div class="h3 mb-0">{{ appointments.count }}</div> <!-- This should be filtered in view, but using count for now -->
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card stat-card p-3 h-100" style="border-left-color: #10b981;">
-            <div class="text-muted small fw-bold text-uppercase mb-2">Upcoming</div>
-            <div class="h3 mb-0">1</div>
-        </div>
-    </div>
-</div>
-
-<div class="card border-0 shadow-sm overflow-hidden">
-    <div class="card-header bg-white py-3">
-        <h5 class="mb-0 fw-bold"><i class="fas fa-list-ul me-2 text-primary"></i>Appointment History</h5>
-    </div>
-    <div class="table-responsive">
-        <table class="table mb-0">
-            <thead>
-                <tr>
-                    <th>Doctor</th>
-                    <th>Specialization</th>
-                    <th>Date & Time</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for appt in appointments %}
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="bg-light rounded-circle p-2 me-3">
-                                <i class="fas fa-user-md text-primary"></i>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Medical Specialist</th>
+                        <th>Date & Timing</th>
+                        <th>Clinical Status</th>
+                        <th class="text-end pe-4">Available Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td class="ps-4 py-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light rounded-pill p-3 me-3">
+                                    <i class="fas fa-user-md text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark fs-6">Dr. {{ appt.doctor.user.get_full_name }}</div>
+                                    <div class="text-muted small">{{ appt.doctor.specialization }}</div>
+                                </div>
                             </div>
-                            <span class="fw-semibold">Dr. {{ appt.doctor.user.get_full_name }}</span>
-                        </div>
-                    </td>
-                    <td>{{ appt.doctor.specialization }}</td>
-                    <td>
-                        <div class="small fw-bold text-secondary">{{ appt.date }}</div>
-                        <div class="text-muted x-small">{{ appt.time }}</div>
-                    </td>
-                    <td>
-                        {% if appt.status == 'pending' %}
-                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25">Pending</span>
-                        {% elif appt.status == 'approved' %}
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Approved</span>
-                        {% else %}
-                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Rejected</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="text-center py-5">
-                        <div class="text-muted mb-3">No medical history found.</div>
-                        <a href="{% url 'book_appointment' %}" class="btn btn-outline-primary btn-sm">Book Your First Appointment</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <div class="fw-bold text-dark mb-1">{{ appt.date|date:"F j, Y" }}</div>
+                            <div class="text-muted small"><i class="far fa-clock me-1"></i>{{ appt.time|time:"g:i A" }}</div>
+                        </td>
+                        <td>
+                            {% if appt.status == 'pending' %}
+                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 px-3 py-2">Under Review</span>
+                            {% elif appt.status == 'approved' %}
+                                <span class="badge bg-success bg-opacity-10 text-success border-0 px-3 py-2">Confirmed</span>
+                            {% else %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger border-0 px-3 py-2">Declined</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            {% if appt.prescription %}
+                                <button type="button" class="btn btn-sm btn-outline-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
+                                    <i class="fas fa-file-medical me-2"></i>View Script
+                                </button>
+                                
+                                <!-- Prescription Modal -->
+                                <div class="modal fade" id="prescriptionModal{{ appt.id }}" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+                                            <div class="modal-header border-0 bg-primary text-white p-4">
+                                                <h5 class="modal-title fw-bold"><i class="fas fa-prescription me-2"></i>Medical Prescription</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body p-4 text-start">
+                                                <div class="mb-4 text-center">
+                                                    <div class="text-muted small text-uppercase ls-wide">Issued By</div>
+                                                    <h4 class="fw-bold text-dark">Dr. {{ appt.doctor.user.get_full_name }}</h4>
+                                                    <div class="small">{{ appt.doctor.specialization }}</div>
+                                                </div>
+                                                <hr class="opacity-10">
+                                                <h6 class="fw-bold mb-3">Prescribed Medications:</h6>
+                                                <div class="list-group list-group-flush mb-4">
+                                                    {% for pm in appt.prescription.prescribedmedicine_set.all %}
+                                                        <div class="list-group-item px-0 border-0 d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <div class="fw-bold text-dark">{{ pm.medicine.name }}</div>
+                                                                <div class="text-muted small">Dosage: {{ pm.dosage }} | Duration: {{ pm.duration }}</div>
+                                                            </div>
+                                                            <i class="fas fa-pills text-primary opacity-50"></i>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="bg-light p-3 rounded-3 mb-0">
+                                                    <small class="fw-bold text-muted text-uppercase d-block mb-1">Clinical Notes:</small>
+                                                    <p class="small mb-0 italic">"{{ appt.prescription.notes|default:"No specific notes provided." }}"</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer border-0 p-4 pt-0">
+                                                <button type="button" class="btn btn-primary w-100 py-3 rounded-pill" data-bs-dismiss="modal">Acknowledged</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <span class="text-muted x-small fw-bold text-uppercase">No Action Available</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+                            <div class="opacity-25 mb-3">
+                                <i class="fas fa-notes-medical fa-4x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Your Health Records are Empty</h5>
+                            <p class="text-muted mb-4">Schedule your first clinical consultation today.</p>
+                            <a href="{% url 'book_appointment' %}" class="btn btn-primary px-4 rounded-pill">Book First Appointment</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}
-

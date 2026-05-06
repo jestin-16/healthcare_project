@@ -1,48 +1,90 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="hero-section text-center fade-in">
-    <div class="container py-4">
-        <h1 class="display-3 hero-title mb-4">Your Health, <span class="text-primary">Our Priority</span></h1>
-        <p class="lead text-muted mb-5 mx-auto" style="max-width: 700px;">
-            Connect with top-rated medical professionals and manage your health journey with a system built for clinical precision and ease.
+<div class="row align-items-center py-5 fade-in">
+    <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="badge bg-primary bg-opacity-10 text-primary mb-4 px-3 py-2 rounded-pill ls-wide fw-bold">
+            <i class="fas fa-shield-virus me-2"></i>TRUSTED CLINICAL CARE
+        </div>
+        <h1 class="hero-title mb-4">Precision Medicine, <br><span class="text-primary">Human Connection.</span></h1>
+        <p class="lead text-muted mb-5 pe-lg-5">
+            Experience the next generation of healthcare management. Our platform bridges the gap between expert medical professionals and patients through seamless, secure, and intuitive digital experiences.
         </p>
-        <div class="d-flex justify-content-center gap-3">
-            <a class="btn btn-primary btn-lg px-5 shadow-sm" href="{% url 'doctor_list' %}">Find a Doctor</a>
+        <div class="d-flex flex-wrap gap-3">
+            <a class="btn btn-primary btn-lg px-5 shadow-lg rounded-pill" href="{% url 'doctor_list' %}">
+                Explore Specialists <i class="fas fa-arrow-right ms-2"></i>
+            </a>
             {% if not user.is_authenticated %}
-                <a class="btn btn-outline-primary btn-lg px-5" href="{% url 'register' %}">Join Now</a>
+                <a class="btn btn-light btn-lg px-5 border rounded-pill" href="{% url 'register' %}">
+                    Create Account
+                </a>
             {% endif %}
+        </div>
+        <div class="mt-5 d-flex align-items-center gap-4 text-muted small">
+            <div><i class="fas fa-check-circle text-success me-1"></i> 50+ Experts</div>
+            <div><i class="fas fa-check-circle text-success me-1"></i> SSL Secured</div>
+            <div><i class="fas fa-check-circle text-success me-1"></i> 24/7 Booking</div>
+        </div>
+    </div>
+    <div class="col-lg-6 position-relative">
+        <div class="card border-0 shadow-lg p-3 overflow-hidden" style="border-radius: 2rem;">
+            <div class="bg-primary bg-opacity-5 p-5 text-center">
+                <i class="fas fa-hospital-symbol fa-10x text-primary opacity-25"></i>
+                <div class="mt-4">
+                    <h3 class="fw-bold text-dark">HealthCare Pro v2.5</h3>
+                    <p class="text-muted">Clinical Management Suite</p>
+                </div>
+            </div>
+            <div class="card-body p-4 bg-white">
+                <div class="d-flex gap-3 mb-3">
+                    <div class="bg-success bg-opacity-10 p-2 rounded-circle"><i class="fas fa-pulse text-success"></i></div>
+                    <div class="small fw-bold">System Status: <span class="text-success">Operational</span></div>
+                </div>
+                <div class="progress mb-3" style="height: 6px;">
+                    <div class="progress-bar bg-primary" style="width: 85%;"></div>
+                </div>
+                <div class="d-flex justify-content-between x-small text-muted fw-bold text-uppercase">
+                    <span>Active Consultations</span>
+                    <span>85% Capacity</span>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative Elements -->
+        <div class="position-absolute top-0 end-0 mt-n3 me-n3 bg-white shadow-sm p-3 rounded-4 d-none d-lg-block" style="z-index: 2;">
+            <div class="d-flex align-items-center gap-2">
+                <div class="bg-warning p-2 rounded-circle"></div>
+                <span class="fw-bold small">Live Dashboard</span>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="row g-4 mt-4">
+<div class="row g-4 mt-5 py-5 fade-in">
     <div class="col-md-4">
-        <div class="card h-100 p-4 border-0 text-center">
-            <div class="mb-3">
-                <i class="fas fa-calendar-check fa-3x text-primary opacity-75"></i>
+        <div class="card h-100 p-5 border-0 shadow-sm text-center">
+            <div class="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mx-auto mb-4">
+                <i class="fas fa-calendar-check fa-2x text-primary"></i>
             </div>
-            <h3 class="h4 mb-3">Seamless Booking</h3>
-            <p class="text-muted small">Schedule appointments effortlessly with our intuitive interface designed for reliability.</p>
+            <h4 class="fw-bold mb-3">Dynamic Scheduling</h4>
+            <p class="text-muted small mb-0">Experience frictionless appointment booking with real-time slot availability and instant doctor confirmation.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card h-100 p-4 border-0 text-center">
-            <div class="mb-3">
-                <i class="fas fa-user-md fa-3x text-primary opacity-75"></i>
+        <div class="card h-100 p-5 border-0 shadow-sm text-center">
+            <div class="bg-success bg-opacity-10 d-inline-flex p-4 rounded-circle mx-auto mb-4">
+                <i class="fas fa-file-prescription fa-2x text-success"></i>
             </div>
-            <h3 class="h4 mb-3">Verified Experts</h3>
-            <p class="text-muted small">All medical staff undergo rigorous verification to ensure you receive the highest standard of care.</p>
+            <h4 class="fw-bold mb-3">E-Prescriptions</h4>
+            <p class="text-muted small mb-0">Securely receive and manage your medical prescriptions digitally, accessible from your personal dashboard anywhere.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card h-100 p-4 border-0 text-center">
-            <div class="mb-3">
-                <i class="fas fa-bolt fa-3x text-primary opacity-75"></i>
+        <div class="card h-100 p-5 border-0 shadow-sm text-center">
+            <div class="bg-info bg-opacity-10 d-inline-flex p-4 rounded-circle mx-auto mb-4">
+                <i class="fas fa-user-shield fa-2x text-info"></i>
             </div>
-            <h3 class="h4 mb-3">Instant Updates</h3>
-            <p class="text-muted small">Stay informed with real-time status updates and notifications for your health consultations.</p>
+            <h4 class="fw-bold mb-3">Privacy First</h4>
+            <p class="text-muted small mb-0">Your medical history is protected with industry-standard encryption, ensuring complete confidentiality of your records.</p>
         </div>
     </div>
 </div>
 {% endblock %}
-
