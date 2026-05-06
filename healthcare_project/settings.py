@@ -27,11 +27,23 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-w@l9^^s-d=51cur1g)kr&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', 'healthcare.jestin16.dev,.onrender.com,localhost,127.0.0.1').split(',')]
+ALLOWED_HOSTS = [
+    'healthcare.jestin16.dev',
+    'healthcare-project-9d6b.onrender.com',
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
+
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-CSRF_TRUSTED_ORIGINS = ['https://healthcare.jestin16.dev', 'https://*.onrender.com']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://healthcare.jestin16.dev',
+    'https://healthcare-project-9d6b.onrender.com',
+    'https://*.onrender.com',
+]
 
 # Security settings for production
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
