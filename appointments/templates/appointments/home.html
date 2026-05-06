@@ -88,6 +88,41 @@
 </div>
 
 <div class="row g-4 mt-5 py-5 fade-in">
+    <!-- Mission Section -->
+    <div class="col-12 mb-5">
+        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 2.5rem;">
+            <div class="row g-0">
+                <div class="col-lg-6">
+                    <img src="/static/images/consultation.png" class="h-100 w-100 object-fit-cover" alt="Patient Consultation" style="min-height: 400px;">
+                </div>
+                <div class="col-lg-6 p-5 d-flex flex-column justify-content-center bg-white">
+                    <div class="badge bg-success bg-opacity-10 text-success mb-3 px-3 py-2 rounded-pill ls-wide fw-bold align-self-start">
+                        OUR PHILOSOPHY
+                    </div>
+                    <h2 class="display-6 fw-bold text-dark mb-4">Patient-Centered Care, <br>Digitally Perfected.</h2>
+                    <p class="text-muted lead mb-4">
+                        At HealthCare Pro, we believe technology should amplify the human touch, not replace it. Our platform is designed to handle the complexity of clinical management so you can focus on what matters most: your health.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle"><i class="fas fa-heart"></i></div>
+                                <span class="fw-bold text-dark small">Compassionate Care</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle"><i class="fas fa-clock"></i></div>
+                                <span class="fw-bold text-dark small">Instant Access</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
     <div class="col-md-4">
         <div class="card h-100 p-5 border-0 shadow-sm text-center">
             <div class="bg-primary bg-opacity-10 d-inline-flex p-4 rounded-circle mx-auto mb-4">
@@ -113,6 +148,21 @@
             </div>
             <h4 class="fw-bold mb-3">Privacy First</h4>
             <p class="text-muted small mb-0">Your medical history is protected with industry-standard encryption, ensuring complete confidentiality of your records.</p>
+        </div>
+    </div>
+
+    <!-- Experts Teaser -->
+    <div class="col-12 mt-5">
+        <div class="card border-0 shadow-lg bg-dark text-white overflow-hidden text-center p-5" style="border-radius: 2.5rem; background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/static/images/doctors_group.png'); background-size: cover; background-position: center;">
+            <div class="py-5 position-relative z-index-1">
+                <h2 class="display-5 fw-bold mb-3">Ready to meet your specialist?</h2>
+                <p class="lead opacity-75 mb-5 mx-auto" style="max-width: 600px;">
+                    Our network includes top-rated surgeons, cardiologists, and specialists ready to provide you with world-class medical attention.
+                </p>
+                <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg">
+                    Find Your Doctor <i class="fas fa-search ms-2"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>
