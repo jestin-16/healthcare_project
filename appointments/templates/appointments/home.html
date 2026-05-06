@@ -1,192 +1,129 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- Premium Hero Section -->
-<div class="row min-vh-75 align-items-center py-5 mb-5 fade-in">
-    <div class="col-lg-6 mb-5 mb-lg-0">
-        <div class="pe-lg-5">
-            <div class="d-flex align-items-center gap-3 mb-4">
-                <span class="badge bg-primary px-3 py-2 rounded-pill ls-wide fw-bold">v3.0 ENTERPRISE</span>
-                <div class="h-px bg-primary bg-opacity-25 flex-grow-1"></div>
-            </div>
-            <h1 class="display-3 fw-800 text-dark mb-4 ls-tight">
-                Healthcare <br>
-                <span class="text-gradient">Redefined.</span>
-            </h1>
-            <p class="lead text-secondary mb-5 fs-4 opacity-75">
-                Precision-engineered medical management for the modern clinic. Experience seamless synchronization between patients, specialists, and supply chains.
-            </p>
-            <div class="d-flex flex-wrap gap-4">
-                <a class="btn btn-primary btn-xl px-5 shadow-premium rounded-pill" href="{% url 'doctor_list' %}">
-                    Consult Experts <i class="fas fa-chevron-right ms-2 small"></i>
-                </a>
-                {% if not user.is_authenticated %}
-                <a class="btn btn-outline-dark btn-xl px-5 rounded-pill border-2" href="{% url 'register' %}">
-                    Join Network
-                </a>
-                {% endif %}
-            </div>
-            
-            <div class="mt-5 pt-4 border-top border-light d-flex gap-5">
-                <div class="stat-mini">
-                    <div class="h3 fw-800 mb-0">99.9%</div>
-                    <div class="text-muted x-small text-uppercase ls-wide">Uptime</div>
+<!-- Welcoming Hero Section -->
+<div class="row align-items-center py-5 mb-5 fade-in">
+    <div class="col-lg-7 mb-5 mb-lg-0">
+        <h1 class="display-3 fw-800 text-dark mb-4 ls-tight">
+            Find the right <br>
+            <span class="text-primary">Doctor for you.</span>
+        </h1>
+        <p class="lead text-secondary mb-5 fs-4 opacity-75">
+            Book appointments with top-rated specialists in your area. Fast, secure, and hassle-free healthcare at your fingertips.
+        </p>
+        
+        <!-- Booking Search Bar -->
+        <div class="card border-0 shadow-lg p-2 rounded-pill bg-white mb-5" style="max-width: 600px;">
+            <form action="{% url 'doctor_list' %}" method="get" class="d-flex align-items-center px-2">
+                <div class="flex-grow-1 px-3 d-flex align-items-center">
+                    <i class="fas fa-search text-muted me-3"></i>
+                    <input type="text" name="search" class="form-control border-0 bg-transparent shadow-none" placeholder="Search by name or specialty (e.g. Cardiology)...">
                 </div>
-                <div class="stat-mini">
-                    <div class="h3 fw-800 mb-0">12ms</div>
-                    <div class="text-muted x-small text-uppercase ls-wide">Latency</div>
-                </div>
-                <div class="stat-mini">
-                    <div class="h3 fw-800 mb-0">24/7</div>
-                    <div class="text-muted x-small text-uppercase ls-wide">Support</div>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold">
+                    Search
+                </button>
+            </form>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 text-muted small">
+            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> Verified Doctors</div>
+            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> Instant Confirmation</div>
+            <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-2"></i> 24/7 Access</div>
         </div>
     </div>
     
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="position-relative">
-            <!-- Main Hero Visual -->
-            <div class="hero-visual-card shadow-premium p-2 bg-white rounded-5 overflow-hidden">
-                <div class="position-relative rounded-5 overflow-hidden">
-                    <img src="/static/images/hero_dashboard.png" class="img-fluid w-100" alt="Dashboard View">
-                    <div class="position-absolute inset-0 bg-gradient-overlay"></div>
-                    
-                    <div class="position-absolute bottom-0 start-0 p-4 w-100">
-                        <div class="glass-morphism p-4 rounded-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="pulse-indicator bg-success"></div>
-                                    <span class="text-white fw-bold x-small ls-wide">SECURE CLINICAL NODE</span>
-                                </div>
-                                <i class="fas fa-shield-alt text-white-50"></i>
-                            </div>
-                            <div class="h4 text-white fw-bold mb-1">Operational Intelligence</div>
-                            <div class="text-white-50 small">System synchronizing with global clinical records...</div>
-                        </div>
+            <div class="rounded-5 overflow-hidden shadow-lg border-5 border-white">
+                <img src="/static/images/friendly_doctor.png" class="img-fluid w-100" alt="Consult our Doctors">
+            </div>
+            <!-- Trust Badge -->
+            <div class="position-absolute bottom-0 end-0 mb-n3 me-n3 bg-white p-3 rounded-4 shadow-sm border d-none d-md-block">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                        <i class="fas fa-certificate"></i>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Floating Decorative Elements -->
-            <div class="floating-card shadow-lg bg-white p-3 rounded-4 d-none d-xl-flex align-items-center gap-3" style="top: 10%; right: -5%;">
-                <div class="icon-box bg-success bg-opacity-10 text-success">
-                    <i class="fas fa-check"></i>
-                </div>
-                <div>
-                    <div class="fw-800 small">Verified API</div>
-                    <div class="x-small text-muted">Ready to serve</div>
-                </div>
-            </div>
-            
-            <div class="floating-card shadow-lg bg-white p-3 rounded-4 d-none d-xl-flex align-items-center gap-3" style="bottom: 20%; left: -5%;">
-                <div class="icon-box bg-primary bg-opacity-10 text-primary">
-                    <i class="fas fa-heartbeat"></i>
-                </div>
-                <div>
-                    <div class="fw-800 small">Pulse Monitoring</div>
-                    <div class="x-small text-muted">Real-time stats</div>
+                    <div>
+                        <div class="fw-800 small text-dark">ISO Certified</div>
+                        <div class="x-small text-muted">Quality Healthcare</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Features Architecture -->
-<div class="row py-5 fade-in">
+<!-- How it Works -->
+<div class="row py-5 mb-5 fade-in bg-white rounded-5 shadow-sm">
     <div class="col-12 text-center mb-5">
-        <h2 class="display-6 fw-800 mb-3">Modular Clinical Infrastructure</h2>
-        <p class="text-muted mx-auto" style="max-width: 500px;">Integrated modules designed for precision, security, and effortless clinical management.</p>
+        <h2 class="fw-800">Booking made easy</h2>
+        <p class="text-muted">Three simple steps to your next consultation.</p>
+    </div>
+    <div class="col-md-4 text-center px-4">
+        <div class="h1 text-primary opacity-25 fw-800 mb-3">01</div>
+        <h4 class="fw-700">Find a Doctor</h4>
+        <p class="text-muted small">Search through our network of verified specialists by specialty or name.</p>
+    </div>
+    <div class="col-md-4 text-center px-4">
+        <div class="h1 text-primary opacity-25 fw-800 mb-3">02</div>
+        <h4 class="fw-700">Select a Slot</h4>
+        <p class="text-muted small">Choose a time that works for you from the doctor's live availability calendar.</p>
+    </div>
+    <div class="col-md-4 text-center px-4">
+        <div class="h1 text-primary opacity-25 fw-800 mb-3">03</div>
+        <h4 class="fw-700">Book Instantly</h4>
+        <p class="text-muted small">Confirm your booking and receive instant details on your personal dashboard.</p>
+    </div>
+</div>
+
+<!-- Specializations -->
+<div class="row py-5 fade-in">
+    <div class="col-12 d-flex justify-content-between align-items-end mb-5">
+        <div>
+            <h2 class="fw-800 mb-2">Explore Specialties</h2>
+            <p class="text-muted mb-0">Quality care across all medical fields.</p>
+        </div>
+        <a href="{% url 'doctor_list' %}" class="btn btn-link text-primary fw-bold text-decoration-none">View All Doctors <i class="fas fa-arrow-right ms-2"></i></a>
     </div>
     
-    <div class="col-md-4 mb-4">
-        <div class="feature-card h-100 p-5 rounded-5 border-0 shadow-sm bg-white hover-up">
-            <div class="feature-icon bg-primary bg-opacity-10 text-primary mb-4">
-                <i class="fas fa-bolt"></i>
-            </div>
-            <h4 class="fw-700 mb-3">Instant Booking</h4>
-            <p class="text-muted small">Optimized scheduling engine with real-time slot conflict resolution and automated doctor notifications.</p>
-            <a href="{% url 'doctor_list' %}" class="text-primary text-decoration-none fw-bold small mt-3 d-inline-block">
-                View Schedules <i class="fas fa-arrow-right ms-1"></i>
-            </a>
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
+            <div class="h1 mb-3"><i class="fas fa-heartbeat text-danger"></i></div>
+            <h5 class="fw-700">Cardiology</h5>
+            <p class="x-small text-muted mb-0">Heart & vascular health.</p>
         </div>
     </div>
-    
-    <div class="col-md-4 mb-4">
-        <div class="feature-card h-100 p-5 rounded-5 border-0 shadow-sm bg-white hover-up">
-            <div class="feature-icon bg-success bg-opacity-10 text-success mb-4">
-                <i class="fas fa-microchip"></i>
-            </div>
-            <h4 class="fw-700 mb-3">Smart Inventory</h4>
-            <p class="text-muted small">Automated medicine stock tracking with low-supply alerts and synchronized clinical prescription data.</p>
-            <a href="#" class="text-success text-decoration-none fw-bold small mt-3 d-inline-block">
-                Inventory Logic <i class="fas fa-arrow-right ms-1"></i>
-            </a>
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
+            <div class="h1 mb-3"><i class="fas fa-brain text-info"></i></div>
+            <h5 class="fw-700">Neurology</h5>
+            <p class="x-small text-muted mb-0">Brain & nervous system.</p>
         </div>
     </div>
-    
-    <div class="col-md-4 mb-4">
-        <div class="feature-card h-100 p-5 rounded-5 border-0 shadow-sm bg-white hover-up">
-            <div class="feature-icon bg-info bg-opacity-10 text-info mb-4">
-                <i class="fas fa-fingerprint"></i>
-            </div>
-            <h4 class="fw-700 mb-3">Biometric Security</h4>
-            <p class="text-muted small">End-to-end encrypted medical records with multi-layered role-based access for absolute patient privacy.</p>
-            <a href="#" class="text-info text-decoration-none fw-bold small mt-3 d-inline-block">
-                Security Protocols <i class="fas fa-arrow-right ms-1"></i>
-            </a>
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
+            <div class="h1 mb-3"><i class="fas fa-bone text-warning"></i></div>
+            <h5 class="fw-700">Orthopedics</h5>
+            <p class="x-small text-muted mb-0">Joints & bone health.</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 p-4 border-0 shadow-sm hover-up text-center">
+            <div class="h1 mb-3"><i class="fas fa-baby text-success"></i></div>
+            <h5 class="fw-700">Pediatrics</h5>
+            <p class="x-small text-muted mb-0">Child & adolescent care.</p>
         </div>
     </div>
 </div>
 
-<!-- Mission Context -->
-<div class="row py-5 my-5 fade-in">
+<!-- Simple CTA -->
+<div class="row py-5 mt-5">
     <div class="col-12">
-        <div class="mission-card rounded-5 overflow-hidden shadow-premium">
-            <div class="row g-0">
-                <div class="col-lg-6">
-                    <div class="h-100 position-relative">
-                        <img src="/static/images/consultation.png" class="w-100 h-100 object-fit-cover" alt="Consultation">
-                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-10"></div>
-                    </div>
-                </div>
-                <div class="col-lg-6 p-5 p-md-5 bg-white d-flex flex-column justify-content-center">
-                    <div class="p-lg-4">
-                        <div class="badge bg-soft-success text-success mb-4 px-3 py-2 rounded-pill">OUR PHILOSOPHY</div>
-                        <h2 class="display-5 fw-800 text-dark mb-4 ls-tight">Human-Centric <br>Engineering</h2>
-                        <p class="lead text-muted mb-5">
-                            We don't just build software; we build bridges between medical expertise and patient recovery. Our system is designed to fade into the background, letting doctors be doctors and patients heal.
-                        </p>
-                        <div class="row g-4">
-                            <div class="col-6">
-                                <div class="h2 fw-800 text-primary mb-0">500+</div>
-                                <div class="text-muted small text-uppercase fw-bold ls-wide">Consultations</div>
-                            </div>
-                            <div class="col-6">
-                                <div class="h2 fw-800 text-primary mb-0">98%</div>
-                                <div class="text-muted small text-uppercase fw-bold ls-wide">Efficiency Rate</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CTA Banner -->
-<div class="row py-5 mb-5 fade-in">
-    <div class="col-12 text-center">
-        <div class="card border-0 rounded-5 bg-dark text-white p-5 position-relative overflow-hidden shadow-premium">
-            <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-cta opacity-50"></div>
-            <img src="/static/images/doctors_group.png" class="position-absolute inset-0 w-100 h-100 object-fit-cover opacity-25" alt="Experts">
-            
-            <div class="position-relative py-5">
-                <h2 class="display-4 fw-800 mb-4">Start Your Clinical Journey</h2>
-                <p class="lead opacity-75 mb-5 mx-auto" style="max-width: 600px;">Access a world-class network of medical professionals with just a few clicks. Secure, fast, and reliable.</p>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-xl px-5 rounded-pill shadow-lg">Book Now</a>
-                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-xl px-5 rounded-pill">Create Account</a>
-                </div>
+        <div class="card border-0 rounded-5 bg-primary text-white p-5 text-center shadow-lg">
+            <h2 class="display-5 fw-800 mb-4">Ready to start?</h2>
+            <p class="lead mb-5 opacity-75">Join thousands of patients who trust HealthCare Pro for their clinical needs.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'register' %}" class="btn btn-white btn-lg px-5 rounded-pill fw-bold text-primary">Get Started</a>
+                <a href="{% url 'doctor_list' %}" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">Browse Doctors</a>
             </div>
         </div>
     </div>
@@ -196,65 +133,13 @@
     .fw-800 { font-weight: 800; }
     .fw-700 { font-weight: 700; }
     .ls-tight { letter-spacing: -2px; }
-    .min-vh-75 { min-height: 75vh; }
-    .text-gradient {
-        background: linear-gradient(135deg, var(--primary-color), #00d2ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    .btn-xl { padding: 1.25rem 2.5rem; font-size: 1.1rem; font-weight: 700; }
-    .shadow-premium { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
-    .h-px { height: 2px; }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .bg-gradient-overlay {
-        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-    }
-    .bg-gradient-cta {
-        background: linear-gradient(45deg, var(--primary-color), #00d2ff);
-    }
-    .floating-card {
-        position: absolute;
-        z-index: 10;
-        min-width: 180px;
-        animation: floating 3s ease-in-out infinite;
-    }
-    @keyframes floating {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-    .icon-box {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-    }
-    .feature-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 18px;
-        font-size: 1.5rem;
-    }
+    .btn-white { background: white; color: var(--primary-color); border: none; }
+    .btn-white:hover { background: #f8fafc; transform: scale(1.02); }
     .hover-up:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+        border: 1px solid var(--primary-color) !important;
     }
-    .bg-soft-success { background: rgba(16, 185, 129, 0.1); }
-    .pulse-indicator {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
-        animation: pulse-indicator 2s infinite;
-    }
-    @keyframes pulse-indicator {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-    }
+    .min-vh-75 { min-height: 75vh; }
 </style>
 {% endblock %}
