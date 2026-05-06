@@ -1,19 +1,86 @@
 {% extends 'base.html' %}
-
+{% block title %}Nursing Dashboard | HealthCare Pro{% endblock %}
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
-            <div class="card shadow-sm p-5 border-0 rounded-4 bg-white">
-                <div class="mb-4">
-                    <i class="fas fa-user-nurse fa-4x text-primary opacity-50"></i>
+<div class="row g-4 mb-5 fade-in">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm bg-info text-white overflow-hidden" style="border-radius: var(--radius-lg);">
+            <div class="card-body p-5 position-relative">
+                <div class="position-relative z-index-1">
+                    <h1 class="display-6 fw-bold mb-2">Welcome, {{ user.first_name|default:user.username }}</h1>
+                    <p class="lead opacity-75 mb-0">You are currently overseeing the medical inventory and supply logistics.</p>
                 </div>
-                <h2 class="fw-bold mb-3">Nurse Dashboard</h2>
-                <p class="text-muted lead">Welcome, {{ user.username }}. Your specialized nurse dashboard is currently under construction.</p>
-                <div class="mt-4">
-                    <a href="{% url 'home' %}" class="btn btn-outline-primary px-4 rounded-pill">Back to Home</a>
+                <div class="position-absolute end-0 top-0 p-4 opacity-10">
+                    <i class="fas fa-user-nurse fa-10x"></i>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5 fade-in">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--info-color);">
+            <div class="stat-icon bg-info bg-opacity-10 text-info mb-3">
+                <i class="fas fa-pills"></i>
+            </div>
+            <div class="stat-value">{{ total_medicines }}</div>
+            <div class="text-muted small fw-bold text-uppercase">Total Medicine Types</div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--warning-color);">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-3">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="stat-value">{{ low_stock.count }}</div>
+            <div class="text-muted small fw-bold text-uppercase">Low Stock Alerts</div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-lg mb-5 fade-in">
+    <div class="card-header border-0 bg-white pt-4 px-4 pb-0">
+        <h4 class="fw-bold text-dark">Critical Stock Monitoring</h4>
+        <p class="text-muted small">Medicines with less than 10 units remaining.</p>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Medicine Name</th>
+                        <th>Current Stock</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">System Alerts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in low_stock %}
+                    <tr>
+                        <td class="ps-4 py-4 fw-bold text-dark">{{ med.name }}</td>
+                        <td>{{ med.stock }} Units</td>
+                        <td>
+                            {% if med.stock == 0 %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger">Out of Stock</span>
+                            {% else %}
+                                <span class="badge bg-warning bg-opacity-10 text-warning">Critical</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <span class="text-danger small fw-bold"><i class="fas fa-bell me-1"></i> Restock Required</span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="fas fa-check-circle fa-3x text-success opacity-25 mb-3"></i>
+                            <h5 class="fw-bold">All Supplies Sufficient</h5>
+                            <p class="small">No low stock alerts at this time.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

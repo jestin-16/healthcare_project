@@ -106,7 +106,13 @@ def dashboard(request):
         appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('-date')
         return render(request, 'appointments/doctor_dashboard.html', {'appointments': appointments})
     elif role == 'nurse':
-        return render(request, 'appointments/nurse_dashboard.html')
+        low_stock_medicines = Medicine.objects.filter(stock__lte=10)
+        total_medicines = Medicine.objects.count()
+        return render(request, 'appointments/nurse_dashboard.html', {
+            'low_stock': low_stock_medicines,
+            'total_medicines': total_medicines
+        })
+
     return redirect('home')
 
 @login_required
@@ -158,6 +164,16 @@ def edit_medicine(request, medicine_id):
         form = MedicineForm(instance=medicine)
     return render(request, 'appointments/add_medicine.html', {'form': form, 'edit_mode': True})
 
+@login_required
+def delete_medicine(request, medicine_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    medicine = get_object_or_404(Medicine, id=medicine_id)
+    name = medicine.name
+    medicine.delete()
+    messages.success(request, f"{name} removed from inventory.")
+    return redirect('medicine_list')
+
 
 @login_required
 @role_required(allowed_roles=['doctor'])
@@ -168,8 +184,24 @@ def prescribe_medicine(request, appointment_id):
         form = PrescriptionForm(request.POST, instance=prescription)
         formset = PrescriptionFormSet(request.POST, instance=prescription)
         if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
+            prescription = form.save()
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.prescription = prescription
+                instance.save()
+                
+                # Reduce stock
+                med = instance.medicine
+                if med.stock >= 1:
+                    med.stock -= 1
+                    med.save()
+                else:
+                    messages.warning(request, f"Warning: {med.name} is out of stock!")
+            
+            # Save deletions if any
+            for obj in formset.deleted_objects:
+                obj.delete()
+                
             messages.success(request, "Prescription saved successfully!")
             return redirect('dashboard')
     else:
