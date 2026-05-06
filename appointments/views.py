@@ -96,14 +96,14 @@ def dashboard(request):
         return redirect('admin_dashboard')
     role = request.user.profile.role
     if role == 'patient':
-        appointments = Appointment.objects.filter(patient=request.user).order_by('-date')
+        appointments = Appointment.objects.filter(patient=request.user).select_related('doctor__user', 'prescription').order_by('-date')
         return render(request, 'appointments/patient_dashboard.html', {'appointments': appointments})
     elif role == 'doctor':
         doctor_profile = getattr(request.user, 'doctor_profile', None)
         if not doctor_profile:
              messages.error(request, "Doctor profile not found.")
              return redirect('home')
-        appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('-date')
+        appointments = Appointment.objects.filter(doctor=doctor_profile).select_related('patient', 'prescription').order_by('-date')
         return render(request, 'appointments/doctor_dashboard.html', {'appointments': appointments})
     elif role == 'nurse':
         low_stock_medicines = Medicine.objects.filter(stock__lte=10)
@@ -124,7 +124,7 @@ def admin_dashboard(request):
         'nurses_count': Nurse.objects.count(),
         'patients_count': Profile.objects.filter(role='patient').count(),
         'total_appointments': Appointment.objects.count(),
-        'recent_appointments': Appointment.objects.order_by('-created_at')[:5],
+        'recent_appointments': Appointment.objects.select_related('patient', 'doctor__user').order_by('-created_at')[:5],
     }
     return render(request, 'appointments/admin_dashboard.html', context)
 
@@ -236,11 +236,16 @@ def manage_appointment(request, appointment_id, action):
     appointment = get_object_or_404(Appointment, id=appointment_id, doctor=request.user.doctor_profile)
     if action == 'approve':
         appointment.status = 'approved'
-        messages.success(request, "Appointment approved.")
+        msg = "Appointment approved."
     elif action == 'reject':
         appointment.status = 'rejected'
-        messages.success(request, "Appointment rejected.")
+        msg = "Appointment rejected."
     appointment.save()
+    
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'success', 'message': msg, 'new_status': appointment.status})
+        
+    messages.success(request, msg)
     return redirect('dashboard')
 
 @login_required

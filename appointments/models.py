@@ -17,7 +17,7 @@ class Profile(models.Model):
         ('nurse', 'Nurse'),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient', db_index=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
@@ -48,10 +48,10 @@ class Appointment(models.Model):
     )
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='doctor_appointments')
-    date = models.DateField(validators=[validate_future_date])
+    date = models.DateField(validators=[validate_future_date], db_index=True)
     time = models.TimeField()
     reason = models.TextField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

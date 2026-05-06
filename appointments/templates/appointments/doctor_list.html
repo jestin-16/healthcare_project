@@ -93,3 +93,26 @@
     {% endfor %}
 </div>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+const searchInput = document.querySelector('input[name="q"]');
+const specSelect = document.querySelector('select[name="specialization"]');
+const searchForm = searchInput.closest('form');
+
+let debounceTimer;
+
+const performSearch = () => {
+    // We can't do full AJAX here without a separate view, 
+    // but we can at least auto-submit the form for a smoother experience.
+    searchForm.submit();
+};
+
+searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(performSearch, 800);
+});
+
+specSelect.addEventListener('change', performSearch);
+</script>
+{% endblock %}
