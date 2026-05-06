@@ -31,8 +31,21 @@ class NurseProfileForm(forms.ModelForm):
 class StaffRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    SPECIALIZATION_CHOICES = [
+        ('General Physician', 'General Physician'),
+        ('Cardiologist', 'Cardiologist'),
+        ('Dermatologist', 'Dermatologist'),
+        ('Neurologist', 'Neurologist'),
+        ('Pediatrician', 'Pediatrician'),
+        ('Psychiatrist', 'Psychiatrist'),
+        ('Surgeon', 'Surgeon'),
+        ('Gynecologist', 'Gynecologist'),
+        ('Orthopedic', 'Orthopedic'),
+        ('Ophthalmologist', 'Ophthalmologist'),
+    ]
     role = forms.ChoiceField(choices=(('doctor', 'Doctor'), ('nurse', 'Nurse')), widget=forms.Select(attrs={'class': 'form-control'}))
-    specialization = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Cardiologist (only for Doctors)'}))
+    specialization = forms.ChoiceField(choices=SPECIALIZATION_CHOICES, required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+
 
     class Meta:
         model = User
