@@ -1,9 +1,16 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription, PrescribedMedicine
+import re
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}))
+    password = forms.CharField(
+        min_length=8,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}),
+        help_text="Minimum 8 characters."
+    )
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}))
 
     class Meta:
@@ -16,11 +23,17 @@ class UserRegistrationForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'example@email.com'}),
         }
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with this email already exists.")
+        return email
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
-        if password != confirm_password:
+        if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Passwords do not match")
         return cleaned_data
 
@@ -35,7 +48,7 @@ class NurseProfileForm(forms.ModelForm):
         fields = ['department', 'shift']
 
 class StaffRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     SPECIALIZATION_CHOICES = [
         ('General Physician', 'General Physician'),
@@ -52,7 +65,6 @@ class StaffRegistrationForm(forms.ModelForm):
     role = forms.ChoiceField(choices=(('doctor', 'Doctor'), ('nurse', 'Nurse')), widget=forms.Select(attrs={'class': 'form-control'}))
     specialization = forms.ChoiceField(choices=SPECIALIZATION_CHOICES, required=False, widget=forms.Select(attrs={'class': 'form-control'}))
 
-
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
@@ -63,11 +75,17 @@ class StaffRegistrationForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already registered.")
+        return email
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
-        if password != confirm_password:
+        if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Passwords do not match")
         return cleaned_data
 
@@ -80,6 +98,12 @@ class MedicineForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+    def clean_stock(self):
+        stock = self.cleaned_data.get('stock')
+        if stock < 0:
+            raise forms.ValidationError("Stock level cannot be negative.")
+        return stock
 
 class PrescriptionForm(forms.ModelForm):
     class Meta:
@@ -105,7 +129,7 @@ PrescriptionFormSet = inlineformset_factory(
 )
 
 class AdminRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}))
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}))
 
     class Meta:
@@ -118,11 +142,17 @@ class AdminRegistrationForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'admin@healthcare.pro'}),
         }
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already registered.")
+        return email
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
-        if password != confirm_password:
+        if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Passwords do not match")
         return cleaned_data
 
@@ -155,6 +185,13 @@ class AppointmentForm(forms.ModelForm):
             'doctor': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        from datetime import date as dt_date
+        if date < dt_date.today():
+            raise forms.ValidationError("Appointment cannot be booked for a past date.")
+        return date
+
     def clean(self):
         cleaned_data = super().clean()
         doctor = cleaned_data.get('doctor')
@@ -176,6 +213,12 @@ class UserUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("This email is already in use by another account.")
+        return email
+
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -183,5 +226,13 @@ class ProfileUpdateForm(forms.ModelForm):
         widgets = {
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+1234567890'}),
         }
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if phone:
+            # Simple numeric and plus check
+            if not re.match(r'^\+?1?\d{9,15}$', phone):
+                raise forms.ValidationError("Please enter a valid phone number (e.g. +1234567890).")
+        return phone
 
 

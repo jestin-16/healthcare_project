@@ -35,37 +35,45 @@
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Role</label>
                                 {{ form.role }}
+                                {% if form.role.errors %}<div class="text-danger x-small mt-1">{{ form.role.errors.0 }}</div>{% endif %}
                             </div>
                             <div class="col-md-6" id="spec_field" style="display: none;">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Medical Specialization</label>
                                 {{ form.specialization }}
+                                {% if form.specialization.errors %}<div class="text-danger x-small mt-1">{{ form.specialization.errors.0 }}</div>{% endif %}
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">System Username</label>
                                 {{ form.username }}
+                                {% if form.username.errors %}<div class="text-danger x-small mt-1">{{ form.username.errors.0 }}</div>{% endif %}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Professional Email</label>
                                 {{ form.email }}
+                                {% if form.email.errors %}<div class="text-danger x-small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">First Name</label>
                                 {{ form.first_name }}
+                                {% if form.first_name.errors %}<div class="text-danger x-small mt-1">{{ form.first_name.errors.0 }}</div>{% endif %}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Last Name</label>
                                 {{ form.last_name }}
+                                {% if form.last_name.errors %}<div class="text-danger x-small mt-1">{{ form.last_name.errors.0 }}</div>{% endif %}
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Security Password</label>
                                 {{ form.password }}
+                                {% if form.password.errors %}<div class="text-danger x-small mt-1">{{ form.password.errors.0 }}</div>{% endif %}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Confirm Password</label>
                                 {{ form.confirm_password }}
+                                {% if form.confirm_password.errors %}<div class="text-danger x-small mt-1">{{ form.confirm_password.errors.0 }}</div>{% endif %}
                             </div>
                         </div>
 

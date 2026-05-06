@@ -27,10 +27,12 @@
                         <div class="col-md-6">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">First Name</label>
                             {{ u_form.first_name }}
+                            {% if u_form.first_name.errors %}<div class="text-danger x-small mt-1">{{ u_form.first_name.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-md-6">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Last Name</label>
                             {{ u_form.last_name }}
+                            {% if u_form.last_name.errors %}<div class="text-danger x-small mt-1">{{ u_form.last_name.errors.0 }}</div>{% endif %}
                         </div>
 
                         <div class="col-12 mt-4">
@@ -43,10 +45,12 @@
                         <div class="col-md-6">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Email Address</label>
                             {{ u_form.email }}
+                            {% if u_form.email.errors %}<div class="text-danger x-small mt-1">{{ u_form.email.errors.0 }}</div>{% endif %}
                         </div>
                         <div class="col-md-6">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Phone Number</label>
                             {{ p_form.phone }}
+                            {% if p_form.phone.errors %}<div class="text-danger x-small mt-1">{{ p_form.phone.errors.0 }}</div>{% endif %}
                         </div>
                     </div>
 
