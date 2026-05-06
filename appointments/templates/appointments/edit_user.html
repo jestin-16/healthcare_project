@@ -50,8 +50,20 @@
 
                         <div class="col-md-6 role-extra" id="doctor-extra" style="display: none;">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide">Specialization</label>
-                            <input type="text" name="specialization" value="{{ user_to_edit.doctor_profile.specialization }}" class="form-control" placeholder="e.g. Cardiology">
+                            <select name="specialization" class="form-select">
+                                <option value="General Physician" {% if user_to_edit.doctor_profile.specialization == "General Physician" %}selected{% endif %}>General Physician</option>
+                                <option value="Cardiologist" {% if user_to_edit.doctor_profile.specialization == "Cardiologist" %}selected{% endif %}>Cardiologist</option>
+                                <option value="Dermatologist" {% if user_to_edit.doctor_profile.specialization == "Dermatologist" %}selected{% endif %}>Dermatologist</option>
+                                <option value="Neurologist" {% if user_to_edit.doctor_profile.specialization == "Neurologist" %}selected{% endif %}>Neurologist</option>
+                                <option value="Pediatrician" {% if user_to_edit.doctor_profile.specialization == "Pediatrician" %}selected{% endif %}>Pediatrician</option>
+                                <option value="Psychiatrist" {% if user_to_edit.doctor_profile.specialization == "Psychiatrist" %}selected{% endif %}>Psychiatrist</option>
+                                <option value="Surgeon" {% if user_to_edit.doctor_profile.specialization == "Surgeon" %}selected{% endif %}>Surgeon</option>
+                                <option value="Gynecologist" {% if user_to_edit.doctor_profile.specialization == "Gynecologist" %}selected{% endif %}>Gynecologist</option>
+                                <option value="Orthopedic" {% if user_to_edit.doctor_profile.specialization == "Orthopedic" %}selected{% endif %}>Orthopedic</option>
+                                <option value="Ophthalmologist" {% if user_to_edit.doctor_profile.specialization == "Ophthalmologist" %}selected{% endif %}>Ophthalmologist</option>
+                            </select>
                         </div>
+
 
                         <div class="col-md-6 role-extra" id="nurse-extra" style="display: none;">
                             <label class="form-label x-small fw-bold text-uppercase ls-wide">Department</label>
