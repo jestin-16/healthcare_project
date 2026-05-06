@@ -381,3 +381,6 @@ def delete_user(request, user_id):
         messages.success(request, f"User {username} has been deleted.")
     return redirect('user_management')
 
+def ping(request):
+    return JsonResponse({'status': 'alive'})
+

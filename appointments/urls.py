@@ -27,6 +27,7 @@ urlpatterns = [
     path('patient-history/<int:patient_id>/', views.patient_history, name='patient_history'),
     path('profile-settings/', views.profile_settings, name='profile_settings'),
     path('ajax/get-booked-slots/', views.get_booked_slots, name='get_booked_slots'),
+    path('ping/', views.ping, name='ping'),
 ]
 
 
