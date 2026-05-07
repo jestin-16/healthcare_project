@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- Premium Preloader -->
+<div id="preloader" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex align-items-center justify-content-center" style="z-index: 9999;">
+    <div class="text-center">
+        <h2 class="display-4 fw-bold text-primary mb-0 preloader-logo" style="font-family: var(--font-heading); letter-spacing: -2px; opacity: 0; transform: translateY(20px);">
+            <i class="fas fa-hand-holding-medical me-2"></i>ProHealth
+        </h2>
+        <div class="preloader-bar mt-3 mx-auto bg-primary" style="width: 0; height: 2px; transition: width 0.5s ease;"></div>
+    </div>
+</div>
+
 <!-- ProHealth Inspired Hero -->
-<div class="row align-items-center py-5 fade-in">
+<div class="row align-items-center py-5">
     <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
         <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
             PROHEALTH
         </div>
-        <h1 class="display-3 fw-bold text-dark mb-4 ls-tight" style="font-family: var(--font-heading);">
-            Compassionate care, <br>
-            <span class="text-primary fw-normal italic">exceptional results.</span>
+        <h1 class="display-3 fw-bold text-dark mb-4 ls-tight hero-reveal-text" style="font-family: var(--font-heading); line-height: 1.1;">
+            <div class="reveal-line"><span>Compassionate care,</span></div>
+            <div class="reveal-line"><span class="text-primary fw-normal italic">exceptional results.</span></div>
         </h1>
-        <p class="text-muted lead mb-5 opacity-75">
+        <p class="text-muted lead mb-5 opacity-75 hero-reveal-subtext">
             Our team of experienced doctors and healthcare professionals are committed to providing quality care and personalized attention to our patients.
         </p>
         <div class="d-flex align-items-center gap-4 mb-5">
@@ -24,7 +34,7 @@
         </div>
     </div>
     <div class="col-lg-6 position-relative">
-        <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white">
+        <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white hero-image-reveal">
             <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
         </div>
         <!-- Floating Stat Badge -->
@@ -169,5 +179,87 @@
         color: white !important;
     }
     .avatar-group i { color: #ccc; }
+
+    /* Advanced Typography Reveal Styles */
+    .reveal-line {
+        overflow: hidden;
+        margin-bottom: 5px;
+    }
+    .reveal-line span {
+        display: block;
+        transform: translateY(100%);
+    }
+    .hero-reveal-subtext {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .hero-image-reveal {
+        clip-path: inset(0 0 100% 0);
+        transform: scale(1.1);
+    }
 </style>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+        // 1. Preloader Animation
+        tl.to(".preloader-logo", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+        });
+
+        tl.to(".preloader-bar", {
+            width: "100px",
+            duration: 0.8,
+        }, "-=0.5");
+
+        tl.to("#preloader", {
+            y: "-100%",
+            duration: 1.2,
+            ease: "expo.inOut"
+        }, "+=0.3");
+
+        // 2. Hero Text Line Reveal
+        tl.to(".reveal-line span", {
+            y: "0%",
+            duration: 1.2,
+            stagger: 0.15
+        }, "-=0.4");
+
+        // 3. Subtext and CTA Reveal
+        tl.to(".hero-reveal-subtext", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+        }, "-=0.8");
+
+        tl.from(".btn, .d-flex.align-items-center.gap-2", {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            stagger: 0.1
+        }, "-=0.8");
+
+        // 4. Image Reveal
+        tl.to(".hero-image-reveal", {
+            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1,
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, "-=1.2");
+
+        // 5. Stats Card Reveal
+        tl.from(".glass-stats-card", {
+            scale: 0.9,
+            opacity: 0,
+            y: 40,
+            duration: 1,
+            ease: "back.out(1.7)"
+        }, "-=0.5");
+    });
+</script>
+{% endblock %}
 {% endblock %}
