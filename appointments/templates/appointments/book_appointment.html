@@ -41,6 +41,18 @@
                                 <span class="badge bg-light text-dark border px-3 py-2" id="slot-count">Available Slots</span>
                             </div>
                             
+                            {% if form.time.errors %}
+                                <div class="alert alert-danger py-2 small mb-3">
+                                    {{ form.time.errors.0 }}
+                                </div>
+                            {% endif %}
+
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger py-2 small mb-3">
+                                    {{ form.non_field_errors.0 }}
+                                </div>
+                            {% endif %}
+                            
                             <div id="time-slots-container" class="row g-2">
                                 <!-- Time slots will be generated here -->
                                 <div class="col-12 text-center py-4 bg-light rounded-3 text-muted">
@@ -140,7 +152,7 @@
                         btn.onclick = () => {
                             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            timeInput.value = time + ":00"; // Django expects HH:MM:SS or similar
+                            timeInput.value = time; // Match ChoiceField keys (HH:MM)
                             submitBtn.disabled = false;
                         };
                     }
