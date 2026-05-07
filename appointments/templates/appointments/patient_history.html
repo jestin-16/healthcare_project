@@ -103,6 +103,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block modals %}
 {% for appt in appointments %}
     {% if appt.prescription %}
         {% include 'appointments/_prescription_modal.html' %}
