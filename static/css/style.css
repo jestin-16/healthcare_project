@@ -313,4 +313,19 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(13, 110, 253, 0.02);
 }
 
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: .8;
+        transform: scale(1.05);
+    }
+}
+
 .italic { font-style: italic; }

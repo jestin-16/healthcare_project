@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate, logout
+import uuid
 
 from django.contrib.auth.models import User
 
@@ -228,6 +229,8 @@ def book_appointment(request):
         if form.is_valid():
             appointment = form.save(commit=False)
             appointment.patient = request.user
+            if appointment.appointment_type == 'virtual':
+                appointment.meeting_room_id = f"ProHealth-{uuid.uuid4().hex[:10]}"
             appointment.save()
             messages.success(request, "Appointment booked successfully! Waiting for approval.")
             return redirect('dashboard')
@@ -394,3 +397,26 @@ def logout_view(request):
 def ping(request):
     return JsonResponse({'status': 'alive'})
 
+@login_required
+def video_call(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    # Check if user is part of this appointment
+    is_doctor = hasattr(request.user, 'doctor_profile') and appointment.doctor == request.user.doctor_profile
+    is_patient = appointment.patient == request.user
+    
+    if not (is_doctor or is_patient or request.user.is_superuser):
+        raise PermissionDenied
+    
+    if appointment.status != 'approved':
+        messages.error(request, "Video call is only available for approved appointments.")
+        return redirect('dashboard')
+        
+    if not appointment.meeting_room_id:
+        appointment.meeting_room_id = f"ProHealth-{uuid.uuid4().hex[:10]}"
+        appointment.save()
+
+    return render(request, 'appointments/video_call.html', {
+        'appointment': appointment,
+        'room_name': appointment.meeting_room_id,
+        'user_name': request.user.get_full_name() or request.user.username
+    })

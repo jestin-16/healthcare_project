@@ -28,6 +28,7 @@ urlpatterns = [
     path('profile-settings/', views.profile_settings, name='profile_settings'),
     path('ajax/get-booked-slots/', views.get_booked_slots, name='get_booked_slots'),
     path('ping/', views.ping, name='ping'),
+    path('video-call/<int:appointment_id>/', views.video_call, name='video_call'),
 ]
 
 

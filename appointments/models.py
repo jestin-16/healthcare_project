@@ -46,12 +46,18 @@ class Appointment(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     )
+    APPOINTMENT_TYPE_CHOICES = (
+        ('in_person', 'In-Person'),
+        ('virtual', 'Virtual'),
+    )
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='doctor_appointments')
     date = models.DateField(validators=[validate_future_date], db_index=True)
     time = models.TimeField()
     reason = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', db_index=True)
+    appointment_type = models.CharField(max_length=20, choices=APPOINTMENT_TYPE_CHOICES, default='in_person')
+    meeting_room_id = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

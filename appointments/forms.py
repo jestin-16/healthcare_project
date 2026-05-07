@@ -178,9 +178,10 @@ class AppointmentForm(forms.ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ['doctor', 'date', 'time', 'reason']
+        fields = ['doctor', 'date', 'time', 'appointment_type', 'reason']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'appointment_type': forms.Select(attrs={'class': 'form-control'}),
             'reason': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'doctor': forms.Select(attrs={'class': 'form-control'}),
         }
