@@ -20,6 +20,17 @@
                         <div class="text-primary fw-bold text-uppercase ls-wide small mb-2">ProHealth Access</div>
                         <h2 class="fw-bold text-dark">Sign In</h2>
                     </div>
+
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4 small">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            {% if form.non_field_errors %}
+                                {{ form.non_field_errors.0 }}
+                            {% else %}
+                                Invalid username or password. Please try again.
+                            {% endif %}
+                        </div>
+                    {% endif %}
                     
                     <form method="post" class="px-lg-4">
                         {% csrf_token %}
