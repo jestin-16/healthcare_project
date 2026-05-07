@@ -22,7 +22,7 @@
                         <h5 class="fw-bold mb-3"><i class="fas fa-pills me-2 text-primary"></i>Medication Schedule</h5>
                         {{ formset.management_form }}
                         <div class="table-responsive">
-                            <table class="table table-borderless align-middle">
+                            <table class="table table-borderless align-middle" id="medicine-table">
                                 <thead>
                                     <tr class="text-muted small text-uppercase ls-wide">
                                         <th style="width: 40%;">Medicine</th>
@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                     {% for form in formset %}
-                                        <tr class="border-bottom">
+                                        <tr class="medicine-row border-bottom">
                                             <td>
                                                 {{ form.id }}
                                                 {{ form.medicine }}
@@ -49,12 +49,42 @@
                                             </td>
                                             <td class="text-center">
                                                 {% if formset.can_delete %}
-                                                    {{ form.DELETE }}
+                                                    <div class="form-check d-flex justify-content-center">
+                                                        {{ form.DELETE }}
+                                                    </div>
                                                 {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" id="add-medicine" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                                <i class="fas fa-plus me-2"></i>Add Another Medication
+                            </button>
+                        </div>
+
+                        <!-- Empty form template for JavaScript -->
+                        <div id="empty-form" class="d-none">
+                            <table>
+                                <tr class="medicine-row border-bottom">
+                                    <td>
+                                        {{ formset.empty_form.id }}
+                                        {{ formset.empty_form.medicine }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.dosage }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.duration }}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-check d-flex justify-content-center">
+                                            {{ formset.empty_form.DELETE }}
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
