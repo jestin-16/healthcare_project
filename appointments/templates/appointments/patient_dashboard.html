@@ -92,8 +92,6 @@
                                 <button type="button" class="btn btn-sm btn-outline-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
                                     <i class="fas fa-file-medical me-2"></i>View Script
                                 </button>
-                                
-                                {% include 'appointments/_prescription_modal.html' %}
                             {% else %}
                                 <span class="text-muted x-small fw-bold text-uppercase">No Action Available</span>
                             {% endif %}
@@ -116,4 +114,9 @@
         </div>
     </div>
 </div>
+{% for appt in appointments %}
+    {% if appt.prescription %}
+        {% include 'appointments/_prescription_modal.html' %}
+    {% endif %}
+{% endfor %}
 {% endblock %}

@@ -80,7 +80,6 @@
                                             {% endfor %}
                                         </div>
                                     </button>
-                                    {% include 'appointments/_prescription_modal.html' %}
                                 </div>
                             {% else %}
                                 <span class="text-muted small italic">None</span>
@@ -104,4 +103,9 @@
         </div>
     </div>
 </div>
+{% for appt in appointments %}
+    {% if appt.prescription %}
+        {% include 'appointments/_prescription_modal.html' %}
+    {% endif %}
+{% endfor %}
 {% endblock %}
