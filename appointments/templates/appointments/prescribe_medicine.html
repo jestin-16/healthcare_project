@@ -113,3 +113,28 @@
     .x-small { font-size: 0.7rem; }
 </style>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addBtn = document.getElementById('add-medicine');
+        const totalForms = document.getElementById('id_prescribedmedicine_set-TOTAL_FORMS');
+        const medicineTable = document.querySelector('#medicine-table tbody');
+        const emptyFormTemplate = document.querySelector('#empty-form tr');
+
+        addBtn.addEventListener('click', function() {
+            const formCount = parseInt(totalForms.value);
+            const newForm = emptyFormTemplate.cloneNode(true);
+            
+            // Replace __prefix__ with the current form count
+            const formRegex = new RegExp('__prefix__', 'g');
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, formCount);
+            
+            medicineTable.appendChild(newForm);
+            
+            // Update total forms count
+            totalForms.value = formCount + 1;
+        });
+    });
+</script>
+{% endblock %}
