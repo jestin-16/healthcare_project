@@ -230,7 +230,7 @@ def book_appointment(request):
             appointment = form.save(commit=False)
             appointment.patient = request.user
             if appointment.appointment_type == 'virtual':
-                appointment.meeting_room_id = f"ProHealth-{uuid.uuid4().hex[:10]}"
+                appointment.meeting_room_id = f"ProHealth_{uuid.uuid4().hex[:12]}"
             appointment.save()
             messages.success(request, "Appointment booked successfully! Waiting for approval.")
             return redirect('dashboard')
@@ -412,7 +412,7 @@ def video_call(request, appointment_id):
         return redirect('dashboard')
         
     if not appointment.meeting_room_id:
-        appointment.meeting_room_id = f"ProHealth-{uuid.uuid4().hex[:10]}"
+        appointment.meeting_room_id = f"ProHealth_{uuid.uuid4().hex[:12]}"
         appointment.save()
 
     return render(request, 'appointments/video_call.html', {
