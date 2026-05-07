@@ -88,13 +88,23 @@
                             {% endif %}
                         </td>
                         <td class="text-end pe-4">
-                            {% if appt.prescription %}
-                                <button type="button" class="btn btn-sm btn-outline-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
-                                    <i class="fas fa-file-medical me-2"></i>View Script
-                                </button>
-                            {% else %}
-                                <span class="text-muted x-small fw-bold text-uppercase">No Action Available</span>
-                            {% endif %}
+                            <div class="d-flex justify-content-end gap-2">
+                                {% if appt.prescription %}
+                                    <button type="button" class="btn btn-sm btn-outline-primary px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
+                                        <i class="fas fa-file-medical me-1"></i> View Script
+                                    </button>
+                                {% endif %}
+                                
+                                {% if appt.status == 'pending' or appt.status == 'approved' %}
+                                    <a href="{% url 'cancel_appointment' appt.id %}" class="btn btn-sm btn-outline-danger px-3 rounded-pill" onclick="return confirm('Are you sure you want to cancel this appointment?')">
+                                        <i class="fas fa-times-circle me-1"></i> Cancel
+                                    </a>
+                                {% endif %}
+                                
+                                {% if not appt.prescription and appt.status == 'rejected' %}
+                                    <span class="text-muted x-small fw-bold text-uppercase">No Action</span>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
