@@ -1,78 +1,84 @@
-{% extends 'base.html' %}
-{% block content %}
+<!-- Background Decorative Blobs -->
+<div class="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style="z-index: -1; pointer-events: none;">
+    <div class="position-absolute bg-primary rounded-circle blur-blob" style="width: 400px; height: 400px; top: -100px; right: -100px; opacity: 0.1; filter: blur(80px);"></div>
+    <div class="position-absolute bg-success rounded-circle blur-blob" style="width: 300px; height: 300px; bottom: 10%; left: -50px; opacity: 0.1; filter: blur(60px);"></div>
+</div>
+
 <!-- Premium Preloader -->
 <div id="preloader" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex align-items-center justify-content-center" style="z-index: 9999;">
     <div class="text-center">
-        <h2 class="display-4 fw-bold text-primary mb-0 preloader-logo" style="font-family: var(--font-heading); letter-spacing: -2px; opacity: 0; transform: translateY(20px);">
-            <i class="fas fa-hand-holding-medical me-2"></i>ProHealth
+        <div class="spinner-grow text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+        <h2 class="h4 fw-bold text-dark preloader-logo" style="font-family: var(--font-heading); letter-spacing: -1px;">
+            ProHealth
         </h2>
-        <div class="preloader-bar mt-3 mx-auto bg-primary" style="width: 0; height: 2px; transition: width 0.5s ease;"></div>
     </div>
 </div>
 
-<!-- ProHealth Inspired Hero -->
-<div class="row align-items-center py-5">
-    <div class="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
-        <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
-            PROHEALTH
-        </div>
-        <h1 class="display-3 fw-bold text-dark mb-4 ls-tight hero-reveal-text" style="font-family: var(--font-heading); line-height: 1.1;">
-            <div class="reveal-line"><span>Compassionate care,</span></div>
-            <div class="reveal-line"><span class="text-primary fw-normal italic">exceptional results.</span></div>
-        </h1>
-        <p class="text-muted lead mb-5 opacity-75 hero-reveal-subtext">
-            Our team of experienced doctors and healthcare professionals are committed to providing quality care and personalized attention to our patients.
-        </p>
-        <div class="d-flex align-items-center gap-4 mb-5">
-            <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg">Find Doctor</a>
-            <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="d-flex align-items-center gap-2 text-dark text-decoration-none fw-bold">
-                <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <i class="fas fa-play small"></i>
-                </div>
-                See how we work
-            </a>
+<!-- Glassmorphism Hero Section -->
+<div class="row align-items-center py-5 min-vh-75 mt-4">
+    <div class="col-lg-7 mb-5 mb-lg-0 pe-lg-5">
+        <div class="glass-card p-5 rounded-5 border border-white border-opacity-20 shadow-premium hero-content-box" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+            <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold reveal-item">
+                PROHEALTH CARE
+            </div>
+            <h1 class="display-3 fw-bold text-dark mb-4 ls-tight hero-reveal-text" style="font-family: var(--font-heading); line-height: 1.1;">
+                <div class="reveal-line"><span>Compassionate care,</span></div>
+                <div class="reveal-line"><span class="text-primary fw-normal italic">exceptional results.</span></div>
+            </h1>
+            <p class="text-muted lead mb-5 opacity-75 hero-reveal-subtext">
+                Our team of experienced medical professionals is dedicated to providing holistic, patient-centered care with advanced technology.
+            </p>
+            <div class="d-flex align-items-center gap-4 reveal-item">
+                <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg hover-lift">
+                    Find Specialist <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+                <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="d-flex align-items-center gap-2 text-dark text-decoration-none fw-bold hover-primary transition-all">
+                    <div class="bg-white text-primary rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fas fa-play small"></i>
+                    </div>
+                    <span>Watch Video</span>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="col-lg-6 position-relative">
-        <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white hero-image-reveal">
-            <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
-        </div>
-        <!-- Floating Stat Badge -->
-        <div class="position-absolute top-0 end-0 mt-4 me-n2 bg-white p-3 rounded-4 shadow-lg d-none d-md-block" style="z-index: 5; min-width: 200px;">
-            <div class="d-flex align-items-center gap-3">
-                <div class="avatar-group d-flex">
-                    <div class="bg-light rounded-circle border border-white" style="width: 32px; height: 32px; margin-right: -10px;"><i class="fas fa-user-md p-2 x-small"></i></div>
-                    <div class="bg-light rounded-circle border border-white" style="width: 32px; height: 32px; margin-right: -10px;"><i class="fas fa-user-md p-2 x-small"></i></div>
-                    <div class="bg-light rounded-circle border border-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;"><i class="fas fa-check text-primary x-small"></i></div>
-                </div>
-                <div>
-                    <div class="fw-bold text-dark small">150K +</div>
-                    <div class="x-small text-muted">Patient Recover</div>
+    <div class="col-lg-5 position-relative">
+        <div class="hero-image-wrapper reveal-item">
+            <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white hero-image-reveal">
+                <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
+            </div>
+            <!-- Floating Success Card -->
+            <div class="position-absolute bottom-0 start-0 mb-4 ms-n4 glass-card p-3 rounded-4 shadow-lg d-none d-md-block border border-white border-opacity-50" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); z-index: 5;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-success text-white rounded-circle p-2"><i class="fas fa-check"></i></div>
+                    <div>
+                        <div class="fw-bold text-dark small">150K+ Recovered</div>
+                        <div class="x-small text-muted">Verified Success Stories</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Glassmorphism Stats Row -->
-<div class="row mt-n5 mb-5 position-relative z-index-10">
+<!-- Improved Glass Stats Row -->
+<div class="row mt-n4 mb-5 position-relative z-index-10">
     <div class="col-12">
-        <div class="glass-stats-card p-4 rounded-5 text-white d-flex flex-wrap justify-content-around align-items-center shadow-lg border border-white border-opacity-20" style="background: rgba(13, 110, 253, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
+        <div class="glass-stats-card p-4 rounded-5 text-white d-flex flex-wrap justify-content-around align-items-center shadow-lg border border-white border-opacity-20" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.8), rgba(0, 210, 255, 0.8)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
             <div class="stat-item text-center px-4">
                 <div class="h2 fw-bold mb-0">20+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Years of experience</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Experience</div>
             </div>
             <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
                 <div class="h2 fw-bold mb-0">95%</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Patient satisfaction</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Satisfaction</div>
             </div>
             <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">5000+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Patients served</div>
+                <div class="h2 fw-bold mb-0">5k+</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Patients</div>
             </div>
             <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
                 <div class="h2 fw-bold mb-0">10+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Providers on staff</div>
+                <div class="x-small text-white-50 text-uppercase ls-wide">Providers</div>
             </div>
         </div>
     </div>
@@ -168,19 +174,14 @@
     .mt-n5 { margin-top: -3rem; }
     .z-index-10 { z-index: 10; }
     .italic { font-style: italic; }
-    .hover-primary-border:hover {
-        border-color: var(--primary-color) !important;
-        transform: translateY(-5px);
-        transition: all 0.3s ease;
-    }
-    .dept-icon { transition: all 0.3s ease; }
-    .hover-primary-border:hover .dept-icon {
-        background: var(--primary-color) !important;
-        color: white !important;
-    }
-    .avatar-group i { color: #ccc; }
+    .transition-all { transition: all 0.3s ease; }
+    .w-fit { width: fit-content; }
 
-    /* Advanced Typography Reveal Styles */
+    /* Hide items initially to prevent flicker */
+    .hero-content-box, .reveal-item, .reveal-line span {
+        visibility: hidden;
+    }
+
     .reveal-line {
         overflow: hidden;
         margin-bottom: 5px;
@@ -189,76 +190,74 @@
         display: block;
         transform: translateY(100%);
     }
-    .hero-reveal-subtext {
-        opacity: 0;
-        transform: translateY(20px);
-    }
     .hero-image-reveal {
         clip-path: inset(0 0 100% 0);
-        transform: scale(1.1);
+    }
+    
+    .glass-card {
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
 </style>
 
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Set initial visibility via JS to ensure they are ready for GSAP
+        gsap.set(".hero-content-box, .reveal-item, .reveal-line span", { visibility: "visible" });
+
         const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-        // 1. Preloader Animation
-        tl.to(".preloader-logo", {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-        });
-
-        tl.to(".preloader-bar", {
-            width: "100px",
-            duration: 0.8,
-        }, "-=0.5");
-
+        // 1. Preloader out
         tl.to("#preloader", {
             y: "-100%",
-            duration: 1.2,
-            ease: "expo.inOut"
-        }, "+=0.3");
+            duration: 1,
+            ease: "expo.inOut",
+            delay: 0.5
+        });
 
-        // 2. Hero Text Line Reveal
+        // 2. Main Glass Card reveal
+        tl.from(".hero-content-box", {
+            scale: 0.9,
+            opacity: 0,
+            duration: 1.2,
+            backdropFilter: "blur(0px)",
+        }, "-=0.2");
+
+        // 3. Text Reveal
         tl.to(".reveal-line span", {
             y: "0%",
-            duration: 1.2,
-            stagger: 0.15
-        }, "-=0.4");
-
-        // 3. Subtext and CTA Reveal
-        tl.to(".hero-reveal-subtext", {
-            opacity: 1,
-            y: 0,
             duration: 1,
-        }, "-=0.8");
-
-        tl.from(".btn, .d-flex.align-items-center.gap-2", {
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
             stagger: 0.1
         }, "-=0.8");
 
-        // 4. Image Reveal
+        tl.from(".hero-reveal-subtext", {
+            y: 20,
+            opacity: 0,
+            duration: 0.8
+        }, "-=0.6");
+
+        // 4. Staggered reveal of other items
+        tl.from(".reveal-item:not(.hero-content-box)", {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2
+        }, "-=0.8");
+
+        // 5. Image Clip Reveal
         tl.to(".hero-image-reveal", {
             clipPath: "inset(0% 0% 0% 0%)",
-            scale: 1,
             duration: 1.5,
-            ease: "power2.inOut"
-        }, "-=1.2");
+            ease: "power3.inOut"
+        }, "-=1.5");
 
-        // 5. Stats Card Reveal
+        // 6. Stats Card
         tl.from(".glass-stats-card", {
-            scale: 0.9,
+            y: 50,
             opacity: 0,
-            y: 40,
             duration: 1,
             ease: "back.out(1.7)"
-        }, "-=0.5");
+        }, "-=1");
     });
 </script>
 {% endblock %}
