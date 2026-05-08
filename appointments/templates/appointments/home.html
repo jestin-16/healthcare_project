@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <!-- Background Decorative Blobs -->
 <div class="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style="z-index: -1; pointer-events: none;">
     <div class="position-absolute bg-primary rounded-circle blur-blob" style="width: 400px; height: 400px; top: -100px; right: -100px; opacity: 0.1; filter: blur(80px);"></div>
@@ -199,6 +202,8 @@
     }
 </style>
 
+{% endblock %}
+
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -260,5 +265,4 @@
         }, "-=1");
     });
 </script>
-{% endblock %}
 {% endblock %}
