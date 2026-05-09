@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Pro | Advanced Care, Delivered with Precision</title>
+    
+    <!-- Typography -->
+    <link href="https://fonts.cdnfonts.com/css/clash-display" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <!-- Icons & Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <style>
+        :root {
+            --primary: #0A2FFF;
+            --primary-glow: rgba(10, 47, 255, 0.3);
+            --secondary: #00D4AA;
+            --accent: #FF6B35;
+            --dark-bg: #040C1E;
+            --surface: #F0F4FF;
+            --text-dark: #0D1B3E;
+            --text-muted: #64748B;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --font-display: 'Clash Display', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #fff;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        /* --- Global Elements --- */
+        .btn-premium {
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #0055FF);
+            color: white;
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px -5px var(--primary-glow);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(4, 12, 30, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--secondary);
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0, 212, 170, 0.7)); }
+            70% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(0, 212, 170, 0)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            background-color: var(--dark-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* SVG Noise Texture */
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-left {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 8% 0 10%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-right {
+            width: 40%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bg-blobs {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            animation: rotate-blob 20s infinite linear;
+        }
+
+        .blob-1 {
+            width: 500px; height: 500px;
+            background: var(--primary);
+            top: -100px; left: -100px;
+        }
+
+        .blob-2 {
+            width: 400px; height: 400px;
+            background: var(--secondary);
+            bottom: -50px; right: -50px;
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+
+        @keyframes rotate-blob {
+            from { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            to { transform: rotate(360deg) scale(1); }
+        }
+
+        .badge-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 99px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: fit-content;
+            margin-bottom: 2rem;
+        }
+
+        .dot-pulse {
+            width: 8px; height: 8px;
+            background: #00FF88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00FF88;
+            animation: dot-pulse 1.5s infinite;
+        }
+
+        @keyframes dot-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            display: inline-block;
+            background: linear-gradient(to right, var(--secondary), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-style: italic;
+        }
+
+        .hero-subtext {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .trust-strip {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatars {
+            display: flex;
+        }
+
+        .avatars img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--dark-bg);
+            margin-left: -12px;
+        }
+
+        .avatars img:first-child { margin-left: 0; }
+
+        .trust-text {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .hero-right-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        /* --- Floating Cards --- */
+        .floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.25rem;
+            color: white;
+            z-index: 10;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .card-stat {
+            top: 20%; left: -10%;
+            display: flex; align-items: center; gap: 1rem;
+        }
+
+        .card-rating {
+            bottom: 15%; right: 10%;
+            text-align: center;
+            animation-delay: 1s;
+        }
+
+        .card-booking {
+            top: 45%; left: 5%;
+            width: 220px;
+            animation-delay: 2s;
+        }
+
+        .icon-box {
+            width: 45px; height: 45px;
+            background: var(--secondary);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: white;
+        }
+
+        /* --- Stats Bar --- */
+        .stats-section {
+            padding: 5rem 0;
+            background: #fff;
+            margin-top: -80px;
+            position: relative;
+            z-index: 50;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--dark-bg);
+            border-radius: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 4rem 2rem;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.3);
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 20%;
+            height: 60%; width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        .stat-number {
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* --- Booking Widget Section --- */
+        .booking-section {
+            padding: 10rem 0;
+            background: var(--surface);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .booking-copy h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .booking-copy p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .widget-card {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #E2E8F0;
+            border-radius: 3px;
+            margin-bottom: 3rem;
+            display: flex;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .step-content {
+            min-height: 350px;
+        }
+
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .dept-item {
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dept-item:hover, .dept-item.active {
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+
+        .dept-item i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .doc-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .doc-card:hover {
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+
+        .doc-card img {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .time-chip {
+            padding: 0.75rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .time-chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* --- Bento Grid --- */
+        .bento-section {
+            padding: 8rem 0;
+            background: white;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background: var(--surface);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .bento-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: auto;
+            transition: all 0.3s ease;
+        }
+
+        .bento-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .bento-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bento-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .bento-large {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary), #0033AA);
+            color: white;
+        }
+
+        .bento-large i, .bento-large p { color: rgba(255,255,255,0.8); }
+        .bento-large h3 { font-size: 2.5rem; }
+
+        /* --- Marquee --- */
+        .marquee-section {
+            padding: 8rem 0;
+            background: var(--dark-bg);
+            overflow: hidden;
+        }
+
+        .marquee-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .marquee {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 40s linear infinite;
+            width: max-content;
+        }
+
+        .marquee-reverse {
+            animation-direction: reverse;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 24px;
+            width: 400px;
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info img {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+        }
+
+        .stars { color: #FFD700; margin-bottom: 1rem; display: block;}
+
+        /* --- Footer --- */
+        footer {
+            background: var(--dark-bg);
+            padding: 8rem 0 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li { margin-bottom: 0.75rem; }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover { color: var(--secondary); }
+
+        .newsletter {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6rem;
+        }
+
+        .newsletter-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            color: white;
+            width: 300px;
+        }
+
+        .bottom-bar {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations --- */
+        [data-aos] {
+            transition-duration: 800ms !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 3.5rem; }
+            .booking-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; height: auto; padding-top: 100px; }
+            .hero-left, .hero-right { width: 100%; }
+            .hero-right { height: 400px; }
+            .nav-links { display: none; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .bento-large { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-hand-holding-medical"></i> HealthCare Pro
+            </a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#departments">Departments</a>
+                <a href="#specialists">Specialists</a>
+                <a href="#" class="btn-premium btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.9rem;">
+                    Book Appointment <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="bg-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+        </div>
+        
+        <div class="hero-left">
+            <div class="badge-pill" data-aos="fade-down">
+                <div class="dot-pulse"></div>
+                Now Accepting Patients
+            </div>
+            
+            <h1 class="hero-title" data-aos="fade-up">
+                Advanced Care, <br><span>Delivered with Precision.</span>
+            </h1>
+            
+            <p class="hero-subtext" data-aos="fade-up" data-aos-delay="200">
+                Experience the next generation of healthcare with world-class specialists and cutting-edge medical technology, all in one place.
+            </p>
+            
+            <div class="hero-ctas" data-aos="fade-up" data-aos-delay="400">
+                <a href="#" class="btn-premium btn-primary">Book Appointment <i class="fas fa-calendar-alt"></i></a>
+                <a href="#" class="btn-premium btn-ghost"><i class="fas fa-play"></i> Watch Our Story</a>
+            </div>
+            
+            <div class="trust-strip" data-aos="fade-up" data-aos-delay="600">
+                <div class="avatars">
+                    <img src="https://i.pravatar.cc/150?u=1" alt="Patient">
+                    <img src="https://i.pravatar.cc/150?u=2" alt="Patient">
+                    <img src="https://i.pravatar.cc/150?u=3" alt="Patient">
+                    <img src="https://i.pravatar.cc/150?u=4" alt="Patient">
+                </div>
+                <div class="trust-text">Join 5k+ patients who trust us</div>
+                <div style="margin-left: 2rem; display: flex; align-items: center; gap: 0.5rem; color: #00FF88; font-weight: 600;">
+                    <div class="dot-pulse" style="animation-duration: 2s;"></div> 🟢 Doctors available now
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-right">
+            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000" class="hero-right-img" alt="Doctor">
+            
+            <!-- Floating Cards -->
+            <div class="floating-card card-stat">
+                <div class="icon-box"><i class="fas fa-check"></i></div>
+                <div>
+                    <div style="font-weight: 700; font-size: 1.2rem;">150K+</div>
+                    <div style="font-size: 0.8rem; opacity: 0.7;">Recovered</div>
+                </div>
+            </div>
+            
+            <div class="floating-card card-rating">
+                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">4.9 ★</div>
+                <div style="font-size: 0.8rem; opacity: 0.7;">Patient Rating</div>
+                <div class="avatars" style="justify-content: center; margin-top: 0.75rem;">
+                    <img src="https://i.pravatar.cc/150?u=5" style="width: 25px; height: 25px;">
+                    <img src="https://i.pravatar.cc/150?u=6" style="width: 25px; height: 25px;">
+                    <img src="https://i.pravatar.cc/150?u=7" style="width: 25px; height: 25px;">
+                </div>
+            </div>
+            
+            <div class="floating-card card-booking">
+                <div style="font-weight: 600; margin-bottom: 1rem; font-size: 0.9rem;">Next Available Slot</div>
+                <div style="background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 10px; margin-bottom: 1rem;">
+                    <i class="fas fa-clock" style="color: var(--secondary); margin-right: 0.5rem;"></i> Today, 2:30 PM
+                </div>
+                <button class="btn-premium btn-primary" style="width: 100%; padding: 0.6rem; font-size: 0.8rem;">Confirm Slot</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container" data-aos="zoom-in-up">
+            <div class="stat-item">
+                <span class="stat-number" data-target="20">0</span>
+                <span class="stat-label">Years of Excellence</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="95">0</span>
+                <span class="stat-label">Patient Satisfaction</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="5000">0</span>
+                <span class="stat-label">Total Patients</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="15">0</span>
+                <span class="stat-label">Medical Specialties</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Widget Section -->
+    <section class="booking-section" id="booking" x-data="{ step: 1, department: '', doctor: '', date: '', time: '' }">
+        <div class="container">
+            <div class="booking-grid">
+                <div class="booking-copy" data-aos="fade-right">
+                    <h2>Book Your Appointment <br>In Seconds.</h2>
+                    <p>Skip the waiting room. Choose your specialist, pick a time that works for you, and confirm your visit instantly.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="icon-box" style="background: var(--surface); color: var(--primary);"><i class="fas fa-shield-alt"></i></div>
+                            <div>
+                                <h4 style="font-size: 1rem;">100% Secure Data</h4>
+                                <p style="font-size: 0.85rem; margin: 0;">Your health information is encrypted.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="icon-box" style="background: var(--surface); color: var(--primary);"><i class="fas fa-bolt"></i></div>
+                            <div>
+                                <h4 style="font-size: 1rem;">Instant Confirmation</h4>
+                                <p style="font-size: 0.85rem; margin: 0;">Get SMS & Email alerts immediately.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="widget-card" data-aos="fade-left">
+                    <div class="progress-bar">
+                        <div class="progress-fill" :style="'width: ' + (step * 20) + '%'"></div>
+                    </div>
+                    
+                    <!-- Step 1: Dept -->
+                    <div class="step-content" x-show="step === 1" x-transition>
+                        <h3 style="margin-bottom: 2rem;">1. Select Department</h3>
+                        <div class="dept-grid">
+                            <div class="dept-item" @click="department = 'Cardiology'; step = 2" :class="department === 'Cardiology' ? 'active' : ''">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>Cardiology</span>
+                            </div>
+                            <div class="dept-item" @click="department = 'Neurology'; step = 2" :class="department === 'Neurology' ? 'active' : ''">
+                                <i class="fas fa-brain"></i>
+                                <span>Neurology</span>
+                            </div>
+                            <div class="dept-item" @click="department = 'Pediatrics'; step = 2" :class="department === 'Pediatrics' ? 'active' : ''">
+                                <i class="fas fa-child"></i>
+                                <span>Pediatrics</span>
+                            </div>
+                            <div class="dept-item" @click="department = 'Dentistry'; step = 2" :class="department === 'Dentistry' ? 'active' : ''">
+                                <i class="fas fa-tooth"></i>
+                                <span>Dentistry</span>
+                            </div>
+                            <div class="dept-item" @click="department = 'Orthopedic'; step = 2" :class="department === 'Orthopedic' ? 'active' : ''">
+                                <i class="fas fa-bone"></i>
+                                <span>Orthopedic</span>
+                            </div>
+                            <div class="dept-item" @click="department = 'General'; step = 2" :class="department === 'General' ? 'active' : ''">
+                                <i class="fas fa-stethoscope"></i>
+                                <span>General</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Doctor -->
+                    <div class="step-content" x-show="step === 2" x-transition>
+                        <h3 style="margin-bottom: 2rem;">2. Choose Specialist</h3>
+                        <div class="doc-list">
+                            <div class="doc-card" @click="doctor = 'Dr. Sarah Wilson'; step = 3">
+                                <img src="https://i.pravatar.cc/150?u=sarah" alt="Dr">
+                                <div>
+                                    <div style="font-weight: 700;">Dr. Sarah Wilson</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">Senior Cardiologist • 4.9 ★</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="margin-left: auto; color: #ccc;"></i>
+                            </div>
+                            <div class="doc-card" @click="doctor = 'Dr. James Chen'; step = 3">
+                                <img src="https://i.pravatar.cc/150?u=james" alt="Dr">
+                                <div>
+                                    <div style="font-weight: 700;">Dr. James Chen</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted);">Cardiac Surgeon • 4.8 ★</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="margin-left: auto; color: #ccc;"></i>
+                            </div>
+                        </div>
+                        <button @click="step = 1" style="background: none; border: none; color: var(--primary); margin-top: 2rem; cursor: pointer; font-weight: 600;">← Back</button>
+                    </div>
+
+                    <!-- Step 3: Date & Time -->
+                    <div class="step-content" x-show="step === 3" x-transition>
+                        <h3 style="margin-bottom: 2rem;">3. Select Time Slot</h3>
+                        <div class="time-grid">
+                            <div class="time-chip" @click="time = '09:00 AM'; step = 4">09:00 AM</div>
+                            <div class="time-chip" @click="time = '10:30 AM'; step = 4">10:30 AM</div>
+                            <div class="time-chip" @click="time = '11:45 AM'; step = 4">11:45 AM</div>
+                            <div class="time-chip" @click="time = '02:00 PM'; step = 4">02:00 PM</div>
+                            <div class="time-chip" @click="time = '03:30 PM'; step = 4">03:30 PM</div>
+                            <div class="time-chip" @click="time = '04:45 PM'; step = 4">04:45 PM</div>
+                        </div>
+                        <button @click="step = 2" style="background: none; border: none; color: var(--primary); margin-top: 2rem; cursor: pointer; font-weight: 600;">← Back</button>
+                    </div>
+
+                    <!-- Step 4: Confirm -->
+                    <div class="step-content" x-show="step === 4" x-transition>
+                        <h3 style="margin-bottom: 2rem;">4. Confirm Booking</h3>
+                        <div style="background: var(--surface); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                            <div style="margin-bottom: 1rem;"><strong>Department:</strong> <span x-text="department"></span></div>
+                            <div style="margin-bottom: 1rem;"><strong>Specialist:</strong> <span x-text="doctor"></span></div>
+                            <div style="margin-bottom: 1rem;"><strong>Time:</strong> <span x-text="time"></span></div>
+                        </div>
+                        <input type="text" placeholder="Your Full Name" style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 1.5rem;">
+                        <button @click="step = 5" class="btn-premium btn-primary" style="width: 100%;">Complete Booking</button>
+                    </div>
+
+                    <!-- Step 5: Success -->
+                    <div class="step-content" x-show="step === 5" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                        <div style="width: 80px; height: 80px; background: var(--secondary); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 2rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2>Appointment Booked!</h2>
+                        <p>We've sent a confirmation to your email. See you soon!</p>
+                        <button @click="step = 1" class="btn-premium btn-ghost" style="color: var(--primary); border-color: var(--primary); margin-top: 2rem;">Book Another</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Bento Grid -->
+    <section class="bento-section" id="departments">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <h2 style="font-size: 3rem;">Our Specialized Departments</h2>
+                <p style="color: var(--text-muted); max-width: 600px; margin: 1rem auto;">Providing comprehensive care across multiple disciplines with the latest technology.</p>
+            </div>
+            
+            <div class="bento-grid">
+                <div class="bento-card bento-large" data-aos="fade-up">
+                    <i class="fas fa-ambulance"></i>
+                    <div>
+                        <h3>Emergency Care</h3>
+                        <p>24/7 critical care with rapid response teams and advanced life support systems.</p>
+                    </div>
+                </div>
+                <div class="bento-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-heartbeat"></i>
+                    <div>
+                        <h3>Cardiology</h3>
+                        <p>Heart health monitoring and surgical procedures.</p>
+                    </div>
+                </div>
+                <div class="bento-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3>Neurology</h3>
+                        <p>Advanced brain and nervous system care.</p>
+                    </div>
+                </div>
+                <div class="bento-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-child"></i>
+                    <div>
+                        <h3>Pediatrics</h3>
+                        <p>Specialized care for infants and children.</p>
+                    </div>
+                </div>
+                <div class="bento-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-microscope"></i>
+                    <div>
+                        <h3>Diagnostics</h3>
+                        <p>State-of-the-art lab and imaging services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Marquee -->
+    <section class="marquee-section">
+        <div style="text-align: center; margin-bottom: 5rem;">
+            <h2 style="font-size: 3rem; color: white;">What Our Patients Say</h2>
+        </div>
+        
+        <div class="marquee-container">
+            <div class="marquee">
+                <!-- Card 1 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The level of care I received was extraordinary. The booking process was so smooth!"</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p1" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">Alexander Knight</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • Cardiology</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Finally a healthcare platform that feels modern and easy to use. Highly recommended."</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p2" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">Elena Rodriguez</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • General</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The doctors are world-class. I felt safe and heard throughout my entire treatment."</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p3" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">James Thompson</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • Orthopedic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="marquee marquee-reverse">
+                <!-- Card 4 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Innovative approach to medicine. I was impressed by the facility and the staff."</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p4" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">Sophia Lee</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • Neurology</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The staff treated me like family. Best experience I've had at a hospital."</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p5" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">Marcus Vane</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • Pediatrics</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Modern, clean, and efficient. I booked my surgery in under 5 minutes."</p>
+                    <div class="user-info" style="margin-top: 1.5rem;">
+                        <img src="https://i.pravatar.cc/150?u=p6" alt="User">
+                        <div>
+                            <div style="font-weight: 700;">Isabella Garcia</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Patient • Dentistry</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="newsletter" data-aos="fade-up">
+                <div>
+                    <h2 style="margin-bottom: 0.5rem;">Subscribe to our newsletter</h2>
+                    <p style="color: rgba(255,255,255,0.6);">Stay updated with the latest health news and offers.</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <input type="email" placeholder="Enter your email" class="newsletter-input">
+                    <button class="btn-premium btn-primary">Subscribe</button>
+                </div>
+            </div>
+            
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-hand-holding-medical"></i> HealthCare Pro
+                    </a>
+                    <p style="color: rgba(255,255,255,0.6); margin-bottom: 2rem;">World-class healthcare for everyone. We believe in providing the best medical services with compassion and precision.</p>
+                    <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
+                        <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: white;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Specialists</a></li>
+                        <li><a href="#">Career</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Departments</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Cardiology</a></li>
+                        <li><a href="#">Neurology</a></li>
+                        <li><a href="#">Pediatrics</a></li>
+                        <li><a href="#">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-links" style="color: rgba(255,255,255,0.6);">
+                        <li><i class="fas fa-phone" style="margin-right: 0.5rem; color: var(--secondary);"></i> +1 (555) 000-1234</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--secondary);"></i> care@healthcare.pro</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--secondary);"></i> 123 Medical Plaza, NY</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bottom-bar">
+                <div>&copy; 2026 HealthCare Pro. All rights reserved.</div>
+                <div style="display: flex; gap: 2rem;">
+                    <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // Init AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.stat-number');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = +entry.target.getAttribute('data-target');
+                    let count = 0;
+                    const increment = target / 100;
+                    const updateCount = () => {
+                        if (count < target) {
+                            count += increment;
+                            entry.target.innerText = Math.ceil(count) + (target === 95 ? '%' : '+');
+                            setTimeout(updateCount, 20);
+                        } else {
+                            entry.target.innerText = target + (target === 95 ? '%' : '+');
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => observer.observe(counter));
+
+        // GSAP Hero Animations
+        gsap.from(".hero-title span", {
+            duration: 1.5,
+            y: 50,
+            opacity: 0,
+            ease: "power4.out",
+            delay: 0.5
+        });
+
+        // Floating cards subtle mouse movement
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.floating-card');
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            
+            cards.forEach(card => {
+                card.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
