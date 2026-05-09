@@ -445,11 +445,15 @@ def initiate_appointment_payment(request, appointment_id):
     currency = 'INR'
     
     # Create Razorpay Order
-    razorpay_order = razorpay_client.order.create({
-        'amount': amount,
-        'currency': currency,
-        'payment_capture': '1' # Auto capture
-    })
+    try:
+        razorpay_order = razorpay_client.order.create({
+            'amount': amount,
+            'currency': currency,
+            'payment_capture': '1' # Auto capture
+        })
+    except Exception as e:
+        messages.error(request, f"Razorpay Error: {str(e)}. Please ensure your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are correctly configured in Render Environment Variables.")
+        return redirect('dashboard')
     
     appointment.razorpay_order_id = razorpay_order['id']
     appointment.save()
@@ -509,11 +513,15 @@ def initiate_prescription_payment(request, prescription_id):
     currency = 'INR'
     
     # Create Razorpay Order
-    razorpay_order = razorpay_client.order.create({
-        'amount': amount,
-        'currency': currency,
-        'payment_capture': '1'
-    })
+    try:
+        razorpay_order = razorpay_client.order.create({
+            'amount': amount,
+            'currency': currency,
+            'payment_capture': '1'
+        })
+    except Exception as e:
+        messages.error(request, f"Razorpay Error: {str(e)}. Please ensure your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are correctly configured.")
+        return redirect('dashboard')
     
     prescription.razorpay_order_id = razorpay_order['id']
     prescription.save()
