@@ -4,375 +4,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}DocBook — Premium Concierge Healthcare{% endblock %}</title>
+    <title>{% block title %}HealthCare Pro | Advanced Clinical Management{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --black:       #0A0A0A;
-            --off-white:   #F5F2EE;
-            --white:       #FFFFFF;
-            --gold:        #C9A96E;
-            --gold-light:  #E8D5B0;
-            --muted:       #6B6B6B;
-            --border:      #E0DDD8;
-            --card-bg:     #FAFAF8;
-            --success:     #2D6A4F;
-            --danger:      #8B2635;
-            --warning:     #92400E;
-
-            --font-display: 'Playfair Display', Georgia, serif;
-            --font-body:    'Inter', system-ui, sans-serif;
-
-            --radius-sm:   4px;
-            --radius-md:   8px;
-            --radius-lg:   16px;
-            --shadow:      0 2px 16px rgba(0,0,0,0.07);
-            --shadow-hover:0 8px 32px rgba(0,0,0,0.13);
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--white);
-            color: var(--black);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3 { font-family: var(--font-display); font-weight: 600; color: var(--black); }
-        h1 { font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: 1.1; }
-        h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.2; }
-        h3 { font-size: 1.4rem; }
-        p, label, td, li { font-family: var(--font-body); color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
-
-        .overline {
-            font-family: var(--font-body);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--gold);
-            font-weight: 600;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .gold-rule {
-            width: 48px;
-            height: 2px;
-            background: var(--gold);
-            margin: 20px 0;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            background: transparent;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
-            font-family: var(--font-body);
-            height: 72px;
-            padding: 0;
-            z-index: 1000;
-        }
-        .navbar.scrolled {
-            background: var(--white);
-            border-bottom-color: var(--border);
-            box-shadow: 0 1px 0 #E0DDD8;
-        }
-        .navbar.scrolled .navbar-toggler-icon {
-            filter: none !important;
-        }
-        .navbar-brand {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            color: var(--black);
-            letter-spacing: 0.02em;
-            display: flex;
-            align-items: center;
-            transition: color 0.3s ease;
-        }
-        .navbar-brand i { margin-right: 12px; color: var(--gold); font-size: 1.1rem; }
-        
-        .nav-link {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-            font-weight: 500;
-            padding: 0 15px !important;
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover { color: var(--black); }
-
-        /* Transparent Navbar Adjustments (Home Hero) */
-        .navbar:not(.scrolled) .navbar-brand { color: var(--white); }
-        .navbar:not(.scrolled) .nav-link { color: rgba(255,255,255,0.7); }
-        .navbar:not(.scrolled) .nav-link:hover { color: var(--white); }
-        .navbar:not(.scrolled) .role-badge { border-color: rgba(255,255,255,0.3); color: var(--white); }
-        .navbar:not(.scrolled) .text-muted { color: rgba(255,255,255,0.5) !important; }
-        .navbar:not(.scrolled) .navbar-toggler-icon { filter: invert(1); }
-        
-        .role-badge {
-            border: 1px solid var(--black);
-            border-radius: 20px;
-            padding: 2px 12px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--black);
-            font-weight: 600;
-            margin: 0 10px;
-        }
-
-        /* Button Styles */
-        .btn-primary-luxury {
-            background: var(--black);
-            color: var(--white) !important;
-            border: none;
-            border-radius: 0;
-            padding: 14px 36px;
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 600;
-            transition: background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-primary-luxury:hover { background: #2a2a2a; }
-
-        .btn-outline-luxury {
-            background: transparent;
-            color: var(--black) !important;
-            border: 1px solid var(--black);
-            border-radius: 0;
-            padding: 13px 36px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-outline-luxury:hover { background: var(--black); color: var(--white) !important; }
-
-        /* Notification Bar Container */
-        #messages-container {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 2000;
-        }
-
-        .notification-bar {
-            width: 100%;
-            padding: 14px 40px;
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-            letter-spacing: 0.03em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid transparent;
-            margin-bottom: 1px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .notification-bar.success  { background: #EDF7F2; border-color: #A8D5BC; color: #2D6A4F; }
-        .notification-bar.error, .notification-bar.danger { background: #FDF0F1; border-color: #E8B4BB; color: #8B2635; }
-        .notification-bar.info     { background: #F0F4FF; border-color: #C4CFE8; color: #1E3A8A; }
-        .notification-bar.warning  { background: #FDF6EC; border-color: #E8D5B0; color: #92400E; }
-
-        /* Footer Styles */
-        footer {
-            background: var(--black);
-            padding: 80px 0 0 0;
-            color: rgba(255,255,255,0.5);
-            font-family: var(--font-body);
-        }
-        footer .gold-rule { margin: 0 0 40px 0; opacity: 0.5; }
-        footer h5 { color: var(--white); font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 25px; }
-        footer a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-        footer a:hover { color: var(--gold); }
-        .footer-bottom {
-            padding: 30px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 60px;
-            text-align: center;
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 0.05em;
-        }
-
-        /* Utility classes */
-        .bg-off-white { background-color: var(--off-white); }
-        .ls-wide { letter-spacing: 0.08em; }
-        .ls-extra-wide { letter-spacing: 0.2em; }
-        
-        /* Form Styles */
-        .luxury-form label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--muted);
-            margin-bottom: 8px;
-            display: block;
-        }
-        .luxury-input {
-            border: none;
-            border-bottom: 1px solid var(--border);
-            border-radius: 0;
-            background: transparent;
-            padding: 12px 0;
-            width: 100%;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: var(--black);
-            transition: border-color 0.3s;
-        }
-        .luxury-input:focus {
-            outline: none;
-            border-bottom-color: var(--black);
-        }
-
-        /* Content Wrapper */
-        #content-wrapper {
-            padding-top: 72px;
-        }
-
-        /* Animation */
-        .fade-in {
-            animation: fadeIn 1s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <div id="messages-container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="notification-bar {{ message.tags }}">
-                    <div class="container d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-info-circle me-2"></i>{{ message }}</span>
-                        <button type="button" class="btn-close" style="filter: grayscale(1) invert(0); font-size: 0.6rem;" onclick="this.closest('.notification-bar').remove()"></button>
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-
-    <nav class="navbar navbar-expand-lg fixed-top {% block nav_class %}{% if not is_home %}scrolled{% endif %}{% endblock %}">
+<body class="d-flex flex-column">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-staff-snake"></i>DocBook
+                <i class="fas fa-hand-holding-medical me-2"></i>HealthCare Pro
             </a>
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto align-items-center">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'doctor_list' %}">Specialists</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'doctor_list' %}">Our Specialists</a></li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">
+                                <i class="fas fa-grid-2 me-1"></i>Dashboard
+                            </a>
+                        </li>
                         {% if user.is_superuser %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'user_management' %}">Management</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_management' %}">
+                                <i class="fas fa-users-cog me-1"></i>Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'medicine_list' %}">
+                                <i class="fas fa-pills me-1"></i>Inventory
+                            </a>
+                        </li>
                         {% endif %}
+                        <li class="nav-item dropdown ms-lg-3">
+                            <a class="nav-link dropdown-toggle btn btn-light border-0 px-3 rounded-pill" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-2"></i>{{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-2" style="border-radius: 1rem;">
+                                <li><a class="dropdown-item py-2" href="{% url 'profile_settings' %}"><i class="fas fa-user-edit me-2 text-muted"></i>Profile Settings</a></li>
+                                <li><a class="dropdown-item py-2" href="{% url 'change_password' %}"><i class="fas fa-key me-2 text-muted"></i>Security</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{% url 'logout' %}" method="post" class="m-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item py-2 text-danger"><i class="fas fa-sign-out-alt me-2"></i>Sign Out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-2">
+                            <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-primary px-4 shadow-sm" href="{% url 'register' %}">Get Started</a>
+                        </li>
                     {% endif %}
                 </ul>
-                <div class="d-flex align-items-center">
-                    {% if user.is_authenticated %}
-                        <span class="text-muted small ls-wide me-2">{{ user.first_name|default:user.username }}</span>
-                        <span class="role-badge">{{ user.profile.role }}</span>
-                        <form action="{% url 'logout' %}" method="post" class="m-0 ms-3">
-                            {% csrf_token %}
-                            <button type="submit" class="nav-link border-0 bg-transparent" style="font-size: 0.78rem; text-transform: uppercase;">Sign Out</button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="nav-link">Sign In</a>
-                        <a href="{% url 'register' %}" class="btn-primary-luxury ms-3">Join Us</a>
-                    {% endif %}
-                </div>
             </div>
         </div>
     </nav>
 
-    <div id="content-wrapper">
-        {% block content %}{% endblock %}
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="gold-rule"></div>
-            <div class="row">
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h5 class="navbar-brand text-white mb-4"><i class="fas fa-staff-snake"></i>DocBook</h5>
-                    <p class="small pe-lg-5">Luxury concierge healthcare designed around your life. Connecting you with world-class medical specialists through an editorial-first digital experience.</p>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4">
-                    <h5>Discover</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'home' %}">Home</a></li>
-                        <li class="mb-2"><a href="{% url 'doctor_list' %}">Specialists</a></li>
-                        <li class="mb-2"><a href="{% url 'register' %}">Join DocBook</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <h5>Specializations</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#">Cardiology</a></li>
-                        <li class="mb-2"><a href="#">Neurology</a></li>
-                        <li class="mb-2"><a href="#">Dermatology</a></li>
-                        <li class="mb-2"><a href="#">Psychiatry</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2 text-white">Concierge Desk:</li>
-                        <li class="mb-3">+1 (800) DOC-BOOK</li>
-                        <li class="mb-2 text-white">Address:</li>
-                        <li class="mb-0">100 Madison Avenue,</li>
-                        <li>New York, NY 10016</li>
-                    </ul>
+    <main class="container py-5 flex-grow-1">
+        {% if messages %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible border-0 shadow-sm fade show mb-4" role="alert" style="border-radius: 1rem;">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-{{ message.tags }} bg-opacity-10 p-2 rounded-circle me-3">
+                                    <i class="fas {% if message.tags == 'success' %}fa-check-circle text-success{% else %}fa-exclamation-circle text-danger{% endif %}"></i>
+                                </div>
+                                <div class="fw-semibold">{{ message }}</div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="footer-bottom">
-                &copy; 2026 DocBook. All rights reserved. Designed for Excellence.
+        {% endif %}
+
+        <div class="fade-in">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="bg-white border-top py-5 mt-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="fw-bold mb-1">HealthCare Pro</h5>
+                    <p class="text-muted small mb-0">&copy; 2026 Advanced Clinical Management System.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-3">
+                        <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
+                            <i class="fas fa-play-circle me-1"></i>Watch Tutorial
+                        </a>
+                        <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const nav = document.querySelector('.navbar');
-            if (!nav) return;
-
-            // Check if navbar should toggle (starts transparent)
-            const shouldToggle = !nav.classList.contains('scrolled');
-
-            function handleScroll() {
-                if (window.scrollY > 50) {
-                    nav.classList.add('scrolled');
-                } else if (shouldToggle) {
-                    nav.classList.remove('scrolled');
-                }
-            }
-
-            window.addEventListener('scroll', handleScroll);
-            // Initial check
-            handleScroll();
-        });
-    </script>
     {% block modals %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- GSAP for Advanced Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
