@@ -1,268 +1,472 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<!-- Background Decorative Blobs -->
-<div class="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style="z-index: -1; pointer-events: none;">
-    <div class="position-absolute bg-primary rounded-circle blur-blob" style="width: 400px; height: 400px; top: -100px; right: -100px; opacity: 0.1; filter: blur(80px);"></div>
-    <div class="position-absolute bg-success rounded-circle blur-blob" style="width: 300px; height: 300px; bottom: 10%; left: -50px; opacity: 0.1; filter: blur(60px);"></div>
-</div>
-
-<!-- Premium Preloader -->
-<div id="preloader" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex align-items-center justify-content-center" style="z-index: 9999;">
-    <div class="text-center">
-        <div class="spinner-grow text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
-        <h2 class="h4 fw-bold text-dark preloader-logo" style="font-family: var(--font-heading); letter-spacing: -1px;">
-            ProHealth
-        </h2>
-    </div>
-</div>
-
-<!-- Glassmorphism Hero Section -->
-<div class="row align-items-center py-5 min-vh-75 mt-4">
-    <div class="col-lg-7 mb-5 mb-lg-0 pe-lg-5">
-        <div class="glass-card p-5 rounded-5 border border-white border-opacity-20 shadow-premium hero-content-box" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
-            <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold reveal-item">
-                PROHEALTH CARE
-            </div>
-            <h1 class="display-3 fw-bold text-dark mb-4 ls-tight hero-reveal-text" style="font-family: var(--font-heading); line-height: 1.1;">
-                <div class="reveal-line"><span>Compassionate care,</span></div>
-                <div class="reveal-line"><span class="text-primary fw-normal italic">exceptional results.</span></div>
-            </h1>
-            <p class="text-muted lead mb-5 opacity-75 hero-reveal-subtext">
-                Our team of experienced medical professionals is dedicated to providing holistic, patient-centered care with advanced technology.
-            </p>
-            <div class="d-flex align-items-center gap-4 reveal-item">
-                <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg hover-lift">
-                    Find Specialist <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-                <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="d-flex align-items-center gap-2 text-dark text-decoration-none fw-bold hover-primary transition-all">
-                    <div class="bg-white text-primary rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
-                        <i class="fas fa-play small"></i>
+<!-- --- Hero Section --- -->
+<section class="hero-section overflow-hidden">
+    <div class="blob" style="top: -10%; left: -5%;"></div>
+    <div class="blob" style="bottom: 10%; right: -5%; background: var(--accent-purple);"></div>
+    
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="badge-pill mb-3">AI-Powered Platform</div>
+                <h1 class="hero-heading fw-bold text-dark">
+                    Advanced Care, <br>
+                    <span class="text-gradient">Delivered with Precision.</span>
+                </h1>
+                <p class="hero-subtitle mb-4">
+                    Experience the next generation of healthcare. Our AI-driven platform connects you with world-class specialists instantly, ensuring your health is always in safe hands.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="glass-card p-2 mb-5 d-flex align-items-center shadow-lg" style="max-width: 600px;">
+                    <div class="flex-grow-1 d-flex align-items-center px-3 border-end">
+                        <i class="bi bi-search text-primary me-3"></i>
+                        <input type="text" class="form-control border-0 bg-transparent" placeholder="Doctor, Department, or Symptoms...">
                     </div>
-                    <span>Watch Video</span>
-                </a>
+                    <button class="btn btn-primary-grad rounded-pill px-4 py-2 ms-2">Search Now</button>
+                </div>
+                
+                <div class="d-flex align-items-center gap-4 flex-wrap">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-success bg-opacity-10 p-2 rounded-circle"><i class="bi bi-shield-check text-success"></i></div>
+                        <span class="fw-semibold small">Certified Doctors</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle"><i class="bi bi-lightning-fill text-primary"></i></div>
+                        <span class="fw-semibold small">Instant Booking</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-info bg-opacity-10 p-2 rounded-circle"><i class="bi bi-clock-fill text-info"></i></div>
+                        <span class="fw-semibold small">24/7 Virtual Care</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-lg-5 position-relative">
-        <div class="hero-image-wrapper reveal-item">
-            <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white hero-image-reveal">
-                <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
-            </div>
-            <!-- Floating Success Card -->
-            <div class="position-absolute bottom-0 start-0 mb-4 ms-n4 glass-card p-3 rounded-4 shadow-lg d-none d-md-block border border-white border-opacity-50" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); z-index: 5;">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-success text-white rounded-circle p-2"><i class="fas fa-check"></i></div>
-                    <div>
-                        <div class="fw-bold text-dark small">150K+ Recovered</div>
-                        <div class="x-small text-muted">Verified Success Stories</div>
+            
+            <div class="col-lg-5 position-relative" data-aos="fade-left">
+                <div class="dashboard-mockup">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000" class="img-fluid rounded-5 shadow-lg mb-4" alt="Doctor">
+                    
+                    <!-- Floating Cards -->
+                    <div class="glass-card p-3 floating-card position-absolute" style="top: 20%; left: -80px; width: 220px; z-index: 10;">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-3 text-primary"><i class="bi bi-calendar-check-fill"></i></div>
+                            <div>
+                                <h6 class="mb-0 fw-bold small">Appointment</h6>
+                                <span class="text-muted extra-small" style="font-size: 10px;">Today at 2:30 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card p-3 floating-card position-absolute" style="bottom: 10%; right: -20px; width: 200px; z-index: 10;">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="bg-success bg-opacity-10 p-2 rounded-3 text-success"><i class="bi bi-heart-pulse-fill"></i></div>
+                            <h6 class="mb-0 fw-bold small">Health Scan</h6>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" style="width: 85%;"></div>
+                        </div>
+                        <span class="text-muted extra-small mt-1 d-block" style="font-size: 10px;">Vital Signs: Optimal</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Improved Glass Stats Row -->
-<div class="row mt-n4 mb-5 position-relative z-index-10">
-    <div class="col-12">
-        <div class="glass-stats-card p-4 rounded-5 text-white d-flex flex-wrap justify-content-around align-items-center shadow-lg border border-white border-opacity-20" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.8), rgba(0, 210, 255, 0.8)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
-            <div class="stat-item text-center px-4">
-                <div class="h2 fw-bold mb-0">20+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Experience</div>
+<!-- --- Stats Section --- -->
+<section class="section-padding bg-soft-blue">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+                <div class="glass-card stat-card border-0">
+                    <div class="stat-icon"><i class="bi bi-award-fill"></i></div>
+                    <h2 class="fw-bold mb-1"><span class="counter" data-target="25">0</span>+</h2>
+                    <p class="text-muted small fw-bold text-uppercase ls-wide">Years Experience</p>
+                </div>
             </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">95%</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Satisfaction</div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+                <div class="glass-card stat-card border-0">
+                    <div class="stat-icon" style="background: rgba(20, 184, 166, 0.1); color: var(--accent-teal);"><i class="bi bi-emoji-smile-fill"></i></div>
+                    <h2 class="fw-bold mb-1"><span class="counter" data-target="98">0</span>%</h2>
+                    <p class="text-muted small fw-bold text-uppercase ls-wide">Patient Satisfaction</p>
+                </div>
             </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">5k+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Patients</div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+                <div class="glass-card stat-card border-0">
+                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);"><i class="bi bi-people-fill"></i></div>
+                    <h2 class="fw-bold mb-1"><span class="counter" data-target="50">0</span>K+</h2>
+                    <p class="text-muted small fw-bold text-uppercase ls-wide">Patients Served</p>
+                </div>
             </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">10+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Providers</div>
+            <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400">
+                <div class="glass-card stat-card border-0">
+                    <div class="stat-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--primary-cyan);"><i class="bi bi-heart-fill"></i></div>
+                    <h2 class="fw-bold mb-1"><span class="counter" data-target="120">0</span>+</h2>
+                    <p class="text-muted small fw-bold text-uppercase ls-wide">Medical Experts</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- About Section -->
-<div class="row py-5 my-5 align-items-center fade-in">
-    <div class="col-lg-6 mb-5 mb-lg-0 order-lg-2">
-        <div class="ps-lg-5">
-            <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">About Us</div>
-            <h2 class="display-6 fw-bold text-dark mb-4">ProHealth is a team of experienced medical professional</h2>
-            <p class="text-muted mb-4">Dedicated to providing top-quality healthcare services. We believe in a holistic approach to healthcare that focuses on treating the whole person, not just the illness or symptoms.</p>
-            <ul class="list-unstyled">
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Verified Medical Specialists</span></li>
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Advanced Diagnostic Technology</span></li>
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">24/7 Patient Support System</span></li>
-            </ul>
+<!-- --- About Section --- -->
+<section id="about" class="section-padding">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1000" class="img-fluid rounded-5 shadow-lg" alt="Hospital">
+                    <div class="glass-card p-4 position-absolute bottom-0 start-0 mb-4 ms-4 d-none d-md-block" style="width: 250px;">
+                        <h4 class="text-primary fw-bold mb-1">15+ Years</h4>
+                        <p class="text-muted small mb-0">Of Excellence in Healthcare Services</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-pill shadow-sm position-absolute top-0 end-0 mt-4 me-4 d-flex align-items-center px-3">
+                        <div class="dot bg-success me-2" style="width: 10px; height: 10px; border-radius: 50%;"></div>
+                        <span class="fw-bold small">Online Specialists</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="badge-pill">Our Legacy</div>
+                <h2 class="display-5 fw-bold mb-4">A Team of Experienced <br>Medical Professionals</h2>
+                <p class="text-muted lead mb-5">Dedicated to providing top-quality healthcare services. We believe in a holistic approach to healthcare that focuses on treating the whole person, not just the illness.</p>
+                
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i class="bi bi-check-lg fw-bold"></i></div>
+                            <span class="fw-bold">AI Management</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i class="bi bi-check-lg fw-bold"></i></div>
+                            <span class="fw-bold">Secure Records</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i class="bi bi-check-lg fw-bold"></i></div>
+                            <span class="fw-bold">Telemedicine</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i class="bi bi-check-lg fw-bold"></i></div>
+                            <span class="fw-bold">Smart Tracking</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="btn btn-premium btn-primary-grad">Learn More About Us</a>
+            </div>
         </div>
     </div>
-    <div class="col-lg-6 order-lg-1">
-        <div class="rounded-5 overflow-hidden shadow-lg">
-            <img src="/static/images/doctors_group.png" class="img-fluid w-100" alt="Our Team">
-        </div>
-    </div>
-</div>
+</section>
 
-<!-- Departments Grid -->
-<div class="row py-5 fade-in">
-    <div class="col-12 mb-5">
-        <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">Our Departments</div>
-        <h2 class="display-6 fw-bold text-dark">For Your Health</h2>
-    </div>
-    
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-ambulance fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Emergency</h5>
-                <p class="x-small text-muted mb-0">Department</p>
+<!-- --- Departments Section --- -->
+<section id="services" class="section-padding bg-soft-blue">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="badge-pill">Excellence Hub</div>
+            <h2 class="display-6 fw-bold">Our Specialized Departments</h2>
+            <p class="text-muted mx-auto" style="max-width: 600px;">Comprehensive care across all medical disciplines powered by advanced technology.</p>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Dept 1 -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card p-4 h-100 border-0 transition-all hover-lift">
+                    <div class="stat-icon mb-4"><i class="fas fa-heartbeat"></i></div>
+                    <h5 class="fw-bold mb-2">Cardiology</h5>
+                    <p class="text-muted small">Specialized heart care with advanced diagnostic imaging and surgery.</p>
+                    <a href="#" class="text-primary text-decoration-none fw-bold small">Read More <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+            <!-- Dept 2 -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card p-4 h-100 border-0 transition-all hover-lift">
+                    <div class="stat-icon mb-4" style="background: rgba(6, 182, 212, 0.1); color: var(--primary-cyan);"><i class="fas fa-brain"></i></div>
+                    <h5 class="fw-bold mb-2">Neurology</h5>
+                    <p class="text-muted small">Advanced treatment for complex brain and nervous system disorders.</p>
+                    <a href="#" class="text-primary text-decoration-none fw-bold small">Read More <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+            <!-- Dept 3 -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="glass-card p-4 h-100 border-0 transition-all hover-lift">
+                    <div class="stat-icon mb-4" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);"><i class="fas fa-child"></i></div>
+                    <h5 class="fw-bold mb-2">Pediatrics</h5>
+                    <p class="text-muted small">Dedicated care for infants, children, and adolescents.</p>
+                    <a href="#" class="text-primary text-decoration-none fw-bold small">Read More <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+            <!-- Dept 4 -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="glass-card p-4 h-100 border-0 transition-all hover-lift">
+                    <div class="stat-icon mb-4" style="background: rgba(20, 184, 166, 0.1); color: var(--accent-teal);"><i class="fas fa-bone"></i></div>
+                    <h5 class="fw-bold mb-2">Orthopedics</h5>
+                    <p class="text-muted small">Expert care for musculoskeletal system bones, joints, and ligaments.</p>
+                    <a href="#" class="text-primary text-decoration-none fw-bold small">Read More <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-child fa-2x"></i></div>
+</section>
+
+<!-- --- Specialist Section --- -->
+<section id="specialists" class="section-padding">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
             <div>
-                <h5 class="fw-bold mb-1">Pediatric</h5>
-                <p class="x-small text-muted mb-0">Department</p>
+                <div class="badge-pill">Expert Team</div>
+                <h2 class="display-6 fw-bold">Meet Our Specialists</h2>
+            </div>
+            <a href="{% url 'doctor_list' %}" class="btn btn-ghost rounded-pill px-4 mb-2">View All Doctors</a>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Doctor 1 -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card border-0 overflow-hidden transition-all hover-lift">
+                    <div class="position-relative overflow-hidden group">
+                        <img src="https://i.pravatar.cc/300?u=1" class="img-fluid w-100 transition-all group-hover:scale-110" alt="Doctor">
+                        <div class="position-absolute top-0 end-0 p-3">
+                            <span class="badge bg-success rounded-pill px-3 py-2 border-0 shadow-sm">Available</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h6 class="fw-bold mb-1">Dr. Sarah Wilson</h6>
+                        <p class="text-primary small fw-bold mb-3">Senior Cardiologist</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="small text-muted"><i class="bi bi-star-fill text-warning me-1"></i> 4.9 (120 reviews)</span>
+                            <span class="small text-muted">12+ Yrs Exp</span>
+                        </div>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-light w-100 rounded-pill fw-bold small">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat for other doctors -->
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card border-0 overflow-hidden transition-all hover-lift">
+                    <img src="https://i.pravatar.cc/300?u=2" class="img-fluid w-100" alt="Doctor">
+                    <div class="p-4">
+                        <h6 class="fw-bold mb-1">Dr. James Chen</h6>
+                        <p class="text-primary small fw-bold mb-3">Neurologist</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="small text-muted"><i class="bi bi-star-fill text-warning me-1"></i> 4.8 (98 reviews)</span>
+                            <span class="small text-muted">8+ Yrs Exp</span>
+                        </div>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-light w-100 rounded-pill fw-bold small">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="glass-card border-0 overflow-hidden transition-all hover-lift">
+                    <img src="https://i.pravatar.cc/300?u=3" class="img-fluid w-100" alt="Doctor">
+                    <div class="p-4">
+                        <h6 class="fw-bold mb-1">Dr. Elena Rodriguez</h6>
+                        <p class="text-primary small fw-bold mb-3">Pediatrician</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="small text-muted"><i class="bi bi-star-fill text-warning me-1"></i> 5.0 (215 reviews)</span>
+                            <span class="small text-muted">15+ Yrs Exp</span>
+                        </div>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-light w-100 rounded-pill fw-bold small">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="glass-card border-0 overflow-hidden transition-all hover-lift">
+                    <img src="https://i.pravatar.cc/300?u=4" class="img-fluid w-100" alt="Doctor">
+                    <div class="p-4">
+                        <h6 class="fw-bold mb-1">Dr. Michael Vance</h6>
+                        <p class="text-primary small fw-bold mb-3">Orthopedic Surgeon</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="small text-muted"><i class="bi bi-star-fill text-warning me-1"></i> 4.7 (84 reviews)</span>
+                            <span class="small text-muted">10+ Yrs Exp</span>
+                        </div>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-light w-100 rounded-pill fw-bold small">Book Now</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-venus fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Gynecology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
+</section>
+
+<!-- --- Booking Section --- -->
+<section id="booking" class="section-padding bg-soft-blue">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5" data-aos="fade-right">
+                <div class="badge-pill">Secure Booking</div>
+                <h2 class="display-6 fw-bold mb-4">Book Your Appointment <br>In Seconds.</h2>
+                <p class="text-muted mb-5">Select your preferred department and doctor, pick a date, and confirm your visit instantly. Our AI system ensures zero waiting time.</p>
+                
+                <div class="glass-card p-4 d-flex align-items-center gap-4 mb-4">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-4 text-primary fs-3"><i class="bi bi-shield-lock-fill"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">100% Secure & Private</h6>
+                        <p class="small text-muted mb-0">Your medical data is encrypted and secure.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="glass-card p-5 border-0 shadow-lg bg-white">
+                    <form class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Department</label>
+                            <select class="form-select rounded-pill px-4 py-3 border-light bg-light">
+                                <option>Select Department</option>
+                                <option>Cardiology</option>
+                                <option>Neurology</option>
+                                <option>Pediatrics</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Choose Doctor</label>
+                            <select class="form-select rounded-pill px-4 py-3 border-light bg-light">
+                                <option>Select Doctor</option>
+                                <option>Dr. Sarah Wilson</option>
+                                <option>Dr. James Chen</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Date</label>
+                            <input type="date" class="form-control rounded-pill px-4 py-3 border-light bg-light">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Preferred Time</label>
+                            <select class="form-select rounded-pill px-4 py-3 border-light bg-light">
+                                <option>09:00 AM</option>
+                                <option>11:30 AM</option>
+                                <option>02:00 PM</option>
+                                <option>04:30 PM</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <button type="button" class="btn btn-premium btn-primary-grad w-100 py-3 fs-5">Confirm Appointment Now</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-heartbeat fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Cardiology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
+</section>
+
+<!-- --- AI Features Section --- -->
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="badge-pill">Futuristic Healthcare</div>
+            <h2 class="display-6 fw-bold">AI-Powered Features</h2>
+        </div>
+        
+        <div class="row g-4 bento-grid">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="glass-card p-4 h-100 border-0 bg-gradient-to-br from-primary to-primary-cyan text-white">
+                    <div class="bg-white bg-opacity-20 p-3 rounded-4 d-inline-block mb-4"><i class="bi bi-robot fs-3"></i></div>
+                    <h4 class="fw-bold mb-3">AI Symptom Checker</h4>
+                    <p class="opacity-75">Get instant preliminary diagnosis powered by advanced medical AI models.</p>
+                </div>
+            </div>
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card p-4 h-100 border-0 bg-soft-blue">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-md-7">
+                            <h4 class="fw-bold mb-3">Smart Health Dashboard</h4>
+                            <p class="text-muted">Track your health vitals, appointments, and prescriptions in one unified high-tech dashboard.</p>
+                            <ul class="list-unstyled d-flex flex-wrap gap-3 mt-4">
+                                <li class="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm">Real-time Analytics</li>
+                                <li class="badge bg-white text-primary rounded-pill px-3 py-2 shadow-sm">Digital Prescriptions</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600" class="img-fluid rounded-4 shadow-sm" alt="Stats">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-brain fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Neurology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
+</section>
+
+<!-- --- Testimonials Section --- -->
+<section id="testimonials" class="section-padding bg-soft-blue">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="badge-pill">Success Stories</div>
+            <h2 class="display-6 fw-bold">What Our Patients Say</h2>
+        </div>
+        
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="glass-card p-5 text-center position-relative">
+                                <i class="bi bi-quote fs-1 text-primary opacity-25 position-absolute top-0 start-0 ms-4 mt-4"></i>
+                                <p class="lead mb-4 italic">"The AI symptom checker was surprisingly accurate and saved me a lot of worry. The booking process was seamless, and Dr. Wilson was exceptional. Truly the future of healthcare!"</p>
+                                <img src="https://i.pravatar.cc/100?u=a" class="rounded-circle mb-3 shadow-sm" width="80">
+                                <h6 class="fw-bold mb-0">Alexander Thompson</h6>
+                                <span class="text-muted small">Cardiology Patient</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional items can go here -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-primary rounded-circle p-3"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-primary rounded-circle p-3"></span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- --- Final CTA --- -->
+<section class="section-padding overflow-hidden">
+    <div class="container">
+        <div class="glass-card p-5 text-center bg-primary text-white border-0 shadow-glow position-relative overflow-hidden">
+            <div class="blob" style="top: -20%; left: -10%; opacity: 0.1; width: 400px; height: 400px;"></div>
+            <div class="position-relative z-index-1">
+                <h2 class="display-5 fw-bold mb-4">Book Your Appointment Today</h2>
+                <p class="lead mb-5 opacity-75">Join thousands of patients who trust HealthCare Pro for their medical needs.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'doctor_list' %}" class="btn btn-premium btn-light text-primary px-5 py-3 fs-5">Get Started Now</a>
+                    <a href="#" class="btn btn-premium btn-outline-light px-5 py-3 fs-5">Contact Us</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-head-side-virus fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Psychiatry</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 
 <style>
-    .ls-tight { letter-spacing: -2px; }
-    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
-    .mt-n5 { margin-top: -3rem; }
-    .z-index-10 { z-index: 10; }
-    .italic { font-style: italic; }
-    .transition-all { transition: all 0.3s ease; }
-    .w-fit { width: fit-content; }
+/* Hover Lift Effect */
+.hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-lift:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg) !important;
+}
 
-    /* Hide items initially to prevent flicker */
-    .hero-content-box, .reveal-item, .reveal-line span {
-        visibility: hidden;
-    }
+/* Bento Grid */
+.bento-grid .glass-card {
+    border-radius: 24px;
+}
 
-    .reveal-line {
-        overflow: hidden;
-        margin-bottom: 5px;
-    }
-    .reveal-line span {
-        display: block;
-        transform: translateY(100%);
-    }
-    .hero-image-reveal {
-        clip-path: inset(0 0 100% 0);
-    }
-    
-    .glass-card {
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    }
+.italic { font-style: italic; }
+.ls-wide { letter-spacing: 1.5px; }
+.extra-small { font-size: 11px; }
+
+/* Group Hover */
+.group:hover .group-hover\:scale-110 {
+    transform: scale(1.1);
+}
 </style>
-
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Set initial visibility via JS to ensure they are ready for GSAP
-        gsap.set(".hero-content-box, .reveal-item, .reveal-line span", { visibility: "visible" });
-
-        const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-        // 1. Preloader out
-        tl.to("#preloader", {
-            y: "-100%",
-            duration: 1,
-            ease: "expo.inOut",
-            delay: 0.5
-        });
-
-        // 2. Main Glass Card reveal
-        tl.from(".hero-content-box", {
-            scale: 0.9,
-            opacity: 0,
-            duration: 1.2,
-            backdropFilter: "blur(0px)",
-        }, "-=0.2");
-
-        // 3. Text Reveal
-        tl.to(".reveal-line span", {
-            y: "0%",
-            duration: 1,
-            stagger: 0.1
-        }, "-=0.8");
-
-        tl.from(".hero-reveal-subtext", {
-            y: 20,
-            opacity: 0,
-            duration: 0.8
-        }, "-=0.6");
-
-        // 4. Staggered reveal of other items
-        tl.from(".reveal-item:not(.hero-content-box)", {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2
-        }, "-=0.8");
-
-        // 5. Image Clip Reveal
-        tl.to(".hero-image-reveal", {
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 1.5,
-            ease: "power3.inOut"
-        }, "-=1.5");
-
-        // 6. Stats Card
-        tl.from(".glass-stats-card", {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: "back.out(1.7)"
-        }, "-=1");
-    });
-</script>
 {% endblock %}

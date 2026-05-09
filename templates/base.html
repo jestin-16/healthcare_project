@@ -1,125 +1,73 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}HealthCare Pro | Advanced Clinical Management{% endblock %}</title>
+    <title>{% block title %}HealthCare Pro | AI-Powered Modern Healthcare{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="d-flex flex-column">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-hand-holding-medical me-2"></i>HealthCare Pro
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'doctor_list' %}">Our Specialists</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">
-                                <i class="fas fa-grid-2 me-1"></i>Dashboard
-                            </a>
-                        </li>
-                        {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user_management' %}">
-                                <i class="fas fa-users-cog me-1"></i>Users
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'medicine_list' %}">
-                                <i class="fas fa-pills me-1"></i>Inventory
-                            </a>
-                        </li>
-                        {% endif %}
-                        <li class="nav-item dropdown ms-lg-3">
-                            <a class="nav-link dropdown-toggle btn btn-light border-0 px-3 rounded-pill" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle me-2"></i>{{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-2" style="border-radius: 1rem;">
-                                <li><a class="dropdown-item py-2" href="{% url 'profile_settings' %}"><i class="fas fa-user-edit me-2 text-muted"></i>Profile Settings</a></li>
-                                <li><a class="dropdown-item py-2" href="{% url 'change_password' %}"><i class="fas fa-key me-2 text-muted"></i>Security</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form action="{% url 'logout' %}" method="post" class="m-0">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item py-2 text-danger"><i class="fas fa-sign-out-alt me-2"></i>Sign Out</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item ms-lg-2">
-                            <a class="nav-link" href="{% url 'login' %}">Sign In</a>
-                        </li>
-                        <li class="nav-item ms-lg-2">
-                            <a class="btn btn-primary px-4 shadow-sm" href="{% url 'register' %}">Get Started</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body class="d-flex flex-column min-vh-100">
 
-    <main class="container py-5 flex-grow-1">
+    {% include 'includes/navbar.html' %}
+
+    <main class="flex-grow-1">
         {% if messages %}
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible border-0 shadow-sm fade show mb-4" role="alert" style="border-radius: 1rem;">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-{{ message.tags }} bg-opacity-10 p-2 rounded-circle me-3">
-                                    <i class="fas {% if message.tags == 'success' %}fa-check-circle text-success{% else %}fa-exclamation-circle text-danger{% endif %}"></i>
-                                </div>
-                                <div class="fw-semibold">{{ message }}</div>
+            <div class="container" style="margin-top: 100px;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show glass-card border-0 mb-4" role="alert">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-{{ message.tags }} bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill text-success{% else %}bi-exclamation-triangle-fill text-danger{% endif %}"></i>
                             </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <div class="fw-semibold">{{ message }}</div>
                         </div>
-                    {% endfor %}
-                </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
             </div>
         {% endif %}
 
-        <div class="fade-in">
-            {% block content %}{% endblock %}
-        </div>
+        {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-white border-top py-5 mt-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <h5 class="fw-bold mb-1">HealthCare Pro</h5>
-                    <p class="text-muted small mb-0">&copy; 2026 Advanced Clinical Management System.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                    <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-3">
-                        <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2">
-                            <i class="fas fa-play-circle me-1"></i>Watch Tutorial
-                        </a>
-                        <a href="#" class="text-muted"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-muted"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="text-muted"><i class="fab fa-facebook"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'includes/footer.html' %}
 
     {% block modals %}{% endblock %}
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- GSAP for Advanced Animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <script>
+        // Init AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
