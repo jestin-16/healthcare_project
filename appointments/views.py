@@ -29,7 +29,13 @@ def role_required(allowed_roles=[]):
             else:
                 raise PermissionDenied
         return wrap
-    return decorator
+def admin_only(view_func):
+    def wrap(request, *args, **kwargs):
+        if request.user.is_superuser:
+            return view_func(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+    return wrap
 
 def home(request):
     doctors = Doctor.objects.all().select_related('user')[:4]
@@ -659,3 +665,22 @@ def view_appointment_invoice(request, appointment_id):
         'date': appointment.created_at,
     }
     return render(request, 'appointments/invoice.html', context)
+
+@login_required
+@admin_only
+def transaction_list(request):
+    appointment_payments = Appointment.objects.filter(payment_status='paid').order_by('-created_at')
+    prescription_payments = Prescription.objects.filter(payment_status='paid').order_by('-created_at')
+    
+    total_appointment_revenue = sum(p.booking_fee for p in appointment_payments)
+    total_prescription_revenue = sum(p.total_amount for p in prescription_payments)
+    total_revenue = total_appointment_revenue + total_prescription_revenue
+    
+    context = {
+        'appointment_payments': appointment_payments,
+        'prescription_payments': prescription_payments,
+        'total_appointment_revenue': total_appointment_revenue,
+        'total_prescription_revenue': total_prescription_revenue,
+        'total_revenue': total_revenue,
+    }
+    return render(request, 'appointments/transaction_list.html', context)

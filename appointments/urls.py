@@ -36,6 +36,7 @@ urlpatterns = [
     path('payment/initiate/prescription/<int:prescription_id>/', views.initiate_prescription_payment, name='initiate_prescription_payment'),
     path('payment/verify/prescription/<int:prescription_id>/', views.verify_prescription_payment, name='verify_prescription_payment'),
     path('invoice/appointment/<int:appointment_id>/', views.view_appointment_invoice, name='view_appointment_invoice'),
+    path('transactions/', views.transaction_list, name='transaction_list'),
 ]
 
 
