@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+from django.db.models import Sum, Q
 from django.contrib.auth import login, authenticate, logout
 import uuid
 
@@ -20,16 +21,21 @@ from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription,
 import razorpay
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from functools import wraps
 
 def role_required(allowed_roles=[]):
     def decorator(view_func):
+        @wraps(view_func)
         def wrap(request, *args, **kwargs):
             if request.user.profile.role in allowed_roles:
                 return view_func(request, *args, **kwargs)
             else:
                 raise PermissionDenied
         return wrap
+    return decorator
+
 def admin_only(view_func):
+    @wraps(view_func)
     def wrap(request, *args, **kwargs):
         if request.user.is_superuser:
             return view_func(request, *args, **kwargs)
@@ -672,8 +678,8 @@ def transaction_list(request):
     appointment_payments = Appointment.objects.filter(payment_status='paid').order_by('-created_at')
     prescription_payments = Prescription.objects.filter(payment_status='paid').order_by('-created_at')
     
-    total_appointment_revenue = sum(p.booking_fee for p in appointment_payments)
-    total_prescription_revenue = sum(p.total_amount for p in prescription_payments)
+    total_appointment_revenue = appointment_payments.aggregate(Sum('booking_fee'))['booking_fee__sum'] or 0
+    total_prescription_revenue = prescription_payments.aggregate(Sum('total_amount'))['total_amount__sum'] or 0
     total_revenue = total_appointment_revenue + total_prescription_revenue
     
     context = {
