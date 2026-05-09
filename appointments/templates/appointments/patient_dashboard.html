@@ -1,226 +1,155 @@
 {% extends 'base.html' %}
-{% block title %}Patient Portal | DocBook Luxury Healthcare{% endblock %}
-
+{% block title %}My Health Dashboard | Patient{% endblock %}
 {% block content %}
-<style>
-    body { background-color: var(--off-white); }
-
-    .greeting-bar {
-        background: var(--white);
-        padding: 40px;
-        margin-bottom: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 1px 0 var(--border);
-    }
-
-    .stat-card-luxury {
-        background: var(--white);
-        padding: 32px;
-        text-align: left;
-        position: relative;
-        transition: 0.3s;
-        border: none;
-        box-shadow: var(--shadow);
-    }
-    .stat-card-luxury:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-    .stat-card-luxury:hover::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: var(--gold);
-    }
-
-    .stat-number {
-        font-family: var(--font-display);
-        font-size: 3rem;
-        color: var(--gold);
-        line-height: 1;
-        margin-bottom: 8px;
-    }
-
-    .dashboard-card {
-        background: var(--white);
-        box-shadow: var(--shadow);
-        padding: 0;
-        overflow: hidden;
-    }
-    .dashboard-card-header {
-        padding: 32px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .luxury-table { width: 100%; border-collapse: collapse; }
-    .luxury-table th {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--muted);
-        padding: 16px 40px;
-        border-bottom: 1px solid var(--border);
-        text-align: left;
-    }
-    .luxury-table td {
-        padding: 24px 40px;
-        border-bottom: 1px solid #F0EDE8;
-        font-size: 0.95rem;
-    }
-    .luxury-table tr:hover { background-color: #FAFAF8; }
-
-    .status-pill {
-        padding: 4px 12px;
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 600;
-        display: inline-block;
-    }
-    .status-pending   { background: #FDF6EC; color: #92400E; border: 1px solid #E8D5B0; }
-    .status-approved  { background: #EDF7F2; color: #2D6A4F; border: 1px solid #A8D5BC; }
-    .status-rejected  { background: #FDF0F1; color: #8B2635; border: 1px solid #E8B4BB; }
-    .status-completed { background: #F0F0F5; color: #3730A3; border: 1px solid #C4C2DD; }
-    
-    .link-action {
-        color: var(--black);
-        text-decoration: none;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        font-weight: 600;
-        margin-left: 20px;
-        transition: 0.2s;
-    }
-    .link-action:hover { color: var(--gold); }
-    .link-danger { color: var(--danger); }
-    .link-danger:hover { color: #5a1a23; }
-
-    .payment-badge {
-        font-size: 0.65rem;
-        padding: 2px 8px;
-        margin-top: 6px;
-        display: inline-block;
-        border: 1px solid transparent;
-    }
-    .paid { color: #2D6A4F; background: #EDF7F2; border-color: #A8D5BC; }
-    .unpaid { color: #8B2635; background: #FDF0F1; border-color: #E8B4BB; }
-</style>
-
-<div class="greeting-bar fade-in">
-    <div>
-        <span class="overline">PATIENT PORTAL</span>
-        <h2 class="mb-0">Good morning, {{ user.first_name|default:user.username }}.</h2>
+<div class="row mb-5 fade-in">
+    <div class="col-lg-8">
+        <h1 class="hero-title">Hello, {{ user.first_name|default:user.username }}</h1>
+        <p class="text-muted lead">Monitor your health journey, view prescriptions, and schedule your next visit.</p>
     </div>
-    <a href="{% url 'book_appointment' %}" class="btn-outline-luxury">Book New Appointment &rarr;</a>
+    <div class="col-lg-4 d-flex align-items-center justify-content-lg-end mt-3 mt-lg-0">
+        <a href="{% url 'book_appointment' %}" class="btn btn-primary btn-lg px-5 shadow-lg rounded-pill">
+            <i class="fas fa-calendar-plus me-2"></i>New Appointment
+        </a>
+    </div>
 </div>
 
-<div class="container pb-5">
-    <!-- Stats Row -->
-    <div class="row g-4 mb-5 fade-in">
-        <div class="col-md-4">
-            <div class="stat-card-luxury">
-                <div class="stat-number">{{ appointments.count }}</div>
-                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Total Visits</div>
+<!-- Quick Stats Section -->
+<div class="row g-4 mb-5 fade-in">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-3">
+                <i class="fas fa-notes-medical"></i>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card-luxury">
-                <div class="stat-number">{{ pending_count }}</div>
-                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Upcoming Slots</div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="stat-card-luxury">
-                <div class="stat-number">{{ records_count }}</div>
-                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Health Records</div>
-            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Medical Visits</div>
+            <div class="stat-value">{{ appointments.count }}</div>
         </div>
     </div>
-
-    <!-- Appointments Table -->
-    <div class="dashboard-card fade-in">
-        <div class="dashboard-card-header">
-            <h3 class="mb-0">Your Appointments</h3>
-            <span class="small text-muted ls-wide">{{ appointments.count }} TOTAL</span>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--warning-color);">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-3">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Scheduled Slots</div>
+            <div class="stat-value">{% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}</div>
         </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--success-color);">
+            <div class="stat-icon bg-success bg-opacity-10 text-success mb-3">
+                <i class="fas fa-prescription-bottle-alt"></i>
+            </div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide mb-1">Active Prescriptions</div>
+            <div class="stat-value">{% with active=0 %}{% for a in appointments %}{% if a.prescription %}{{ active|add:1 }}{% endif %}{% endfor %}{{ active }}{% endwith %}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main History Section -->
+<div class="card border-0 shadow-lg mb-5 fade-in">
+    <div class="card-header border-0 bg-white pt-4 px-4 pb-0">
+        <h4 class="fw-bold text-dark"><i class="fas fa-history me-2 text-primary"></i>Medical History & Appointments</h4>
+    </div>
+    <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="luxury-table">
+            <table class="table mb-0 align-middle">
                 <thead>
                     <tr>
-                        <th>Medical Specialist</th>
+                        <th class="ps-4">Medical Specialist</th>
                         <th>Date & Timing</th>
                         <th>Clinical Status</th>
-                        <th class="text-end">Actions</th>
+                        <th class="text-end pe-4">Available Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for appt in appointments %}
                     <tr>
-                        <td>
-                            <div class="fw-bold text-dark">Dr. {{ appt.doctor.user.get_full_name }}</div>
-                            <div class="small text-muted uppercase ls-wide" style="font-size: 0.7rem;">{{ appt.doctor.specialization }}</div>
+                        <td class="ps-4 py-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light rounded-pill p-3 me-3">
+                                    <i class="fas fa-user-md text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark fs-6">Dr. {{ appt.doctor.user.get_full_name }}</div>
+                                    <div class="text-muted small">{{ appt.doctor.specialization }}</div>
+                                </div>
+                            </div>
                         </td>
                         <td>
-                            <div class="text-dark">{{ appt.date|date:"d M, Y" }}</div>
-                            <div class="small text-muted">{{ appt.time|time:"g:i A" }} · {% if appt.appointment_type == 'virtual' %}Virtual{% else %}In-Clinic{% endif %}</div>
+                            <div class="fw-bold text-dark mb-1">{{ appt.date|date:"F j, Y" }}</div>
+                            <div class="text-muted small mb-1"><i class="far fa-clock me-1"></i>{{ appt.time|time:"g:i A" }}</div>
+                            {% if appt.appointment_type == 'virtual' %}
+                                <span class="badge bg-info bg-opacity-10 text-info x-small py-1"><i class="fas fa-video me-1"></i>Virtual</span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary x-small py-1"><i class="fas fa-hospital me-1"></i>In-Person</span>
+                            {% endif %}
                         </td>
                         <td>
                             {% if appt.status == 'pending' %}
-                                <span class="status-pill status-pending">Under Review</span>
+                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 px-3 py-2">Under Review</span>
                             {% elif appt.status == 'approved' %}
-                                <span class="status-pill status-approved">Confirmed</span>
-                                <br>
+                                <span class="badge bg-success bg-opacity-10 text-success border-0 px-3 py-2 mb-1">Confirmed</span>
                                 {% if appt.payment_status == 'paid' %}
-                                    <span class="payment-badge paid">Fee Paid</span>
+                                    <br><span class="badge bg-info bg-opacity-10 text-info border-0 px-2 py-1 mt-1 small"><i class="fas fa-check-circle me-1"></i>Fee Paid</span>
                                 {% else %}
-                                    <span class="payment-badge unpaid">Fee Unpaid</span>
+                                    <br><span class="badge bg-danger bg-opacity-10 text-danger border-0 px-2 py-1 mt-1 small"><i class="fas fa-exclamation-circle me-1"></i>Fee Unpaid</span>
                                 {% endif %}
                             {% else %}
-                                <span class="status-pill status-rejected">Declined</span>
-                            {% endif %}
-                            
-                            {% if appt.prescription and appt.prescription.payment_status == 'paid' %}
-                                <span class="payment-badge paid">Meds Paid</span>
-                            {% elif appt.prescription %}
-                                <span class="payment-badge unpaid">Meds Unpaid</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border-0 px-3 py-2">Declined</span>
                             {% endif %}
                         </td>
-                        <td class="text-end">
-                            {% if appt.status == 'approved' and appt.appointment_type == 'virtual' %}
-                                <a href="{% url 'video_call' appt.id %}" class="link-action" style="color: var(--gold);">Join Call</a>
-                            {% endif %}
+                        <td class="text-end pe-4">
+                            <div class="d-flex justify-content-end gap-2">
+                                {% if appt.status == 'approved' and appt.appointment_type == 'virtual' %}
+                                    <a href="{% url 'video_call' appt.id %}" class="btn btn-sm btn-primary px-3 rounded-pill animate-pulse">
+                                        <i class="fas fa-video me-1"></i> Join Call
+                                    </a>
+                                {% endif %}
 
-                            {% if appt.prescription %}
-                                <a href="#" class="link-action" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">Records</a>
-                            {% endif %}
+                                {% if appt.prescription %}
+                                    <button type="button" class="btn btn-sm btn-outline-primary px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
+                                        <i class="fas fa-file-medical me-1"></i> View Script
+                                    </button>
+                                {% endif %}
+                                
+                                {% if appt.status == 'pending' or appt.status == 'approved' %}
+                                    <a href="{% url 'cancel_appointment' appt.id %}" class="btn btn-sm btn-outline-danger px-3 rounded-pill" onclick="return confirm('Are you sure you want to cancel this appointment?')">
+                                        <i class="fas fa-times-circle me-1"></i> Cancel
+                                    </a>
+                                {% endif %}
 
-                            {% if appt.status == 'approved' and appt.payment_status == 'pending' %}
-                                <a href="{% url 'initiate_appointment_payment' appt.id %}" class="link-action">Pay Fee</a>
-                            {% endif %}
+                                {% if appt.status == 'approved' and appt.payment_status == 'pending' %}
+                                    <a href="{% url 'initiate_appointment_payment' appt.id %}" class="btn btn-sm btn-warning px-3 rounded-pill">
+                                        <i class="fas fa-credit-card me-1"></i> Pay Fee
+                                    </a>
+                                {% endif %}
 
-                            {% if appt.payment_status == 'paid' %}
-                                <a href="{% url 'view_appointment_invoice' appt.id %}" class="link-action">Bill</a>
-                            {% endif %}
-
-                            {% if appt.prescription and appt.prescription.payment_status == 'pending' %}
-                                <a href="{% url 'initiate_prescription_payment' appt.prescription.id %}" class="link-action">Pay Meds</a>
-                            {% endif %}
-
-                            {% if appt.status == 'pending' or appt.status == 'approved' %}
-                                <a href="{% url 'cancel_appointment' appt.id %}" class="link-action link-danger" onclick="return confirm('Cancel this appointment?')">Cancel</a>
-                            {% endif %}
+                                {% if appt.payment_status == 'paid' %}
+                                    <a href="{% url 'view_appointment_invoice' appt.id %}" class="btn btn-sm btn-info text-white px-3 rounded-pill">
+                                        <i class="fas fa-file-invoice me-1"></i> Bill
+                                    </a>
+                                {% endif %}
+                                
+                                {% if appt.prescription and appt.prescription.payment_status == 'pending' %}
+                                    <a href="{% url 'initiate_prescription_payment' appt.prescription.id %}" class="btn btn-sm btn-success px-3 rounded-pill">
+                                        <i class="fas fa-pills me-1"></i> Pay Meds
+                                    </a>
+                                {% endif %}
+                                
+                                {% if not appt.prescription and appt.status == 'rejected' %}
+                                    <span class="text-muted x-small fw-bold text-uppercase">No Action</span>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
                         <td colspan="4" class="text-center py-5">
-                            <p class="text-muted mb-4">No health records found in your portal.</p>
-                            <a href="{% url 'book_appointment' %}" class="btn-primary-luxury">Schedule First Visit &rarr;</a>
+                            <div class="opacity-25 mb-3">
+                                <i class="fas fa-notes-medical fa-4x"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Your Health Records are Empty</h5>
+                            <p class="text-muted mb-4">Schedule your first clinical consultation today.</p>
+                            <a href="{% url 'book_appointment' %}" class="btn btn-primary px-4 rounded-pill">Book First Appointment</a>
                         </td>
                     </tr>
                     {% endfor %}
