@@ -224,8 +224,8 @@ def prescribe_medicine(request, appointment_id):
                 
             # Calculate total amount
             total = 0
-            for instance in instances:
-                total += instance.medicine.price
+            for item in prescription.prescribedmedicine_set.all():
+                total += item.medicine.price
             
             prescription.total_amount = total
             prescription.save()

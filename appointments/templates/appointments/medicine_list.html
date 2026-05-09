@@ -20,6 +20,7 @@
                 <tr>
                     <th class="px-4 py-3">Medicine Name</th>
                     <th>Description</th>
+                    <th>Price (₹)</th>
                     <th>Stock Level</th>
                     <th class="text-center">Status</th>
                 </tr>
@@ -29,6 +30,7 @@
                 <tr>
                     <td class="px-4 py-3 fw-bold text-dark">{{ medicine.name }}</td>
                     <td class="text-muted small">{{ medicine.description|truncatechars:100 }}</td>
+                    <td class="fw-bold text-primary">₹{{ medicine.price }}</td>
                     <td>
                         <span class="fw-bold">{{ medicine.stock }}</span> Units
                     </td>

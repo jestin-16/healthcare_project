@@ -92,11 +92,12 @@ class StaffRegistrationForm(forms.ModelForm):
 class MedicineForm(forms.ModelForm):
     class Meta:
         model = Medicine
-        fields = ['name', 'description', 'stock']
+        fields = ['name', 'description', 'price', 'stock']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
-            'stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Medicine Name'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Optional description...'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '0.00'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Available quantity'}),
         }
 
     def clean_stock(self):
