@@ -214,22 +214,11 @@ h1, h2, h3, h4, h5, h6 {
     color: #475569 !important;
     position: relative;
     padding: 0.5rem 1rem !important;
+    transition: color 0.3s ease;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--primary);
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.nav-link:hover::after {
-    width: 80%;
+.nav-link:hover {
+    color: var(--primary) !important;
 }
 
 /* --- Sections --- */

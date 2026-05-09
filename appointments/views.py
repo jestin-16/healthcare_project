@@ -32,8 +32,23 @@ def role_required(allowed_roles=[]):
     return decorator
 
 def home(request):
-    doctors = Doctor.objects.all()[:3]
-    return render(request, 'appointments/home.html', {'is_home': True, 'doctors': doctors})
+    doctors = Doctor.objects.all().select_related('user')[:4]
+    specializations = Doctor.objects.values_list('specialization', flat=True).distinct()
+    
+    # Calculate Dynamic Stats
+    stats = {
+        'doctors_count': Doctor.objects.count(),
+        'patients_count': Profile.objects.filter(role='patient').count(),
+        'appointments_count': Appointment.objects.count(),
+        'experience_years': 15, # Default or could be max(Doctor.experience)
+    }
+    
+    return render(request, 'appointments/home.html', {
+        'is_home': True, 
+        'doctors': doctors,
+        'specializations': specializations,
+        'stats': stats
+    })
 
 def register(request):
     if request.method == 'POST':
