@@ -444,27 +444,36 @@ def initiate_appointment_payment(request, appointment_id):
     amount = int(appointment.booking_fee * 100) # amount in paise
     currency = 'INR'
     
-    # Create Razorpay Order
-    try:
-        razorpay_order = razorpay_client.order.create({
-            'amount': amount,
-            'currency': currency,
-            'payment_capture': '1' # Auto capture
-        })
-    except Exception as e:
-        messages.error(request, f"Razorpay Error: {str(e)}. Please ensure your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are correctly configured in Render Environment Variables.")
-        return redirect('dashboard')
+    # Demonstration Mode / Real Mode Logic
+    if settings.RAZORPAY_KEY_ID == 'rzp_test_YourKeyIdHere' or not settings.RAZORPAY_KEY_ID:
+        # Mock Mode for demonstration
+        razorpay_order_id = f"order_demo_{uuid.uuid4().hex[:12]}"
+        is_demo = True
+    else:
+        # Real Mode
+        try:
+            razorpay_order = razorpay_client.order.create({
+                'amount': amount,
+                'currency': currency,
+                'payment_capture': '1' # Auto capture
+            })
+            razorpay_order_id = razorpay_order['id']
+            is_demo = False
+        except Exception as e:
+            messages.error(request, f"Razorpay Error: {str(e)}. Please check your credentials.")
+            return redirect('dashboard')
     
-    appointment.razorpay_order_id = razorpay_order['id']
+    appointment.razorpay_order_id = razorpay_order_id
     appointment.save()
     
     context = {
         'appointment': appointment,
-        'razorpay_order_id': razorpay_order['id'],
+        'razorpay_order_id': razorpay_order_id,
         'razorpay_merchant_key': settings.RAZORPAY_KEY_ID,
         'amount': amount,
         'amount_in_rupees': appointment.booking_fee,
         'currency': currency,
+        'is_demo': is_demo,
         'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/appointment/{appointment.id}/'),
     }
     return render(request, 'appointments/payment_checkout.html', context)
@@ -478,6 +487,14 @@ def verify_appointment_payment(request, appointment_id):
         
         appointment = get_object_or_404(Appointment, id=appointment_id)
         
+        # If it's a demo order, bypass verification
+        if order_id and order_id.startswith('order_demo_'):
+            appointment.payment_status = 'paid'
+            appointment.razorpay_payment_id = f"pay_demo_{uuid.uuid4().hex[:12]}"
+            appointment.save()
+            messages.success(request, "[DEMO] Payment simulated successfully! Your appointment is now confirmed.")
+            return redirect('dashboard')
+
         params_dict = {
             'razorpay_order_id': order_id,
             'razorpay_payment_id': payment_id,
@@ -512,27 +529,36 @@ def initiate_prescription_payment(request, prescription_id):
     amount = int(prescription.total_amount * 100) # amount in paise
     currency = 'INR'
     
-    # Create Razorpay Order
-    try:
-        razorpay_order = razorpay_client.order.create({
-            'amount': amount,
-            'currency': currency,
-            'payment_capture': '1'
-        })
-    except Exception as e:
-        messages.error(request, f"Razorpay Error: {str(e)}. Please ensure your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are correctly configured.")
-        return redirect('dashboard')
+    # Demonstration Mode / Real Mode Logic
+    if settings.RAZORPAY_KEY_ID == 'rzp_test_YourKeyIdHere' or not settings.RAZORPAY_KEY_ID:
+        # Mock Mode for demonstration
+        razorpay_order_id = f"order_demo_{uuid.uuid4().hex[:12]}"
+        is_demo = True
+    else:
+        # Real Mode
+        try:
+            razorpay_order = razorpay_client.order.create({
+                'amount': amount,
+                'currency': currency,
+                'payment_capture': '1'
+            })
+            razorpay_order_id = razorpay_order['id']
+            is_demo = False
+        except Exception as e:
+            messages.error(request, f"Razorpay Error: {str(e)}. Please check your credentials.")
+            return redirect('dashboard')
     
-    prescription.razorpay_order_id = razorpay_order['id']
+    prescription.razorpay_order_id = razorpay_order_id
     prescription.save()
     
     context = {
         'prescription': prescription,
-        'razorpay_order_id': razorpay_order['id'],
+        'razorpay_order_id': razorpay_order_id,
         'razorpay_merchant_key': settings.RAZORPAY_KEY_ID,
         'amount': amount,
         'amount_in_rupees': prescription.total_amount,
         'currency': currency,
+        'is_demo': is_demo,
         'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/prescription/{prescription.id}/'),
     }
     return render(request, 'appointments/payment_checkout.html', context)
@@ -546,6 +572,14 @@ def verify_prescription_payment(request, prescription_id):
         
         prescription = get_object_or_404(Prescription, id=prescription_id)
         
+        # If it's a demo order, bypass verification
+        if order_id and order_id.startswith('order_demo_'):
+            prescription.payment_status = 'paid'
+            prescription.razorpay_payment_id = f"pay_demo_{uuid.uuid4().hex[:12]}"
+            prescription.save()
+            messages.success(request, "[DEMO] Medicine payment simulated successfully!")
+            return redirect('dashboard')
+
         params_dict = {
             'razorpay_order_id': order_id,
             'razorpay_payment_id': payment_id,

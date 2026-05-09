@@ -40,6 +40,22 @@
                         <i class="fas fa-lock me-2"></i> Pay Now with Razorpay
                     </button>
                     
+                    {% if is_demo %}
+                    <div class="alert alert-info border-0 rounded-3 small text-start">
+                        <i class="fas fa-info-circle me-2"></i> <strong>Simulation Mode Active</strong><br>
+                        Since API keys are not yet configured, you can use the button below to simulate a successful payment for this demonstration.
+                    </div>
+                    <form method="POST" action="{{ callback_url }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
+                        <input type="hidden" name="razorpay_payment_id" value="pay_demo_123">
+                        <input type="hidden" name="razorpay_signature" value="sig_demo_123">
+                        <button type="submit" class="btn btn-outline-success btn-sm w-100 rounded-pill py-2">
+                            <i class="fas fa-vial me-2"></i> Simulate Successful Payment
+                        </button>
+                    </form>
+                    {% endif %}
+                    
                     <p class="small text-muted mb-0">
                         <i class="fas fa-shield-alt text-success me-1"></i> Securely processed by Razorpay
                     </p>
