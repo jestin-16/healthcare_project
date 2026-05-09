@@ -64,6 +64,7 @@
                                 <tr>
                                     <td class="py-3 border-0">
                                         <div class="fw-bold text-dark">{{ pm.medicine.name }}</div>
+                                        <small class="text-muted">₹ {{ pm.medicine.price }}</small>
                                     </td>
                                     <td class="py-3 border-0">
                                         <span class="badge bg-primary bg-opacity-10 text-primary px-3">{{ pm.dosage }}</span>
@@ -74,6 +75,12 @@
                                 </tr>
                                 {% endfor %}
                             </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold py-3">Total Amount:</td>
+                                    <td class="py-3 fw-bold text-primary">₹ {{ appt.prescription.total_amount }}</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -96,7 +103,12 @@
             <div class="modal-footer border-0 p-4 bg-light bg-opacity-50">
                 <div class="w-100 d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
-                        <i class="fas fa-info-circle me-1"></i> Digital signature verified
+                        <i class="fas fa-info-circle me-1"></i> Digital signature verified | 
+                        {% if appt.prescription.payment_status == 'paid' %}
+                            <span class="text-success fw-bold">Payment Paid</span>
+                        {% else %}
+                            <span class="text-danger fw-bold">Payment Pending</span>
+                        {% endif %}
                     </div>
                     <button type="button" class="btn btn-primary px-5 rounded-pill shadow-sm" data-bs-dismiss="modal">
                         Close Document

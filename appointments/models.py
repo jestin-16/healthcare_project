@@ -50,6 +50,11 @@ class Appointment(models.Model):
         ('in_person', 'In-Person'),
         ('virtual', 'Virtual'),
     )
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    )
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='doctor_appointments')
     date = models.DateField(validators=[validate_future_date], db_index=True)
@@ -58,6 +63,14 @@ class Appointment(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', db_index=True)
     appointment_type = models.CharField(max_length=20, choices=APPOINTMENT_TYPE_CHOICES, default='in_person')
     meeting_room_id = models.CharField(max_length=100, blank=True, null=True)
+    
+    # Payment fields
+    booking_fee = models.DecimalField(max_digits=10, decimal_places=2, default=500.00)
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length=200, blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -70,15 +83,29 @@ class Appointment(models.Model):
 class Medicine(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
     stock = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
 
 class Prescription(models.Model):
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    )
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name='prescription')
     medicines = models.ManyToManyField(Medicine, through='PrescribedMedicine')
     notes = models.TextField(blank=True)
+    
+    # Payment fields
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length=200, blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

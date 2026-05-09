@@ -17,6 +17,9 @@ from .forms import (
     UserUpdateForm, ProfileUpdateForm
 )
 from .models import Profile, Doctor, Nurse, Appointment, Medicine, Prescription, PrescribedMedicine
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 def role_required(allowed_roles=[]):
     def decorator(view_func):
@@ -208,7 +211,15 @@ def prescribe_medicine(request, appointment_id):
             for obj in formset.deleted_objects:
                 obj.delete()
                 
-            messages.success(request, "Prescription saved successfully!")
+            # Calculate total amount
+            total = 0
+            for instance in instances:
+                total += instance.medicine.price
+            
+            prescription.total_amount = total
+            prescription.save()
+                
+            messages.success(request, f"Prescription saved successfully! Total amount: ₹{total}")
             return redirect('dashboard')
     else:
         form = PrescriptionForm(instance=prescription)
@@ -420,3 +431,130 @@ def video_call(request, appointment_id):
         'room_name': appointment.meeting_room_id,
         'user_name': request.user.get_full_name() or request.user.username
     })
+
+# --- Razorpay Payment Views ---
+
+razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+@login_required
+@role_required(allowed_roles=['patient'])
+def initiate_appointment_payment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+    
+    amount = int(appointment.booking_fee * 100) # amount in paise
+    currency = 'INR'
+    
+    # Create Razorpay Order
+    razorpay_order = razorpay_client.order.create({
+        'amount': amount,
+        'currency': currency,
+        'payment_capture': '1' # Auto capture
+    })
+    
+    appointment.razorpay_order_id = razorpay_order['id']
+    appointment.save()
+    
+    context = {
+        'appointment': appointment,
+        'razorpay_order_id': razorpay_order['id'],
+        'razorpay_merchant_key': settings.RAZORPAY_KEY_ID,
+        'amount': amount,
+        'amount_in_rupees': appointment.booking_fee,
+        'currency': currency,
+        'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/appointment/{appointment.id}/'),
+    }
+    return render(request, 'appointments/payment_checkout.html', context)
+
+@csrf_exempt
+def verify_appointment_payment(request, appointment_id):
+    if request.method == "POST":
+        payment_id = request.POST.get('razorpay_payment_id')
+        order_id = request.POST.get('razorpay_order_id')
+        signature = request.POST.get('razorpay_signature')
+        
+        appointment = get_object_or_404(Appointment, id=appointment_id)
+        
+        params_dict = {
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        }
+        
+        try:
+            # Verify signature
+            razorpay_client.utility.verify_payment_signature(params_dict)
+            appointment.payment_status = 'paid'
+            appointment.razorpay_payment_id = payment_id
+            appointment.razorpay_signature = signature
+            appointment.save()
+            messages.success(request, "Payment successful! Your appointment is now confirmed.")
+        except Exception as e:
+            appointment.payment_status = 'failed'
+            appointment.save()
+            messages.error(request, f"Payment verification failed: {str(e)}")
+            
+        return redirect('dashboard')
+    return redirect('dashboard')
+
+@login_required
+@role_required(allowed_roles=['patient'])
+def initiate_prescription_payment(request, prescription_id):
+    prescription = get_object_or_404(Prescription, id=prescription_id, appointment__patient=request.user)
+    
+    if prescription.total_amount <= 0:
+        messages.error(request, "No payment required for this prescription.")
+        return redirect('dashboard')
+        
+    amount = int(prescription.total_amount * 100) # amount in paise
+    currency = 'INR'
+    
+    # Create Razorpay Order
+    razorpay_order = razorpay_client.order.create({
+        'amount': amount,
+        'currency': currency,
+        'payment_capture': '1'
+    })
+    
+    prescription.razorpay_order_id = razorpay_order['id']
+    prescription.save()
+    
+    context = {
+        'prescription': prescription,
+        'razorpay_order_id': razorpay_order['id'],
+        'razorpay_merchant_key': settings.RAZORPAY_KEY_ID,
+        'amount': amount,
+        'amount_in_rupees': prescription.total_amount,
+        'currency': currency,
+        'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/prescription/{prescription.id}/'),
+    }
+    return render(request, 'appointments/payment_checkout.html', context)
+
+@csrf_exempt
+def verify_prescription_payment(request, prescription_id):
+    if request.method == "POST":
+        payment_id = request.POST.get('razorpay_payment_id')
+        order_id = request.POST.get('razorpay_order_id')
+        signature = request.POST.get('razorpay_signature')
+        
+        prescription = get_object_or_404(Prescription, id=prescription_id)
+        
+        params_dict = {
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        }
+        
+        try:
+            razorpay_client.utility.verify_payment_signature(params_dict)
+            prescription.payment_status = 'paid'
+            prescription.razorpay_payment_id = payment_id
+            prescription.razorpay_signature = signature
+            prescription.save()
+            messages.success(request, "Medicine payment successful! Your order is being processed.")
+        except Exception as e:
+            prescription.payment_status = 'failed'
+            prescription.save()
+            messages.error(request, f"Payment verification failed: {str(e)}")
+            
+        return redirect('dashboard')
+    return redirect('dashboard')

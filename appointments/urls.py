@@ -29,6 +29,12 @@ urlpatterns = [
     path('ajax/get-booked-slots/', views.get_booked_slots, name='get_booked_slots'),
     path('ping/', views.ping, name='ping'),
     path('video-call/<int:appointment_id>/', views.video_call, name='video_call'),
+    
+    # Payment URLs
+    path('payment/initiate/appointment/<int:appointment_id>/', views.initiate_appointment_payment, name='initiate_appointment_payment'),
+    path('payment/verify/appointment/<int:appointment_id>/', views.verify_appointment_payment, name='verify_appointment_payment'),
+    path('payment/initiate/prescription/<int:prescription_id>/', views.initiate_prescription_payment, name='initiate_prescription_payment'),
+    path('payment/verify/prescription/<int:prescription_id>/', views.verify_prescription_payment, name='verify_prescription_payment'),
 ]
 
 
