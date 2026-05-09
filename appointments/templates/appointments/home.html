@@ -1,318 +1,278 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <style>
-    #content-wrapper { padding-top: 0 !important; }
-    
     /* Hero Section */
-    .hero-section {
-        height: 100vh;
-        width: 100%;
-        background: linear-gradient(rgba(10,10,10,0.45), rgba(10,10,10,0.45)), url('https://images.unsplash.com/photo-1629909613654-28711ee44873?q=80&w=2070&auto=format&fit=crop');
-        background-size: cover;
-        background-position: center;
+    .pro-hero {
+        position: relative;
+        min-height: 100vh;
+        background: var(--slate-50);
         display: flex;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: var(--white);
-        position: relative;
-    }
-
-    .hero-content {
-        max-width: 800px;
-        padding: 0 20px;
-    }
-
-    .hero-overline {
-        color: var(--gold);
-        letter-spacing: 0.2em;
-        font-size: 11px;
-        font-weight: 600;
-        margin-bottom: 24px;
-        display: block;
-    }
-
-    .hero-title {
-        font-size: clamp(2.6rem, 8vw, 4.5rem);
-        font-family: var(--font-display);
-        font-weight: 600;
-        line-height: 1.15;
-        margin-bottom: 24px;
-    }
-
-    .hero-subtext {
-        font-family: var(--font-body);
-        font-size: 1.125rem;
-        font-weight: 300;
-        color: rgba(255,255,255,0.7);
-        max-width: 500px;
-        margin: 0 auto 40px auto;
-    }
-
-    /* Filter Bar */
-    .filter-bar-wrapper {
-        position: absolute;
-        bottom: -40px;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        z-index: 10;
-    }
-
-    .filter-bar {
-        background: var(--white);
-        width: 100%;
-        max-width: 780px;
-        padding: 28px 36px;
-        box-shadow: var(--shadow);
-        display: flex;
-        gap: 20px;
-        align-items: flex-end;
-    }
-
-    .filter-group {
-        flex: 1;
-        text-align: left;
-    }
-
-    .filter-label {
-        font-family: var(--font-body);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--muted);
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    .filter-select {
-        border: none;
-        border-bottom: 1px solid var(--border);
-        width: 100%;
-        padding: 8px 0;
-        font-size: 0.9rem;
-        color: var(--black);
-        background: transparent;
-        border-radius: 0;
-    }
-
-    .filter-select:focus { outline: none; border-bottom-color: var(--black); }
-
-    .btn-search {
-        background: var(--black);
-        color: var(--white);
-        border: none;
-        padding: 0 30px;
-        height: 45px;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-
-    .btn-search:hover { background: #333; }
-
-    /* Services Section */
-    .services-section {
-        padding: 140px 0 100px 0;
-        background-color: var(--off-white);
-    }
-
-    .service-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-        margin-top: 60px;
-    }
-
-    .service-item {
-        padding: 60px;
-        border-top: 1px solid var(--border);
-        position: relative;
-    }
-
-    .service-number {
-        font-family: var(--font-display);
-        font-size: 3rem;
-        color: var(--gold);
-        margin-bottom: 20px;
-        display: block;
-    }
-
-    .service-name {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-    }
-
-    /* Doctor Card */
-    .doctor-card {
-        background: var(--white);
-        border: none;
-        transition: 0.4s ease;
-        height: 100%;
+        padding-top: 80px;
         overflow: hidden;
     }
-    .doctor-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+
+    .hero-bg-visual {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 45%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=2070&auto=format&fit=crop') center/cover;
+        clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+        z-index: 1;
+    }
+
+    .hero-content-wrapper {
+        position: relative;
+        z-index: 2;
+        max-width: 700px;
+    }
+
+    /* Floating Search */
+    .floating-search-card {
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        padding: 30px;
+        box-shadow: var(--shadow-lg);
+        margin-top: 50px;
+    }
+
+    .pro-input-group {
+        display: flex;
+        gap: 15px;
+        background: var(--white);
+        padding: 10px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--slate-200);
+    }
     
-    .doctor-img-wrapper {
-        width: 100%;
-        aspect-ratio: 4/3;
-        background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    .pro-input {
+        border: none;
+        padding: 10px;
+        font-size: 0.95rem;
+        flex: 1;
+        outline: none;
+    }
+
+    /* Feature Cards */
+    .feature-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 40px;
+        transition: 0.4s;
+        height: 100%;
+        border: 1px solid var(--slate-100);
+    }
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary);
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--primary);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    /* Doctor Card Pro */
+    .doctor-card-pro {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        border: 1px solid var(--slate-100);
+        transition: 0.4s;
+    }
+    .doctor-card-pro:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-5px);
+    }
+    .doctor-visual {
+        height: 250px;
+        background: var(--slate-100);
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .doctor-img-wrapper i { font-size: 4rem; color: rgba(0,0,0,0.05); }
-
-    .doctor-body { padding: 24px; }
-    .doctor-meta { font-size: 0.8rem; display: flex; gap: 15px; margin-top: 15px; }
-
-    .doctor-footer {
-        padding: 16px 24px;
-        border-top: 1px solid var(--border);
-    }
-
-    .link-luxury {
-        color: var(--black);
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.1em;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-    .link-luxury:hover { color: var(--gold); padding-left: 5px; }
-
-    /* CTA Section */
-    .cta-section {
-        background: var(--black);
-        color: var(--white);
-        padding: 120px 0;
-        text-align: center;
+    .doctor-visual i { font-size: 4rem; color: var(--slate-200); }
+    
+    .doctor-info { padding: 30px; }
+    
+    @media (max-width: 991px) {
+        .hero-bg-visual { display: none; }
+        .hero-content-wrapper { text-align: center; margin: 0 auto; }
+        .pro-input-group { flex-direction: column; }
     }
 </style>
 
-<div class="hero-section">
-    <div class="hero-content">
-        <span class="hero-overline fade-in">TRUSTED HEALTHCARE · EST. 2024</span>
-        <h1 class="hero-title fade-in">Healthcare Designed<br>Around You.</h1>
-        <p class="hero-subtext fade-in">Connect with specialist doctors. Book, manage, and attend appointments — all in one place.</p>
-        <div class="d-flex justify-content-center gap-3 fade-in">
-            <a href="{% url 'doctor_list' %}" class="btn-primary-luxury">Book a Consultation</a>
-            <a href="{% url 'login' %}" class="btn-outline-luxury" style="color: white !important; border-color: white;">Sign In</a>
+<div class="pro-hero">
+    <div class="hero-bg-visual"></div>
+    <div class="container">
+        <div class="hero-content-wrapper">
+            <span class="overline animate-up">Elite Clinical Network</span>
+            <h1 class="animate-up">Healthcare Excellence,<br><span class="text-primary">Redefined.</span></h1>
+            <p class="animate-up mt-4">Connecting patients with the world's most distinguished medical specialists through cutting-edge technology and a patient-first philosophy.</p>
+            
+            <div class="floating-search-card animate-up">
+                <form action="{% url 'doctor_list' %}" method="GET">
+                    <div class="pro-input-group">
+                        <select name="specialization" class="pro-input">
+                            <option value="">Any Specialization</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Dermatology">Dermatology</option>
+                        </select>
+                        <div class="vr mx-2 d-none d-md-block"></div>
+                        <input type="text" class="pro-input" placeholder="Search by name...">
+                        <button type="submit" class="btn-primary-pro">Find Doctor</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="mt-4 d-flex align-items-center gap-4 animate-up">
+                <div class="d-flex -space-x-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <span class="small fw-600">500+ Board Certified Doctors</span>
+                </div>
+                <div class="d-flex -space-x-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <span class="small fw-600">Instant Tele-health Access</span>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="filter-bar-wrapper fade-in">
-        <form action="{% url 'doctor_list' %}" method="GET" class="filter-bar">
-            <div class="filter-group">
-                <label class="filter-label">Specialization</label>
-                <select name="specialization" class="filter-select">
-                    <option value="">Any Specialization</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Dermatology">Dermatology</option>
-                    <option value="Pediatrics">Pediatrics</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label class="filter-label">Preferred Date</label>
-                <input type="date" class="filter-select">
-            </div>
-            <div class="filter-group">
-                <label class="filter-label">Availability</label>
-                <select class="filter-select">
-                    <option>Immediate</option>
-                    <option>This Week</option>
-                    <option>Next Month</option>
-                </select>
-            </div>
-            <button type="submit" class="btn-search">Search Doctors</button>
-        </form>
     </div>
 </div>
 
-<section class="services-section">
-    <div class="container text-center">
-        <span class="overline">OUR SERVICES</span>
-        <h2>What We Offer</h2>
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="overline">Our Platform</span>
+            <h2>Integrated Care Solutions</h2>
+        </div>
         
-        <div class="service-grid text-start">
-            <div class="service-item">
-                <span class="service-number">01</span>
-                <h3 class="service-name">Specialist Consultations</h3>
-                <p>Direct access to world-renowned medical experts across dozens of specializations.</p>
+        <div class="row g-4">
+            <div class="col-lg-4 animate-reveal">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Smart Booking</h3>
+                    <p>Advanced scheduling system that respects your time and prioritizes clinical urgency.</p>
+                </div>
             </div>
-            <div class="service-item">
-                <span class="service-number">02</span>
-                <h3 class="service-name">Appointment Management</h3>
-                <p>Seamlessly schedule, reschedule, or cancel visits through our concierge platform.</p>
+            <div class="col-lg-4 animate-reveal">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-video"></i></div>
+                    <h3>Virtual Clinic</h3>
+                    <p>High-definition telemedicine consultations from the comfort and privacy of your home.</p>
+                </div>
             </div>
-            <div class="service-item">
-                <span class="service-number">03</span>
-                <h3 class="service-name">Medical Records Access</h3>
-                <p>Your history, prescriptions, and results securely available in your private portal.</p>
-            </div>
-            <div class="service-item">
-                <span class="service-number">04</span>
-                <h3 class="service-name">Second Opinion Service</h3>
-                <p>Gain clarity and confidence through comprehensive reviews by our elite physician network.</p>
+            <div class="col-lg-4 animate-reveal">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Secure Health Vault</h3>
+                    <p>Enterprise-grade security for your medical records, prescriptions, and test results.</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-5 bg-white">
-    <div class="container py-5 text-center">
-        <span class="overline">OUR TEAM</span>
-        <h2 class="mb-5">Meet Our Specialists</h2>
+<section class="section-padding bg-slate-50">
+    <div class="container text-center">
+        <div class="d-flex justify-content-between align-items-end mb-5 text-start">
+            <div>
+                <span class="overline">Specialists</span>
+                <h2>Distinguished Medical Experts</h2>
+            </div>
+            <a href="{% url 'doctor_list' %}" class="btn-outline-pro d-none d-md-block">View All Specialists</a>
+        </div>
         
         <div class="row g-4 text-start">
-            <!-- For demo, we'll just show 3 static placeholders or dynamic if available -->
             {% for doctor in doctors|slice:":3" %}
-            <div class="col-lg-4 col-md-6">
-                <div class="doctor-card">
-                    <div class="doctor-img-wrapper">
-                        <i class="fas fa-staff-snake"></i>
+            <div class="col-lg-4 col-md-6 animate-reveal">
+                <div class="doctor-card-pro">
+                    <div class="doctor-visual">
+                        <i class="fas fa-user-md"></i>
                     </div>
-                    <div class="doctor-body">
-                        <span class="overline mb-2" style="font-size: 0.65rem;">{{ doctor.specialization }}</span>
-                        <h3 class="doctor-name mb-3" style="font-size: 1.25rem;">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h3>
-                        <p class="small text-muted mb-0">{{ doctor.bio|truncatechars:80 }}</p>
-                        <div class="doctor-meta text-muted">
-                            <span><i class="far fa-clock me-1"></i> {{ doctor.experience }} yrs</span>
-                            <span><i class="fas fa-tag me-1"></i> ₹500 fee</span>
+                    <div class="doctor-info">
+                        <span class="badge bg-primary-subtle text-primary mb-3">{{ doctor.specialization }}</span>
+                        <h3 class="mb-2">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h3>
+                        <p class="small text-muted mb-4">{{ doctor.bio|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-700 text-primary">₹500 <small class="text-muted fw-400">/ Visit</small></span>
+                            <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="link-luxury text-primary fw-700">Book <i class="fas fa-chevron-right ms-1"></i></a>
                         </div>
-                    </div>
-                    <div class="doctor-footer">
-                        <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="link-luxury">Book Appointment <i class="fas fa-arrow-right ms-1"></i></a>
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-12 text-center text-muted">No specialists found at the moment.</div>
             {% endfor %}
         </div>
-
-        <div class="mt-5">
-            <a href="{% url 'doctor_list' %}" class="btn-primary-luxury">View All Doctors &rarr;</a>
-        </div>
     </div>
 </section>
 
-<section class="cta-section">
-    <div class="container">
-        <h2>Ready to Take Control of Your Health?</h2>
-        <p class="mb-5" style="color: rgba(255,255,255,0.6);">Join DocBook today and experience healthcare redesigned for your convenience.</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{% url 'register' %}" class="btn-primary-luxury" style="background: white; color: black !important;">Get Started</a>
-            <a href="{% url 'doctor_list' %}" class="btn-outline-luxury" style="color: white !important; border-color: white;">Browse Specialists</a>
+<section class="section-padding bg-primary text-white overflow-hidden position-relative">
+    <div class="container position-relative z-2">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h2 class="text-white mb-4">Transforming the Healthcare Experience.</h2>
+                <p class="text-white opacity-75 mb-5">Join thousands of patients who have already switched to a more intelligent, personalized, and efficient way of managing their health.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'register' %}" class="btn-primary-pro bg-white text-primary">Get Started Now</a>
+                    <a href="#" class="btn-outline-pro text-white border-white">Learn More</a>
+                </div>
+            </div>
         </div>
     </div>
+    <i class="fas fa-heart-pulse position-absolute" style="font-size: 40rem; right: -10rem; top: -10rem; color: rgba(255,255,255,0.05);"></i>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.from(".animate-up", {
+            duration: 1.2,
+            y: 60,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "power4.out"
+        });
+
+        gsap.from(".hero-bg-visual", {
+            duration: 1.5,
+            x: 100,
+            opacity: 0,
+            ease: "power2.out",
+            delay: 0.5
+        });
+
+        // Reveal Animations
+        gsap.utils.toArray(".animate-reveal").forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                },
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out"
+            });
+        });
+    });
+</script>
 {% endblock %}
