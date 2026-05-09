@@ -81,6 +81,9 @@
             border-bottom-color: var(--border);
             box-shadow: 0 1px 0 #E0DDD8;
         }
+        .navbar.scrolled .navbar-toggler-icon {
+            filter: none !important;
+        }
         .navbar-brand {
             font-family: var(--font-display);
             font-size: 1.4rem;
@@ -146,7 +149,14 @@
         }
         .btn-outline-luxury:hover { background: var(--black); color: var(--white) !important; }
 
-        /* Notification Bar */
+        /* Notification Bar Container */
+        #messages-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2000;
+        }
+
         .notification-bar {
             width: 100%;
             padding: 14px 40px;
@@ -157,12 +167,11 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid transparent;
-            position: fixed;
-            top: 0;
-            z-index: 1100;
+            margin-bottom: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .notification-bar.success  { background: #EDF7F2; border-color: #A8D5BC; color: #2D6A4F; }
-        .notification-bar.error    { background: #FDF0F1; border-color: #E8B4BB; color: #8B2635; }
+        .notification-bar.error, .notification-bar.danger { background: #FDF0F1; border-color: #E8B4BB; color: #8B2635; }
         .notification-bar.info     { background: #F0F4FF; border-color: #C4CFE8; color: #1E3A8A; }
         .notification-bar.warning  { background: #FDF6EC; border-color: #E8D5B0; color: #92400E; }
 
@@ -230,22 +239,26 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="notification-bar {{ message.tags }}">
-                <span>{{ message }}</span>
-                <button type="button" class="btn-close" style="filter: grayscale(1) invert(0); font-size: 0.6rem;" onclick="this.parentElement.remove()"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
+    <div id="messages-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification-bar {{ message.tags }}">
+                    <div class="container d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-info-circle me-2"></i>{{ message }}</span>
+                        <button type="button" class="btn-close" style="filter: grayscale(1) invert(0); font-size: 0.6rem;" onclick="this.closest('.notification-bar').remove()"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
     <nav class="navbar navbar-expand-lg fixed-top {% if not is_home %}scrolled{% endif %}">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home' %}">
                 <i class="fas fa-staff-snake"></i>DocBook
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="{% if is_home %}filter: invert(1);{% endif %}"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto align-items-center">
