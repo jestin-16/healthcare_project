@@ -3,15 +3,17 @@
 {% block content %}
 <div class="row g-4 mb-5 fade-in">
     <div class="col-12">
-        <div class="card border-0 shadow-sm bg-primary text-white overflow-hidden" style="border-radius: var(--radius-lg);">
-            <div class="card-body p-5 position-relative">
-                <div class="position-relative z-index-1">
-                    <h1 class="display-6 fw-bold mb-2">Greetings, Dr. {{ user.last_name|default:user.username }}</h1>
-                    <p class="lead opacity-75 mb-0">You have {{ appointments.count }} scheduled consultations for today.</p>
+        <div class="card border-0 shadow-lg bg-dark text-white overflow-hidden position-relative" style="border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--primary) 0%, var(--primary-cyan) 100%);">
+            <div class="blob" style="width: 300px; height: 300px; top: -50%; right: -10%; opacity: 0.2;"></div>
+            <div class="card-body p-5 position-relative z-index-1">
+                <div class="badge bg-white bg-opacity-20 text-white mb-3 px-3 py-2 rounded-pill ls-wide fw-bold border border-white border-opacity-25">
+                    <i class="fas fa-stethoscope me-2"></i>MEDICAL SPECIALIST PORTAL
                 </div>
-                <div class="position-absolute end-0 top-0 p-4 opacity-10">
-                    <i class="fas fa-user-md fa-10x"></i>
-                </div>
+                <h1 class="display-6 fw-bold mb-2">Greetings, Dr. {{ user.last_name|default:user.username }}</h1>
+                <p class="lead opacity-75 mb-0">Your clinical queue has {{ appointments.count }} scheduled consultations for today.</p>
+            </div>
+            <div class="position-absolute end-0 bottom-0 p-4 opacity-10">
+                <i class="fas fa-user-md fa-8x"></i>
             </div>
         </div>
     </div>
@@ -20,48 +22,48 @@
 <!-- Stats Overview -->
 <div class="row g-4 mb-5 fade-in">
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card">
+        <div class="glass-card p-4 stat-card">
             <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-3">
                 <i class="fas fa-calendar-check"></i>
             </div>
-            <div class="stat-value">{{ appointments.count }}</div>
-            <div class="text-muted small fw-bold text-uppercase">Total Appointments</div>
+            <div class="h3 fw-bold text-dark mb-0">{{ appointments.count }}</div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide">Total Slots</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--warning-color);">
+        <div class="glass-card p-4 stat-card">
             <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-3">
                 <i class="fas fa-hourglass-half"></i>
             </div>
-            <div class="stat-value">
+            <div class="h3 fw-bold text-dark mb-0">
                 {% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}
             </div>
-            <div class="text-muted small fw-bold text-uppercase">Pending Review</div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide">Pending Review</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--success-color);">
+        <div class="glass-card p-4 stat-card">
             <div class="stat-icon bg-success bg-opacity-10 text-success mb-3">
                 <i class="fas fa-check-double"></i>
             </div>
-            <div class="stat-value">
+            <div class="h3 fw-bold text-dark mb-0">
                 {% with approved=0 %}{% for a in appointments %}{% if a.status == 'approved' %}{{ approved|add:1 }}{% endif %}{% endfor %}{{ approved }}{% endwith %}
             </div>
-            <div class="text-muted small fw-bold text-uppercase">Confirmed Slots</div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide">Confirmed</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--info-color);">
+        <div class="glass-card p-4 stat-card">
             <div class="stat-icon bg-info bg-opacity-10 text-info mb-3">
                 <i class="fas fa-users"></i>
             </div>
-            <div class="stat-value">{{ appointments.count }}</div>
-            <div class="text-muted small fw-bold text-uppercase">Unique Patients</div>
+            <div class="h3 fw-bold text-dark mb-0">{{ appointments.count }}</div>
+            <div class="text-muted small fw-bold text-uppercase ls-wide">Unique Patients</div>
         </div>
     </div>
 </div>
 
-<div class="card border-0 shadow-lg mb-5 fade-in">
+<div class="glass-card border-0 shadow-lg mb-5 fade-in overflow-hidden">
     <div class="card-header border-0 bg-white pt-4 px-4 pb-0">
         <div class="d-flex justify-content-between align-items-center">
             <h4 class="fw-bold text-dark">Consultation Queue</h4>

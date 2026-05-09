@@ -14,16 +14,16 @@
 <!-- Search & Filter Bar -->
 <div class="row mb-5 fade-in">
     <div class="col-12">
-        <div class="card border-0 shadow-sm p-3 bg-white rounded-pill">
+        <div class="glass-card p-3 border-0 shadow-sm">
             <form method="get" class="row g-2 align-items-center px-2">
                 <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-search text-muted"></i></span>
+                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-search text-primary"></i></span>
                         <input type="text" name="q" value="{{ query|default:'' }}" class="form-control border-0 bg-transparent" placeholder="Search by doctor name...">
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <select name="specialization" class="form-select border-0 bg-transparent">
+                    <select name="specialization" class="form-select border-0 bg-transparent fw-bold text-dark">
                         <option value="">All Specializations</option>
                         {% for s in specializations %}
                             <option value="{{ s }}" {% if selected_spec == s %}selected{% endif %}>{{ s }}</option>
@@ -31,7 +31,7 @@
                     </select>
                 </div>
                 <div class="col-md-3 text-end">
-                    <button type="submit" class="btn btn-primary px-4 rounded-pill w-100">
+                    <button type="submit" class="btn btn-primary-grad w-100">
                         Search Experts
                     </button>
                 </div>
@@ -44,14 +44,14 @@
 <div class="row g-4 fade-in">
     {% for doctor in doctors %}
     <div class="col-md-6 col-lg-4">
-        <div class="card h-100 border-0 shadow-sm overflow-hidden" style="border-radius: var(--radius-lg);">
+        <div class="glass-card h-100 border-0 overflow-hidden transition-all hover-lift">
             <div class="card-body p-4">
                 <div class="text-center mb-4 pt-3">
                     <div class="position-relative d-inline-block">
                         <div class="bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3" style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border: 4px solid #fff; box-shadow: var(--shadow-md);">
                             <i class="fas fa-user-md fa-3x"></i>
                         </div>
-                        <div class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width: 20px; height: 20px; border-width: 3px !important;" title="Verified Professional"></div>
+                        <div class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle animate-pulse" style="width: 20px; height: 20px; border-width: 3px !important;" title="Verified Professional"></div>
                     </div>
                     <h5 class="fw-bold mb-1 text-dark">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h5>
                     <div class="text-primary small fw-bold text-uppercase ls-wide mb-3">{{ doctor.specialization }}</div>
@@ -61,7 +61,7 @@
                     {{ doctor.bio|default:"Dedicated to providing advanced clinical solutions and compassionate patient-centered care through evidence-based medicine."|truncatechars:140 }}
                 </p>
                 
-                <div class="bg-light rounded-4 p-3 mb-4">
+                <div class="bg-soft-blue rounded-4 p-3 mb-4">
                     <div class="row g-0 text-center">
                         <div class="col-6 border-end">
                             <div class="fw-bold text-dark">{{ doctor.experience }}+</div>
@@ -75,8 +75,8 @@
                 </div>
 
                 <div class="d-grid">
-                    <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="btn btn-primary shadow-sm rounded-pill py-2">
-                        Schedule Consultation <i class="fas fa-calendar-check ms-2"></i>
+                    <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="btn btn-primary-grad py-2">
+                        Schedule Visit <i class="fas fa-calendar-check ms-2"></i>
                     </a>
                 </div>
             </div>

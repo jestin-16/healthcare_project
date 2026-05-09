@@ -3,18 +3,17 @@
 {% block content %}
 <div class="row g-4 mb-5 fade-in">
     <div class="col-12">
-        <div class="card border-0 shadow-lg bg-dark text-white overflow-hidden" style="border-radius: var(--radius-lg);">
-            <div class="card-body p-5 position-relative">
-                <div class="position-relative z-index-1">
-                    <div class="badge bg-primary bg-opacity-20 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold border border-primary border-opacity-25">
-                        <i class="fas fa-terminal me-2"></i>ROOT ADMINISTRATOR
-                    </div>
-                    <h1 class="display-5 fw-bold mb-2">Systems Overview</h1>
-                    <p class="lead opacity-75 mb-0">Operational intelligence and infrastructure management dashboard.</p>
+        <div class="card border-0 shadow-lg bg-dark text-white overflow-hidden position-relative" style="border-radius: var(--radius-lg); background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);">
+            <div class="blob" style="width: 300px; height: 300px; top: -50%; left: -10%; opacity: 0.1;"></div>
+            <div class="card-body p-5 position-relative z-index-1">
+                <div class="badge bg-primary bg-opacity-20 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold border border-primary border-opacity-25">
+                    <i class="fas fa-terminal me-2"></i>ROOT ADMINISTRATOR
                 </div>
-                <div class="position-absolute end-0 top-0 p-4 opacity-10">
-                    <i class="fas fa-server fa-10x"></i>
-                </div>
+                <h1 class="display-5 fw-bold mb-2">Systems Overview</h1>
+                <p class="lead opacity-75 mb-0">Operational intelligence and infrastructure management dashboard.</p>
+            </div>
+            <div class="position-absolute end-0 top-0 p-4 opacity-10">
+                <i class="fas fa-server fa-8x"></i>
             </div>
         </div>
     </div>
@@ -23,13 +22,13 @@
 <!-- Advanced Action Bar -->
 <div class="row mb-5 fade-in">
     <div class="col-12">
-        <div class="card border-0 shadow-sm p-3 bg-white rounded-pill">
+        <div class="glass-card p-3 rounded-pill border-0 shadow-sm">
             <div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center gap-3 px-3">
                 <div class="d-flex gap-2">
-                    <a href="{% url 'user_management' %}" class="btn btn-light border-0 px-4 rounded-pill">
+                    <a href="{% url 'user_management' %}" class="btn btn-light bg-white border-0 px-4 rounded-pill shadow-sm">
                         <i class="fas fa-users-cog me-2 text-primary"></i>Manage Users
                     </a>
-                    <a href="{% url 'medicine_list' %}" class="btn btn-light border-0 px-4 rounded-pill">
+                    <a href="{% url 'medicine_list' %}" class="btn btn-light bg-white border-0 px-4 rounded-pill shadow-sm">
                         <i class="fas fa-pills me-2 text-success"></i>Inventory Logs
                     </a>
                 </div>
@@ -49,50 +48,50 @@
 <!-- Dynamic Analytics -->
 <div class="row g-4 mb-5 fade-in">
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--primary-color);">
+        <div class="glass-card p-4 stat-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-0">
                     <i class="fas fa-user-md"></i>
                 </div>
                 <div class="text-success x-small fw-bold"><i class="fas fa-arrow-up me-1"></i>Active</div>
             </div>
-            <div class="stat-value">{{ doctors_count }}</div>
+            <div class="h2 fw-bold text-dark mb-1">{{ doctors_count }}</div>
             <div class="text-muted small fw-bold text-uppercase ls-wide">Medical Doctors</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--success-color);">
+        <div class="glass-card p-4 stat-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="stat-icon bg-success bg-opacity-10 text-success mb-0">
                     <i class="fas fa-user-nurse"></i>
                 </div>
                 <div class="text-success x-small fw-bold"><i class="fas fa-arrow-up me-1"></i>Active</div>
             </div>
-            <div class="stat-value">{{ nurses_count }}</div>
+            <div class="h2 fw-bold text-dark mb-1">{{ nurses_count }}</div>
             <div class="text-muted small fw-bold text-uppercase ls-wide">Nursing Staff</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--info-color);">
+        <div class="glass-card p-4 stat-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="stat-icon bg-info bg-opacity-10 text-info mb-0">
                     <i class="fas fa-procedures"></i>
                 </div>
                 <div class="text-info x-small fw-bold">Live Data</div>
             </div>
-            <div class="stat-value">{{ patients_count }}</div>
+            <div class="h2 fw-bold text-dark mb-1">{{ patients_count }}</div>
             <div class="text-muted small fw-bold text-uppercase ls-wide">Registered Patients</div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card h-100" style="border-left-color: var(--warning-color);">
+        <div class="glass-card p-4 stat-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-0">
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="text-warning x-small fw-bold">Syncing</div>
             </div>
-            <div class="stat-value">{{ total_appointments }}</div>
+            <div class="h2 fw-bold text-dark mb-1">{{ total_appointments }}</div>
             <div class="text-muted small fw-bold text-uppercase ls-wide">Total Consultations</div>
         </div>
     </div>

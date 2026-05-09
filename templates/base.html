@@ -24,11 +24,11 @@
     
     {% block extra_head %}{% endblock %}
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 {% if is_home %}home-page{% else %}inner-page{% endif %}">
 
     {% include 'includes/navbar.html' %}
 
-    <main class="flex-grow-1">
+    <main class="flex-grow-1 {% if not is_home %}pt-5 mt-5{% endif %}">
         {% if messages %}
             <div class="container" style="margin-top: 100px;">
                 {% for message in messages %}

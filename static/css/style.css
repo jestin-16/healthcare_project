@@ -290,6 +290,63 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-3px);
 }
 
+/* --- Global UI Overrides --- */
+.card {
+    border: none !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md) !important;
+}
+
+.btn {
+    border-radius: 99px !important;
+    padding: 10px 24px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary {
+    background: var(--grad-primary) !important;
+    border: none !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.table thead th {
+    background-color: var(--bg-soft-blue);
+    border: none !important;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px !important;
+}
+
+.table tbody td {
+    padding: 15px !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* --- Pulse Animation --- */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+.animate-pulse {
+    animation: pulse-glow 2s infinite;
+}
+
 /* --- Responsiveness --- */
 @media (max-width: 991px) {
     .hero-heading { font-size: 3rem; }

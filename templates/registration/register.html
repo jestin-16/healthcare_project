@@ -2,145 +2,69 @@
 {% block title %}Join DocBook — Premium Healthcare Registration{% endblock %}
 
 {% block content %}
-<style>
-    body { background-color: var(--off-white); }
-    #content-wrapper { padding-top: 0 !important; }
-    
-    .split-layout {
-        min-height: 100vh;
-        display: flex;
-    }
+{% extends 'base.html' %}
+{% block title %}Join HealthCare Pro | Secure Registration{% endblock %}
 
-    .image-panel {
-        width: 50%;
-        background: linear-gradient(rgba(10,10,10,0.6), rgba(10,10,10,0.6)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: var(--white);
-        padding: 60px;
-        text-align: center;
-        position: sticky;
-        top: 0;
-        height: 100vh;
-    }
-
-    .image-panel blockquote {
-        font-family: var(--font-display);
-        font-size: 2.5rem;
-        font-weight: 500;
-        max-width: 400px;
-        margin-bottom: 30px;
-    }
-
-    .form-panel {
-        width: 50%;
-        background: var(--white);
-        padding: 100px 80px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .form-container {
-        max-width: 450px;
-        margin: 0 auto;
-        width: 100%;
-    }
-
-    /* Force luxury styling on Django forms */
-    .form-control {
-        border: none !important;
-        border-bottom: 1px solid var(--border) !important;
-        border-radius: 0 !important;
-        background: transparent !important;
-        padding: 12px 0 !important;
-        box-shadow: none !important;
-        font-family: var(--font-body);
-        font-size: 1rem;
-        color: var(--black);
-    }
-    .form-control:focus {
-        border-bottom-color: var(--black) !important;
-    }
-    .form-label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--muted);
-        margin-bottom: 4px;
-        margin-top: 20px;
-    }
-
-    @media (max-width: 992px) {
-        .image-panel { display: none; }
-        .form-panel { width: 100%; padding: 120px 40px; }
-    }
-</style>
-
-<div class="split-layout">
-    <div class="image-panel">
-        <blockquote class="fade-in">"Your health journey begins here."</blockquote>
-        <div class="gold-rule fade-in"></div>
-    </div>
-    
-    <div class="form-panel">
-        <div class="form-container fade-in">
-            <span class="overline">JOIN DOCBOOK</span>
-            <h2 class="mb-2">Create Your Account</h2>
-            <p class="small text-muted mb-5">Patients can join our network immediately. Doctors and staff are registered by administrators only.</p>
-            
-            <form method="post">
-                {% csrf_token %}
-                
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    {{ form.username }}
-                    {% if form.username.errors %}<div class="text-danger x-small mt-1">{{ form.username.errors.0 }}</div>{% endif %}
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">First Name</label>
-                        {{ form.first_name }}
-                        {% if form.first_name.errors %}<div class="text-danger x-small mt-1">{{ form.first_name.errors.0 }}</div>{% endif %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-10">
+            <div class="glass-card p-5 fade-in shadow-lg">
+                <div class="text-center mb-5">
+                    <div class="bg-primary bg-opacity-10 text-primary d-inline-flex p-3 rounded-4 mb-3">
+                        <i class="fas fa-user-plus fa-2x"></i>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Last Name</label>
-                        {{ form.last_name }}
-                        {% if form.last_name.errors %}<div class="text-danger x-small mt-1">{{ form.last_name.errors.0 }}</div>{% endif %}
-                    </div>
+                    <h2 class="fw-bold text-dark">Create Account</h2>
+                    <p class="text-muted">Join our digital healthcare network</p>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email Address</label>
-                    {{ form.email }}
-                    {% if form.email.errors %}<div class="text-danger x-small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    {{ form.password }}
-                    {% if form.password.errors %}<div class="text-danger x-small mt-1">{{ form.password.errors.0 }}</div>{% endif %}
-                </div>
-
-                <div class="mb-5">
-                    <label class="form-label">Confirm Identity</label>
-                    {{ form.confirm_password }}
-                    {% if form.confirm_password.errors %}<div class="text-danger x-small mt-1">{{ form.confirm_password.errors.0 }}</div>{% endif %}
-                </div>
-
-                <button type="submit" class="btn-primary-luxury w-100 py-3 mb-4">Initialize Account &rarr;</button>
                 
-                <div class="text-center">
-                    <span class="text-muted small">Already a patient?</span>
-                    <a href="{% url 'login' %}" class="link-gold ms-1">Sign In to Portal &rarr;</a>
-                </div>
-            </form>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase ls-wide">First Name</label>
+                            <input type="text" name="first_name" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="John" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase ls-wide">Last Name</label>
+                            <input type="text" name="last_name" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase ls-wide">Username</label>
+                        <input type="text" name="username" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="johndoe123" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase ls-wide">Email Address</label>
+                        <input type="email" name="email" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase ls-wide">Password</label>
+                            <input type="password" name="password" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="••••••••" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-uppercase ls-wide">Confirm</label>
+                            <input type="password" name="confirm_password" class="form-control bg-soft-blue border-0 rounded-pill py-3" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-grad w-100 py-3 mb-4">
+                        Initialize Account <i class="fas fa-check-circle ms-2"></i>
+                    </button>
+                    
+                    <div class="text-center">
+                        <span class="text-muted small">Already a member?</span>
+                        <a href="{% url 'login' %}" class="text-primary fw-bold ms-1 text-decoration-none small">Sign In</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
 {% endblock %}
