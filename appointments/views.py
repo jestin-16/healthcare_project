@@ -618,3 +618,29 @@ def verify_prescription_payment(request, prescription_id):
             
         return redirect('dashboard')
     return redirect('dashboard')
+@login_required
+def view_appointment_invoice(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    
+    # Security: Only patient or doctor or admin can see the bill
+    if request.user != appointment.patient and request.user.profile.role not in ['doctor', 'nurse'] and not request.user.is_superuser:
+        raise PermissionDenied
+
+    if appointment.payment_status != 'paid':
+        messages.warning(request, "Invoice is only available for paid appointments.")
+        return redirect('dashboard')
+
+    # Calculate some mock tax/total
+    subtotal = appointment.booking_fee
+    tax = float(subtotal) * 0.05 # 5% service tax
+    total = float(subtotal) + tax
+
+    context = {
+        'appointment': appointment,
+        'subtotal': subtotal,
+        'tax': tax,
+        'total': total,
+        'invoice_no': f"INV-{appointment.id:05d}",
+        'date': appointment.created_at,
+    }
+    return render(request, 'appointments/invoice.html', context)

@@ -203,6 +203,10 @@
                                 <a href="{% url 'initiate_appointment_payment' appt.id %}" class="link-action">Pay Fee</a>
                             {% endif %}
 
+                            {% if appt.payment_status == 'paid' %}
+                                <a href="{% url 'view_appointment_invoice' appt.id %}" class="link-action">Bill</a>
+                            {% endif %}
+
                             {% if appt.prescription and appt.prescription.payment_status == 'pending' %}
                                 <a href="{% url 'initiate_prescription_payment' appt.prescription.id %}" class="link-action">Pay Meds</a>
                             {% endif %}

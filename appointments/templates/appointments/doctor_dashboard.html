@@ -240,6 +240,9 @@
                                 {% if appt.prescription %}
                                     <a href="#" class="link-action" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">View Records</a>
                                 {% endif %}
+                                {% if appt.payment_status == 'paid' %}
+                                    <a href="{% url 'view_appointment_invoice' appt.id %}" class="link-action">Bill</a>
+                                {% endif %}
                                 <a href="{% url 'manage_appointment' appt.id 'complete' %}" class="link-action">Mark Complete &rarr;</a>
                             {% endif %}
                         </td>

@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block title %}Invoice {{ invoice_no }} | DocBook Luxury Healthcare{% endblock %}
+
+{% block content %}
+<style>
+    body { background-color: var(--white); }
+    #content-wrapper { padding-top: 100px; padding-bottom: 100px; }
+
+    .invoice-container {
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 80px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 40px rgba(0,0,0,0.05);
+        position: relative;
+    }
+
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 80px;
+    }
+
+    .invoice-title {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+    }
+
+    .invoice-meta {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+    }
+
+    .bill-to {
+        margin-bottom: 60px;
+    }
+
+    .bill-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--gold);
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .bill-details h4 {
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 60px;
+    }
+
+    .invoice-table th {
+        text-align: left;
+        padding: 20px 0;
+        border-bottom: 2px solid var(--black);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .invoice-table td {
+        padding: 25px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.95rem;
+    }
+
+    .invoice-totals {
+        margin-left: auto;
+        width: 300px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .total-row.grand-total {
+        border-top: 1px solid var(--black);
+        margin-top: 10px;
+        padding-top: 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: var(--black);
+    }
+
+    .invoice-footer {
+        margin-top: 100px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--muted);
+    }
+
+    @media print {
+        .navbar, footer, .print-btn-container { display: none !important; }
+        #content-wrapper { padding: 0 !important; }
+        .invoice-container { border: none; box-shadow: none; padding: 0; }
+        body { background: white; }
+    }
+
+    .print-btn-container {
+        max-width: 850px;
+        margin: 0 auto 30px auto;
+        text-align: right;
+    }
+</style>
+
+<div class="print-btn-container animate-reveal">
+    <button onclick="window.print()" class="btn-outline-luxury">
+        <i class="fas fa-print me-2"></i> Print Invoice
+    </button>
+</div>
+
+<div class="invoice-container fade-in">
+    <div class="invoice-header">
+        <div>
+            <h1 class="invoice-title">Invoice</h1>
+            <div class="invoice-meta">
+                No: {{ invoice_no }}<br>
+                Date: {{ date|date:"M d, Y" }}
+            </div>
+        </div>
+        <div class="text-end">
+            <h5 class="navbar-brand m-0"><i class="fas fa-staff-snake"></i>DocBook</h5>
+            <div class="small text-muted mt-2">
+                100 Madison Avenue<br>
+                New York, NY 10016<br>
+                +1 (800) DOC-BOOK
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 bill-to">
+            <span class="bill-label">Billed To</span>
+            <div class="bill-details">
+                <h4>{{ appointment.patient.get_full_name|default:appointment.patient.username }}</h4>
+                <p class="small text-muted m-0">{{ appointment.patient.email }}</p>
+                <p class="small text-muted m-0">{{ appointment.patient.profile.phone|default:"" }}</p>
+            </div>
+        </div>
+        <div class="col-md-6 bill-to text-md-end">
+            <span class="bill-label">Provider</span>
+            <div class="bill-details">
+                <h4>Dr. {{ appointment.doctor.user.get_full_name }}</h4>
+                <p class="small text-muted m-0">{{ appointment.doctor.specialization }}</p>
+            </div>
+        </div>
+    </div>
+
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th class="text-end">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>Clinical Consultation Fee</strong><br>
+                    <span class="small text-muted">Appointment on {{ appointment.date|date:"M d, Y" }} at {{ appointment.time|time:"g:i A" }}</span>
+                </td>
+                <td class="text-end">₹{{ subtotal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="invoice-totals">
+        <div class="total-row">
+            <span class="text-muted">Subtotal</span>
+            <span>₹{{ subtotal }}</span>
+        </div>
+        <div class="total-row">
+            <span class="text-muted">Service Tax (5%)</span>
+            <span>₹{{ tax|floatformat:2 }}</span>
+        </div>
+        <div class="total-row grand-total">
+            <span>Total Amount</span>
+            <span>₹{{ total|floatformat:2 }}</span>
+        </div>
+    </div>
+
+    <div class="invoice-footer">
+        <p>Thank you for choosing DocBook Luxury Healthcare. This is a computer-generated document and does not require a physical signature.</p>
+        <p class="mt-4 fw-bold text-dark">DocBook — Excellence in Clinical Solutions</p>
+    </div>
+</div>
+{% endblock %}
