@@ -87,10 +87,11 @@
         .navbar-brand {
             font-family: var(--font-display);
             font-size: 1.4rem;
-            color: var(--black) !important;
+            color: var(--black);
             letter-spacing: 0.02em;
             display: flex;
             align-items: center;
+            transition: color 0.3s ease;
         }
         .navbar-brand i { margin-right: 12px; color: var(--gold); font-size: 1.1rem; }
         
@@ -98,11 +99,20 @@
             font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--muted) !important;
+            color: var(--muted);
             font-weight: 500;
             padding: 0 15px !important;
+            transition: color 0.3s ease;
         }
-        .nav-link:hover { color: var(--black) !important; }
+        .nav-link:hover { color: var(--black); }
+
+        /* Transparent Navbar Adjustments (Home Hero) */
+        .navbar:not(.scrolled) .navbar-brand { color: var(--white); }
+        .navbar:not(.scrolled) .nav-link { color: rgba(255,255,255,0.7); }
+        .navbar:not(.scrolled) .nav-link:hover { color: var(--white); }
+        .navbar:not(.scrolled) .role-badge { border-color: rgba(255,255,255,0.3); color: var(--white); }
+        .navbar:not(.scrolled) .text-muted { color: rgba(255,255,255,0.5) !important; }
+        .navbar:not(.scrolled) .navbar-toggler-icon { filter: invert(1); }
         
         .role-badge {
             border: 1px solid var(--black);
@@ -227,6 +237,11 @@
             border-bottom-color: var(--black);
         }
 
+        /* Content Wrapper */
+        #content-wrapper {
+            padding-top: 72px;
+        }
+
         /* Animation */
         .fade-in {
             animation: fadeIn 1s ease-out forwards;
@@ -258,7 +273,7 @@
                 <i class="fas fa-staff-snake"></i>DocBook
             </a>
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon" style="{% if is_home %}filter: invert(1);{% endif %}"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto align-items-center">

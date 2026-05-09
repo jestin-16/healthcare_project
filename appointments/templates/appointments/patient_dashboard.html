@@ -4,7 +4,6 @@
 {% block content %}
 <style>
     body { background-color: var(--off-white); }
-    #content-wrapper { padding-top: 72px; }
 
     .greeting-bar {
         background: var(--white);
@@ -131,13 +130,13 @@
         </div>
         <div class="col-md-4">
             <div class="stat-card-luxury">
-                <div class="stat-number">{% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}</div>
+                <div class="stat-number">{{ pending_count }}</div>
                 <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Upcoming Slots</div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card-luxury">
-                <div class="stat-number">{% with active=0 %}{% for a in appointments %}{% if a.prescription %}{{ active|add:1 }}{% endif %}{% endfor %}{{ active }}{% endwith %}</div>
+                <div class="stat-number">{{ records_count }}</div>
                 <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Health Records</div>
             </div>
         </div>

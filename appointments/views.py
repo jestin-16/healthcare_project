@@ -107,7 +107,13 @@ def dashboard(request):
     role = request.user.profile.role
     if role == 'patient':
         appointments = Appointment.objects.filter(patient=request.user).select_related('doctor__user', 'prescription').order_by('-date')
-        return render(request, 'appointments/patient_dashboard.html', {'appointments': appointments})
+        pending_count = appointments.filter(status='pending').count()
+        records_count = appointments.filter(prescription__isnull=False).count()
+        return render(request, 'appointments/patient_dashboard.html', {
+            'appointments': appointments,
+            'pending_count': pending_count,
+            'records_count': records_count
+        })
     elif role == 'doctor':
         doctor_profile = getattr(request.user, 'doctor_profile', None)
         if not doctor_profile:
@@ -486,7 +492,7 @@ def initiate_appointment_payment(request, appointment_id):
         'amount_in_rupees': appointment.booking_fee,
         'currency': currency,
         'is_demo': is_demo,
-        'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/appointment/{appointment.id}/'),
+        'callback_url': request.build_absolute_uri(reverse('verify_appointment_payment', args=[appointment.id])),
     }
     return render(request, 'appointments/payment_checkout.html', context)
 
@@ -571,7 +577,7 @@ def initiate_prescription_payment(request, prescription_id):
         'amount_in_rupees': prescription.total_amount,
         'currency': currency,
         'is_demo': is_demo,
-        'callback_url': request.build_absolute_uri(f'/appointments/payment/verify/prescription/{prescription.id}/'),
+        'callback_url': request.build_absolute_uri(reverse('verify_prescription_payment', args=[prescription.id])),
     }
     return render(request, 'appointments/payment_checkout.html', context)
 
