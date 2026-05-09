@@ -1,71 +1,99 @@
-{% extends 'appointments/base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Payment Checkout - ProHealth{% endblock %}
+{% block title %}Secure Checkout | DocBook Luxury Healthcare{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                <div class="card-header bg-primary text-white text-center py-4">
-                    <h3 class="mb-0">Secure Payment</h3>
-                </div>
-                <div class="card-body p-5 text-center">
-                    <div class="mb-4">
-                        <i class="fas fa-credit-card fa-4x text-primary mb-3"></i>
-                        <h4 class="fw-bold">
+<style>
+    body { background-color: var(--off-white); }
+    #content-wrapper { padding-top: 100px; }
+
+    .checkout-card {
+        background: var(--white);
+        box-shadow: var(--shadow);
+        padding: 60px;
+        text-align: center;
+    }
+
+    .amount-display {
+        font-family: var(--font-display);
+        font-size: 3.5rem;
+        color: var(--black);
+        margin: 20px 0;
+    }
+
+    .detail-list {
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 24px 0;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+    .detail-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .detail-value { font-size: 0.9rem; font-weight: 600; color: var(--black); }
+
+    .simulation-notice {
+        background: #FDF6EC;
+        border: 1px solid #E8D5B0;
+        padding: 20px;
+        margin-top: 40px;
+        text-align: left;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center fade-in">
+        <div class="col-lg-6 col-md-8">
+            <div class="checkout-card">
+                <span class="overline">SECURE CHECKOUT</span>
+                <h2 class="mb-4">Finalize Payment</h2>
+                
+                <div class="amount-display">₹ {{ amount_in_rupees }}</div>
+                
+                <div class="detail-list">
+                    <div class="detail-item">
+                        <span class="detail-label">Service</span>
+                        <span class="detail-value">
                             {% if appointment %}
-                                Appointment Booking Fee
+                                Consultation Booking
                             {% else %}
-                                Medicine Prescription Payment
+                                Medicine Prescription
                             {% endif %}
-                        </h4>
-                        <p class="text-muted">ProHealth Healthcare Services</p>
+                        </span>
                     </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Order ID</span>
+                        <span class="detail-value">{{ razorpay_order_id }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Merchant</span>
+                        <span class="detail-value">DocBook Concierge</span>
+                    </div>
+                </div>
 
-                    <div class="bg-light p-4 rounded-3 mb-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Amount to Pay:</span>
-                            <span class="fw-bold text-primary">₹ {{ amount|divisibleby:100|yesno:",," }} {{ amount|add:0|slugify|slice:":-2" }}</span>
-                            <!-- Note: The above is a hacky way to display amount. Using a simple display instead -->
-                            <span class="fw-bold text-primary fs-4">₹ {{ amount_in_rupees }}</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Order ID:</span>
-                            <small class="text-muted">{{ razorpay_order_id }}</small>
-                        </div>
-                    </div>
+                <button id="rzp-button1" class="btn-primary-luxury w-100 py-3 mb-3">Pay via Razorpay &rarr;</button>
 
-                    <button id="rzp-button1" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm py-3 mb-3">
-                        <i class="fas fa-lock me-2"></i> Pay Now with Razorpay
-                    </button>
-                    
-                    {% if is_demo %}
-                    <div class="alert alert-info border-0 rounded-3 small text-start">
-                        <i class="fas fa-info-circle me-2"></i> <strong>Simulation Mode Active</strong><br>
-                        Since API keys are not yet configured, you can use the button below to simulate a successful payment for this demonstration.
-                    </div>
+                {% if is_demo %}
+                <div class="simulation-notice">
+                    <span class="overline" style="color: #92400E; font-size: 0.6rem; display: block; margin-bottom: 5px;">DEMO MODE</span>
+                    <p class="small text-muted mb-3">Razorpay keys are not configured. Use simulation mode for this demonstration.</p>
                     <form method="POST" action="{{ callback_url }}">
                         {% csrf_token %}
                         <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
                         <input type="hidden" name="razorpay_payment_id" value="pay_demo_123">
                         <input type="hidden" name="razorpay_signature" value="sig_demo_123">
-                        <button type="submit" class="btn btn-outline-success btn-sm w-100 rounded-pill py-2">
-                            <i class="fas fa-vial me-2"></i> Simulate Successful Payment
-                        </button>
+                        <button type="submit" class="link-gold small fw-bold" style="background: transparent; border: none; padding: 0;">Simulate Success &rarr;</button>
                     </form>
-                    {% endif %}
-                    
-                    <p class="small text-muted mb-0">
-                        <i class="fas fa-shield-alt text-success me-1"></i> Securely processed by Razorpay
-                    </p>
                 </div>
-            </div>
-            
-            <div class="text-center mt-4">
-                <a href="{% url 'dashboard' %}" class="text-decoration-none text-muted">
-                    <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
-                </a>
+                {% endif %}
+
+                <div class="mt-5">
+                    <a href="{% url 'dashboard' %}" class="small text-muted text-uppercase ls-wide" style="text-decoration: none;">&larr; Cancel and Return</a>
+                </div>
             </div>
         </div>
     </div>
@@ -74,15 +102,14 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 var options = {
-    "key": "{{ razorpay_merchant_key }}", // Enter the Key ID generated from the Dashboard
-    "amount": "{{ amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "key": "{{ razorpay_merchant_key }}",
+    "amount": "{{ amount }}",
     "currency": "{{ currency }}",
-    "name": "ProHealth",
-    "description": "Healthcare Services Payment",
-    "image": "https://example.com/your_logo",
-    "order_id": "{{ razorpay_order_id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "name": "DocBook Concierge",
+    "description": "Premium Healthcare Payment",
+    "image": "https://images.unsplash.com/photo-1576091160550-2173dad99901?q=80&w=100&auto=format&fit=crop",
+    "order_id": "{{ razorpay_order_id }}",
     "handler": function (response){
-        // We will post the response to our verify URL
         var form = document.createElement("form");
         form.method = "POST";
         form.action = "{{ callback_url }}";
@@ -114,7 +141,7 @@ var options = {
         "contact": "{{ request.user.profile.phone }}"
     },
     "theme": {
-        "color": "#0d6efd"
+        "color": "#0A0A0A"
     }
 };
 var rzp1 = new Razorpay(options);

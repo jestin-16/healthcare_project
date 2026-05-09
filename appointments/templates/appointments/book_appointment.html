@@ -1,123 +1,154 @@
 {% extends 'base.html' %}
-{% block title %}Book Appointment | HealthCare Pro{% endblock %}
+{% block title %}Book Consultation | DocBook Luxury Healthcare{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center py-5 fade-in">
-    <div class="col-lg-8">
-        <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: 1.5rem;">
-            <div class="card-header bg-primary p-4 border-0 text-white">
-                <div class="d-flex align-items-center">
-                    <div class="bg-white bg-opacity-20 rounded p-3 me-3">
-                        <i class="fas fa-calendar-check fa-2x"></i>
+<style>
+    body { background-color: var(--off-white); }
+    #content-wrapper { padding-top: 0 !important; }
+    
+    .split-layout {
+        min-height: 100vh;
+        display: flex;
+    }
+
+    .info-panel {
+        width: 40%;
+        background: var(--black);
+        padding: 80px 60px;
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+    }
+
+    .info-panel h2 { color: var(--white); font-size: 2.5rem; margin-bottom: 20px; }
+    .info-panel .doctor-preview { margin-top: 60px; }
+    .info-panel blockquote { font-style: italic; color: rgba(255,255,255,0.6); margin-top: auto; font-size: 1.1rem; }
+
+    .form-panel {
+        width: 60%;
+        background: var(--white);
+        padding: 100px 80px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-container { max-width: 550px; width: 100%; }
+
+    .form-control, .form-select {
+        border: none !important;
+        border-bottom: 1px solid var(--border) !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 12px 0 !important;
+        box-shadow: none !important;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--black);
+    }
+    .form-control:focus, .form-select:focus { border-bottom-color: var(--black) !important; }
+    .form-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; margin-top: 24px; display: block; }
+
+    .slot-btn {
+        transition: all 0.2s ease;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        padding: 12px 5px;
+        font-weight: 500;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 0;
+        margin-bottom: 10px;
+    }
+    .slot-btn:hover:not(.booked) { border-color: var(--black); color: var(--black); }
+    .slot-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+    .slot-btn.booked { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+
+    @media (max-width: 992px) {
+        .info-panel { display: none; }
+        .form-panel { width: 100%; padding: 120px 40px; }
+    }
+</style>
+
+<div class="split-layout">
+    <div class="info-panel">
+        <h2 class="fade-in">Book a Consultation</h2>
+        <div class="gold-rule fade-in"></div>
+        
+        <div class="doctor-preview fade-in">
+            {% if selected_doctor %}
+                <span class="overline" style="color: var(--gold);">SELECTED SPECIALIST</span>
+                <h3 class="text-white mt-2">Dr. {{ selected_doctor.user.get_full_name|default:selected_doctor.user.username }}</h3>
+                <p class="small" style="color: var(--gold);">{{ selected_doctor.specialization }}</p>
+                <div class="mt-4 small opacity-75">
+                    <div class="mb-2"><i class="far fa-clock me-2"></i> {{ selected_doctor.experience }}+ Years Experience</div>
+                    <div><i class="fas fa-tag me-2"></i> Professional Fee: ₹500</div>
+                </div>
+            {% else %}
+                <p class="small opacity-50">Please select a specialist from our medical team to view their professional profile.</p>
+            {% endif %}
+        </div>
+
+        <blockquote class="fade-in">
+            "We believe in care that's personal, precise, and always on your terms."
+        </blockquote>
+    </div>
+    
+    <div class="form-panel">
+        <div class="form-container fade-in">
+            <span class="overline">APPOINTMENT DETAILS</span>
+            <h2 class="mb-5">Schedule Your Visit</h2>
+            
+            <form method="post" id="appointment-form">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="form-label">Specialist Physician</label>
+                    {{ form.doctor }}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Consultation Date</label>
+                        {{ form.date }}
                     </div>
-                    <div>
-                        <h2 class="h4 mb-0 fw-bold">Schedule Consultation</h2>
-                        <p class="mb-0 opacity-75 small">Secure your time slot with our medical specialists</p>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Visit Type</label>
+                        {{ form.appointment_type }}
                     </div>
                 </div>
-            </div>
-            
-            <div class="card-body p-4 p-md-5">
-                <form method="post" id="appointment-form">
-                    {% csrf_token %}
+
+                <div class="mb-5">
+                    <label class="form-label">Reason for Consultation</label>
+                    {{ form.reason }}
+                </div>
+
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="overline mb-0">Select Time Slot</span>
+                    </div>
                     
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Select Doctor</label>
-                            {{ form.doctor }}
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Consultation Date</label>
-                            {{ form.date }}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Appointment Type</label>
-                            {{ form.appointment_type }}
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-primary">Reason for Visit</label>
-                            {{ form.reason }}
-                        </div>
-
-                        <div class="col-12 mt-5">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold mb-0">Select Time Slot</h5>
-                                <span class="badge bg-light text-dark border px-3 py-2" id="slot-count">Available Slots</span>
-                            </div>
-                            
-                            {% if form.time.errors %}
-                                <div class="alert alert-danger py-2 small mb-3">
-                                    {{ form.time.errors.0 }}
-                                </div>
-                            {% endif %}
-
-                            {% if form.non_field_errors %}
-                                <div class="alert alert-danger py-2 small mb-3">
-                                    {{ form.non_field_errors.0 }}
-                                </div>
-                            {% endif %}
-                            
-                            <div id="time-slots-container" class="row g-2">
-                                <!-- Time slots will be generated here -->
-                                <div class="col-12 text-center py-4 bg-light rounded-3 text-muted">
-                                    <p class="small mb-0">Please select a doctor and date to view available slots.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Hidden input for the selected time -->
-                            <input type="hidden" name="time" id="id_time" required>
+                    <div id="time-slots-container" class="row g-2">
+                        <div class="col-12 text-center py-4 bg-light small text-muted">
+                            Please select a doctor and date to view available time slots.
                         </div>
                     </div>
+                    <input type="hidden" name="time" id="id_time" required>
+                </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
-                        <a href="{% url 'dashboard' %}" class="btn btn-light border px-4 rounded-pill">Cancel</a>
-                        <button type="submit" id="submit-btn" class="btn btn-primary px-5 fw-bold shadow-sm rounded-pill" disabled>
-                            Confirm Booking <i class="fas fa-check ms-2"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <button type="submit" id="submit-btn" class="btn-primary-luxury w-100 py-3 mb-4" disabled>Confirm Appointment &rarr;</button>
+                
+                <div class="text-center">
+                    <a href="{% url 'dashboard' %}" class="link-gold small">Discard and Return to Portal</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<style>
-    .ls-wide { letter-spacing: 0.1em; }
-    .x-small { font-size: 0.7rem; }
-    .form-control, .form-select { 
-        background-color: #f8f9fa; 
-        border: 1px solid transparent; 
-        border-radius: 0.75rem; 
-        padding: 0.75rem 1rem;
-    }
-    .slot-btn {
-        transition: all 0.2s ease;
-        border: 2px solid #f8f9fa;
-        background: #f8f9fa;
-        color: #444;
-        padding: 0.75rem 0.5rem;
-        font-weight: 500;
-        font-size: 0.85rem;
-    }
-    .slot-btn:hover:not(.booked) {
-        border-color: var(--primary-color);
-        background: #fff;
-        color: var(--primary-color);
-    }
-    .slot-btn.active {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
-    }
-    .slot-btn.booked {
-        opacity: 0.5;
-        background: #e9ecef;
-        cursor: not-allowed;
-        text-decoration: line-through;
-        color: #adb5bd;
-    }
-</style>
 
 <script>
     const doctorSelect = document.getElementById('id_doctor');
@@ -146,18 +177,18 @@
                 availableTimes.forEach(time => {
                     const isBooked = bookedSlots.includes(time);
                     const col = document.createElement('div');
-                    col.className = 'col-3 col-md-2';
+                    col.className = 'col-4 col-sm-3';
                     
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = `btn w-100 slot-btn rounded-3 ${isBooked ? 'booked' : ''}`;
+                    btn.className = `btn w-100 slot-btn ${isBooked ? 'booked' : ''}`;
                     btn.innerText = time;
                     
                     if (!isBooked) {
                         btn.onclick = () => {
                             document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            timeInput.value = time; // Match ChoiceField keys (HH:MM)
+                            timeInput.value = time;
                             submitBtn.disabled = false;
                         };
                     }
@@ -168,10 +199,17 @@
             });
     }
 
-    doctorSelect.addEventListener('change', updateSlots);
+    doctorSelect.addEventListener('change', function() {
+        // Update URL to show selected doctor info in left panel
+        const url = new URL(window.location);
+        url.searchParams.set('doctor', this.value);
+        window.history.replaceState({}, '', url);
+        // We could also AJAX load the doctor info here if we wanted it to be seamless,
+        // but for now, we'll just update slots and the URL.
+        updateSlots();
+    });
     dateInput.addEventListener('change', updateSlots);
 
-    // Initial check if values already exist (e.g. from URL params)
     if (doctorSelect.value && dateInput.value) updateSlots();
 </script>
 {% endblock %}

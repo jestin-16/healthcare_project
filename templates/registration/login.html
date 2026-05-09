@@ -1,80 +1,116 @@
 {% extends 'base.html' %}
-{% block title %}Login | ProHealth{% endblock %}
+{% block title %}Sign In | DocBook Concierge{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center align-items-center min-vh-75 fade-in">
-    <div class="col-lg-10">
-        <div class="card border-0 shadow-premium overflow-hidden rounded-5">
-            <div class="row g-0">
-                <!-- Visual Side -->
-                <div class="col-md-6 d-none d-md-block position-relative">
-                    <img src="/static/images/prohealth_hero.png" class="w-100 h-100 object-fit-cover" alt="Login Visual">
-                    <div class="position-absolute inset-0 bg-primary opacity-25"></div>
-                    <div class="position-absolute bottom-0 start-0 p-5 text-white">
-                        <h2 class="display-6 fw-bold mb-3">Welcome Back</h2>
-                        <p class="opacity-75">Access your personalized healthcare portal and manage your medical journey with ease.</p>
-                    </div>
-                </div>
-                <!-- Form Side -->
-                <div class="col-md-6 bg-white p-5">
-                    <div class="text-center mb-5">
-                        <div class="text-primary fw-bold text-uppercase ls-wide small mb-2">ProHealth Access</div>
-                        <h2 class="fw-bold text-dark">Sign In</h2>
-                    </div>
+<style>
+    body { background-color: var(--off-white); }
+    #content-wrapper { padding-top: 0 !important; }
+    
+    .split-layout {
+        min-height: 100vh;
+        display: flex;
+    }
 
-                    {% if form.errors or form.non_field_errors %}
-                        <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4 small">
-                            <i class="fas fa-exclamation-circle me-2"></i>
-                            {% if form.non_field_errors %}
-                                {{ form.non_field_errors.0 }}
-                            {% else %}
-                                Invalid username or password. Please try again.
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    
-                    <form method="post" class="px-lg-4">
-                        {% csrf_token %}
-                        
-                        <div class="mb-4">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Username</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-user"></i></span>
-                                <input type="text" name="username" class="form-control border-start-0 rounded-4 bg-white py-3 shadow-none" placeholder="Enter your username" required>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-5">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted mb-0">Password</label>
-                                <a href="#" class="x-small text-primary fw-bold text-decoration-none">Forgot?</a>
-                            </div>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-lock"></i></span>
-                                <input type="password" name="password" class="form-control border-start-0 rounded-4 bg-white py-3 shadow-none" placeholder="••••••••" required>
-                            </div>
-                        </div>
+    .image-panel {
+        width: 50%;
+        background: linear-gradient(rgba(10,10,10,0.5), rgba(10,10,10,0.5)), url('https://images.unsplash.com/photo-1576091160550-2173dad99901?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--white);
+        padding: 60px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+    }
 
-                        <div class="d-grid gap-4">
-                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-lg rounded-pill">
-                                Login to Account
-                            </button>
-                            <div class="text-center">
-                                <span class="text-muted small">Don't have an account?</span>
-                                <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none ms-1">Register Now</a>
-                            </div>
-                        </div>
-                    </form>
+    .image-panel blockquote {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 500;
+        max-width: 400px;
+        margin-bottom: 30px;
+    }
+
+    .form-panel {
+        width: 50%;
+        background: var(--white);
+        padding: 100px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .form-control {
+        border: none !important;
+        border-bottom: 1px solid var(--border) !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 12px 0 !important;
+        box-shadow: none !important;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--black);
+    }
+    .form-control:focus {
+        border-bottom-color: var(--black) !important;
+    }
+    .form-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 4px;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 992px) {
+        .image-panel { display: none; }
+        .form-panel { width: 100%; padding: 120px 40px; }
+    }
+</style>
+
+<div class="split-layout">
+    <div class="image-panel">
+        <blockquote class="fade-in">"Excellence in every interaction."</blockquote>
+        <div class="gold-rule fade-in"></div>
+    </div>
+    
+    <div class="form-panel">
+        <div class="form-container fade-in">
+            <span class="overline">WELCOME BACK</span>
+            <h2 class="mb-5">Access Your Portal</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="form-label">Username or Email</label>
+                    <input type="text" name="username" class="form-control" placeholder="your.name" required>
                 </div>
-            </div>
+
+                <div class="mb-5">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-primary-luxury w-100 py-3 mb-4">Sign In &rarr;</button>
+                
+                <div class="text-center">
+                    <span class="text-muted small">New to DocBook?</span>
+                    <a href="{% url 'register' %}" class="link-gold ms-1">Create account &rarr;</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<style>
-    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .input-group-text { border: 1px solid #dee2e6; }
-    .form-control { border: 1px solid #dee2e6; }
-    .form-control:focus { border-color: var(--primary-color); }
-</style>
 {% endblock %}

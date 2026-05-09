@@ -1,268 +1,316 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Background Decorative Blobs -->
-<div class="position-fixed top-0 start-0 w-100 h-100 overflow-hidden" style="z-index: -1; pointer-events: none;">
-    <div class="position-absolute bg-primary rounded-circle blur-blob" style="width: 400px; height: 400px; top: -100px; right: -100px; opacity: 0.1; filter: blur(80px);"></div>
-    <div class="position-absolute bg-success rounded-circle blur-blob" style="width: 300px; height: 300px; bottom: 10%; left: -50px; opacity: 0.1; filter: blur(60px);"></div>
-</div>
-
-<!-- Premium Preloader -->
-<div id="preloader" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex align-items-center justify-content-center" style="z-index: 9999;">
-    <div class="text-center">
-        <div class="spinner-grow text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
-        <h2 class="h4 fw-bold text-dark preloader-logo" style="font-family: var(--font-heading); letter-spacing: -1px;">
-            ProHealth
-        </h2>
-    </div>
-</div>
-
-<!-- Glassmorphism Hero Section -->
-<div class="row align-items-center py-5 min-vh-75 mt-4">
-    <div class="col-lg-7 mb-5 mb-lg-0 pe-lg-5">
-        <div class="glass-card p-5 rounded-5 border border-white border-opacity-20 shadow-premium hero-content-box" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
-            <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold reveal-item">
-                PROHEALTH CARE
-            </div>
-            <h1 class="display-3 fw-bold text-dark mb-4 ls-tight hero-reveal-text" style="font-family: var(--font-heading); line-height: 1.1;">
-                <div class="reveal-line"><span>Compassionate care,</span></div>
-                <div class="reveal-line"><span class="text-primary fw-normal italic">exceptional results.</span></div>
-            </h1>
-            <p class="text-muted lead mb-5 opacity-75 hero-reveal-subtext">
-                Our team of experienced medical professionals is dedicated to providing holistic, patient-centered care with advanced technology.
-            </p>
-            <div class="d-flex align-items-center gap-4 reveal-item">
-                <a href="{% url 'doctor_list' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg hover-lift">
-                    Find Specialist <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-                <a href="https://youtu.be/WWEs82u37Mw?si=J4NAno47_UAXpVfb" target="_blank" class="d-flex align-items-center gap-2 text-dark text-decoration-none fw-bold hover-primary transition-all">
-                    <div class="bg-white text-primary rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
-                        <i class="fas fa-play small"></i>
-                    </div>
-                    <span>Watch Video</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-5 position-relative">
-        <div class="hero-image-wrapper reveal-item">
-            <div class="rounded-5 overflow-hidden shadow-premium border-5 border-white hero-image-reveal">
-                <img src="/static/images/prohealth_hero.png" class="img-fluid w-100" alt="ProHealth Care">
-            </div>
-            <!-- Floating Success Card -->
-            <div class="position-absolute bottom-0 start-0 mb-4 ms-n4 glass-card p-3 rounded-4 shadow-lg d-none d-md-block border border-white border-opacity-50" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); z-index: 5;">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="bg-success text-white rounded-circle p-2"><i class="fas fa-check"></i></div>
-                    <div>
-                        <div class="fw-bold text-dark small">150K+ Recovered</div>
-                        <div class="x-small text-muted">Verified Success Stories</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Improved Glass Stats Row -->
-<div class="row mt-n4 mb-5 position-relative z-index-10">
-    <div class="col-12">
-        <div class="glass-stats-card p-4 rounded-5 text-white d-flex flex-wrap justify-content-around align-items-center shadow-lg border border-white border-opacity-20" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.8), rgba(0, 210, 255, 0.8)); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);">
-            <div class="stat-item text-center px-4">
-                <div class="h2 fw-bold mb-0">20+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Experience</div>
-            </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">95%</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Satisfaction</div>
-            </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">5k+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Patients</div>
-            </div>
-            <div class="stat-item text-center px-4 border-start border-white border-opacity-20">
-                <div class="h2 fw-bold mb-0">10+</div>
-                <div class="x-small text-white-50 text-uppercase ls-wide">Providers</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- About Section -->
-<div class="row py-5 my-5 align-items-center fade-in">
-    <div class="col-lg-6 mb-5 mb-lg-0 order-lg-2">
-        <div class="ps-lg-5">
-            <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">About Us</div>
-            <h2 class="display-6 fw-bold text-dark mb-4">ProHealth is a team of experienced medical professional</h2>
-            <p class="text-muted mb-4">Dedicated to providing top-quality healthcare services. We believe in a holistic approach to healthcare that focuses on treating the whole person, not just the illness or symptoms.</p>
-            <ul class="list-unstyled">
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Verified Medical Specialists</span></li>
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">Advanced Diagnostic Technology</span></li>
-                <li class="mb-2 d-flex align-items-center gap-2"><i class="fas fa-check-circle text-primary"></i> <span class="small fw-bold">24/7 Patient Support System</span></li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-lg-6 order-lg-1">
-        <div class="rounded-5 overflow-hidden shadow-lg">
-            <img src="/static/images/doctors_group.png" class="img-fluid w-100" alt="Our Team">
-        </div>
-    </div>
-</div>
-
-<!-- Departments Grid -->
-<div class="row py-5 fade-in">
-    <div class="col-12 mb-5">
-        <div class="text-primary small fw-bold text-uppercase ls-wide mb-2">Our Departments</div>
-        <h2 class="display-6 fw-bold text-dark">For Your Health</h2>
-    </div>
-    
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-ambulance fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Emergency</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-child fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Pediatric</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-venus fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Gynecology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-heartbeat fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Cardiology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-brain fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Neurology</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="dept-card p-4 rounded-4 bg-white border border-light shadow-sm h-100 d-flex align-items-center gap-4 hover-primary-border">
-            <div class="dept-icon bg-light text-primary p-3 rounded-4"><i class="fas fa-head-side-virus fa-2x"></i></div>
-            <div>
-                <h5 class="fw-bold mb-1">Psychiatry</h5>
-                <p class="x-small text-muted mb-0">Department</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <style>
-    .ls-tight { letter-spacing: -2px; }
-    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
-    .mt-n5 { margin-top: -3rem; }
-    .z-index-10 { z-index: 10; }
-    .italic { font-style: italic; }
-    .transition-all { transition: all 0.3s ease; }
-    .w-fit { width: fit-content; }
-
-    /* Hide items initially to prevent flicker */
-    .hero-content-box, .reveal-item, .reveal-line span {
-        visibility: hidden;
+    /* Hero Section */
+    .hero-section {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(rgba(10,10,10,0.45), rgba(10,10,10,0.45)), url('https://images.unsplash.com/photo-1629909613654-28711ee44873?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--white);
+        position: relative;
     }
 
-    .reveal-line {
-        overflow: hidden;
-        margin-bottom: 5px;
+    .hero-content {
+        max-width: 800px;
+        padding: 0 20px;
     }
-    .reveal-line span {
+
+    .hero-overline {
+        color: var(--gold);
+        letter-spacing: 0.2em;
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 24px;
         display: block;
-        transform: translateY(100%);
     }
-    .hero-image-reveal {
-        clip-path: inset(0 0 100% 0);
+
+    .hero-title {
+        font-size: clamp(2.6rem, 8vw, 4.5rem);
+        font-family: var(--font-display);
+        font-weight: 600;
+        line-height: 1.15;
+        margin-bottom: 24px;
     }
+
+    .hero-subtext {
+        font-family: var(--font-body);
+        font-size: 1.125rem;
+        font-weight: 300;
+        color: rgba(255,255,255,0.7);
+        max-width: 500px;
+        margin: 0 auto 40px auto;
+    }
+
+    /* Filter Bar */
+    .filter-bar-wrapper {
+        position: absolute;
+        bottom: -40px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        z-index: 10;
+    }
+
+    .filter-bar {
+        background: var(--white);
+        width: 100%;
+        max-width: 780px;
+        padding: 28px 36px;
+        box-shadow: var(--shadow);
+        display: flex;
+        gap: 20px;
+        align-items: flex-end;
+    }
+
+    .filter-group {
+        flex: 1;
+        text-align: left;
+    }
+
+    .filter-label {
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .filter-select {
+        border: none;
+        border-bottom: 1px solid var(--border);
+        width: 100%;
+        padding: 8px 0;
+        font-size: 0.9rem;
+        color: var(--black);
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .filter-select:focus { outline: none; border-bottom-color: var(--black); }
+
+    .btn-search {
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        padding: 0 30px;
+        height: 45px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-search:hover { background: #333; }
+
+    /* Services Section */
+    .services-section {
+        padding: 140px 0 100px 0;
+        background-color: var(--off-white);
+    }
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        margin-top: 60px;
+    }
+
+    .service-item {
+        padding: 60px;
+        border-top: 1px solid var(--border);
+        position: relative;
+    }
+
+    .service-number {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--gold);
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .service-name {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    /* Doctor Card */
+    .doctor-card {
+        background: var(--white);
+        border: none;
+        transition: 0.4s ease;
+        height: 100%;
+        overflow: hidden;
+    }
+    .doctor-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
     
-    .glass-card {
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    .doctor-img-wrapper {
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    .doctor-img-wrapper i { font-size: 4rem; color: rgba(0,0,0,0.05); }
+
+    .doctor-body { padding: 24px; }
+    .doctor-meta { font-size: 0.8rem; display: flex; gap: 15px; margin-top: 15px; }
+
+    .doctor-footer {
+        padding: 16px 24px;
+        border-top: 1px solid var(--border);
+    }
+
+    .link-luxury {
+        color: var(--black);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+    .link-luxury:hover { color: var(--gold); padding-left: 5px; }
+
+    /* CTA Section */
+    .cta-section {
+        background: var(--black);
+        color: var(--white);
+        padding: 120px 0;
+        text-align: center;
     }
 </style>
 
-{% endblock %}
+<div class="hero-section">
+    <div class="hero-content">
+        <span class="hero-overline fade-in">TRUSTED HEALTHCARE · EST. 2024</span>
+        <h1 class="hero-title fade-in">Healthcare Designed<br>Around You.</h1>
+        <p class="hero-subtext fade-in">Connect with specialist doctors. Book, manage, and attend appointments — all in one place.</p>
+        <div class="d-flex justify-content-center gap-3 fade-in">
+            <a href="{% url 'doctor_list' %}" class="btn-primary-luxury">Book a Consultation</a>
+            <a href="{% url 'login' %}" class="btn-outline-luxury" style="color: white !important; border-color: white;">Sign In</a>
+        </div>
+    </div>
 
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Set initial visibility via JS to ensure they are ready for GSAP
-        gsap.set(".hero-content-box, .reveal-item, .reveal-line span", { visibility: "visible" });
+    <div class="filter-bar-wrapper fade-in">
+        <form action="{% url 'doctor_list' %}" method="GET" class="filter-bar">
+            <div class="filter-group">
+                <label class="filter-label">Specialization</label>
+                <select name="specialization" class="filter-select">
+                    <option value="">Any Specialization</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Preferred Date</label>
+                <input type="date" class="filter-select">
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Availability</label>
+                <select class="filter-select">
+                    <option>Immediate</option>
+                    <option>This Week</option>
+                    <option>Next Month</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-search">Search Doctors</button>
+        </form>
+    </div>
+</div>
 
-        const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+<section class="services-section">
+    <div class="container text-center">
+        <span class="overline">OUR SERVICES</span>
+        <h2>What We Offer</h2>
+        
+        <div class="service-grid text-start">
+            <div class="service-item">
+                <span class="service-number">01</span>
+                <h3 class="service-name">Specialist Consultations</h3>
+                <p>Direct access to world-renowned medical experts across dozens of specializations.</p>
+            </div>
+            <div class="service-item">
+                <span class="service-number">02</span>
+                <h3 class="service-name">Appointment Management</h3>
+                <p>Seamlessly schedule, reschedule, or cancel visits through our concierge platform.</p>
+            </div>
+            <div class="service-item">
+                <span class="service-number">03</span>
+                <h3 class="service-name">Medical Records Access</h3>
+                <p>Your history, prescriptions, and results securely available in your private portal.</p>
+            </div>
+            <div class="service-item">
+                <span class="service-number">04</span>
+                <h3 class="service-name">Second Opinion Service</h3>
+                <p>Gain clarity and confidence through comprehensive reviews by our elite physician network.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        // 1. Preloader out
-        tl.to("#preloader", {
-            y: "-100%",
-            duration: 1,
-            ease: "expo.inOut",
-            delay: 0.5
-        });
+<section class="py-5 bg-white">
+    <div class="container py-5 text-center">
+        <span class="overline">OUR TEAM</span>
+        <h2 class="mb-5">Meet Our Specialists</h2>
+        
+        <div class="row g-4 text-start">
+            <!-- For demo, we'll just show 3 static placeholders or dynamic if available -->
+            {% for doctor in doctors|slice:":3" %}
+            <div class="col-lg-4 col-md-6">
+                <div class="doctor-card">
+                    <div class="doctor-img-wrapper">
+                        <i class="fas fa-staff-snake"></i>
+                    </div>
+                    <div class="doctor-body">
+                        <span class="overline mb-2" style="font-size: 0.65rem;">{{ doctor.specialization }}</span>
+                        <h3 class="doctor-name mb-3" style="font-size: 1.25rem;">Dr. {{ doctor.user.get_full_name|default:doctor.user.username }}</h3>
+                        <p class="small text-muted mb-0">{{ doctor.bio|truncatechars:80 }}</p>
+                        <div class="doctor-meta text-muted">
+                            <span><i class="far fa-clock me-1"></i> {{ doctor.experience }} yrs</span>
+                            <span><i class="fas fa-tag me-1"></i> ₹500 fee</span>
+                        </div>
+                    </div>
+                    <div class="doctor-footer">
+                        <a href="{% url 'book_appointment' %}?doctor={{ doctor.id }}" class="link-luxury">Book Appointment <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">No specialists found at the moment.</div>
+            {% endfor %}
+        </div>
 
-        // 2. Main Glass Card reveal
-        tl.from(".hero-content-box", {
-            scale: 0.9,
-            opacity: 0,
-            duration: 1.2,
-            backdropFilter: "blur(0px)",
-        }, "-=0.2");
+        <div class="mt-5">
+            <a href="{% url 'doctor_list' %}" class="btn-primary-luxury">View All Doctors &rarr;</a>
+        </div>
+    </div>
+</section>
 
-        // 3. Text Reveal
-        tl.to(".reveal-line span", {
-            y: "0%",
-            duration: 1,
-            stagger: 0.1
-        }, "-=0.8");
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Take Control of Your Health?</h2>
+        <p class="mb-5" style="color: rgba(255,255,255,0.6);">Join DocBook today and experience healthcare redesigned for your convenience.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'register' %}" class="btn-primary-luxury" style="background: white; color: black !important;">Get Started</a>
+            <a href="{% url 'doctor_list' %}" class="btn-outline-luxury" style="color: white !important; border-color: white;">Browse Specialists</a>
+        </div>
+    </div>
+</section>
 
-        tl.from(".hero-reveal-subtext", {
-            y: 20,
-            opacity: 0,
-            duration: 0.8
-        }, "-=0.6");
-
-        // 4. Staggered reveal of other items
-        tl.from(".reveal-item:not(.hero-content-box)", {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2
-        }, "-=0.8");
-
-        // 5. Image Clip Reveal
-        tl.to(".hero-image-reveal", {
-            clipPath: "inset(0% 0% 0% 0%)",
-            duration: 1.5,
-            ease: "power3.inOut"
-        }, "-=1.5");
-
-        // 6. Stats Card
-        tl.from(".glass-stats-card", {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: "back.out(1.7)"
-        }, "-=1");
-    });
-</script>
 {% endblock %}

@@ -32,7 +32,8 @@ def role_required(allowed_roles=[]):
     return decorator
 
 def home(request):
-    return render(request, 'appointments/home.html')
+    doctors = Doctor.objects.all()[:3]
+    return render(request, 'appointments/home.html', {'is_home': True, 'doctors': doctors})
 
 def register(request):
     if request.method == 'POST':
@@ -113,7 +114,11 @@ def dashboard(request):
              messages.error(request, "Doctor profile not found.")
              return redirect('home')
         appointments = Appointment.objects.filter(doctor=doctor_profile).select_related('patient', 'prescription').order_by('-date')
-        return render(request, 'appointments/doctor_dashboard.html', {'appointments': appointments})
+        has_pending = appointments.filter(status='pending').exists()
+        return render(request, 'appointments/doctor_dashboard.html', {
+            'appointments': appointments,
+            'has_pending': has_pending
+        })
     elif role == 'nurse':
         low_stock_medicines = Medicine.objects.filter(stock__lte=10)
         total_medicines = Medicine.objects.count()
@@ -232,6 +237,10 @@ def prescribe_medicine(request, appointment_id):
 @role_required(allowed_roles=['patient'])
 def book_appointment(request):
     doctor_id = request.GET.get('doctor')
+    selected_doctor = None
+    if doctor_id:
+        selected_doctor = get_object_or_404(Doctor, id=doctor_id)
+        
     initial_data = {}
     if doctor_id:
         initial_data['doctor'] = doctor_id
@@ -247,7 +256,10 @@ def book_appointment(request):
             return redirect('dashboard')
     else:
         form = AppointmentForm(initial=initial_data)
-    return render(request, 'appointments/book_appointment.html', {'form': form})
+    return render(request, 'appointments/book_appointment.html', {
+        'form': form,
+        'selected_doctor': selected_doctor
+    })
 
 @login_required
 @role_required(allowed_roles=['doctor'])

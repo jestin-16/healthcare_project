@@ -1,118 +1,79 @@
 <div class="modal fade" id="prescriptionModal{{ appt.id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 1.5rem;">
-            <div class="modal-header border-0 bg-primary text-white p-4">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-0" style="box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <div class="modal-header border-0 bg-black text-white p-4 rounded-0">
                 <div class="d-flex align-items-center">
-                    <div class="bg-white bg-opacity-20 p-2 rounded-3 me-3">
-                        <i class="fas fa-file-prescription fa-lg"></i>
-                    </div>
                     <div>
-                        <h5 class="modal-title fw-bold mb-0">Medical Prescription</h5>
-                        <small class="opacity-75">ID: RX-{{ appt.prescription.id|stringformat:"05d" }}</small>
+                        <span class="overline" style="color: var(--gold); font-size: 0.6rem;">MEDICAL RECORD</span>
+                        <h5 class="modal-title text-white mb-0" style="font-family: var(--font-display);">Clinical Prescription</h5>
                     </div>
                 </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-5">
-                <div class="row g-4 mb-5">
-                    <div class="col-md-6">
-                        <div class="p-3 bg-light rounded-3 h-100">
-                            <small class="text-uppercase fw-bold text-muted ls-wide d-block mb-2">Physician</small>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3">
-                                    <i class="fas fa-user-md"></i>
-                                </div>
-                                <div>
-                                    <div class="fw-bold text-dark">Dr. {{ appt.doctor.user.get_full_name }}</div>
-                                    <div class="small text-muted">{{ appt.doctor.specialization }}</div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="modal-body p-5 bg-white">
+                <div class="row mb-5">
+                    <div class="col-6">
+                        <span class="overline" style="font-size: 0.65rem;">PHYSICIAN</span>
+                        <div class="fw-bold mt-1">Dr. {{ appt.doctor.user.get_full_name }}</div>
+                        <div class="small text-muted">{{ appt.doctor.specialization }}</div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="p-3 bg-light rounded-3 h-100">
-                            <small class="text-uppercase fw-bold text-muted ls-wide d-block mb-2">Patient Details</small>
-                            <div class="d-flex align-items-center">
-                                <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div>
-                                    <div class="fw-bold text-dark">{{ appt.patient.get_full_name|default:appt.patient.username }}</div>
-                                    <div class="small text-muted">Date: {{ appt.date|date:"M d, Y" }}</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-6 text-end">
+                        <span class="overline" style="font-size: 0.65rem;">DATE</span>
+                        <div class="fw-bold mt-1">{{ appt.date|date:"d M, Y" }}</div>
+                        <div class="small text-muted">ID: RX-{{ appt.prescription.id|stringformat:"05d" }}</div>
                     </div>
                 </div>
 
                 <div class="mb-5">
-                    <div class="d-flex align-items-center mb-3">
-                        <h6 class="fw-bold text-dark mb-0"><i class="fas fa-pills text-primary me-2"></i>Prescribed Medications</h6>
-                        <hr class="flex-grow-1 ms-3 opacity-10">
-                    </div>
-                    <div class="table-responsive border-0">
-                        <table class="table table-hover align-middle">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="border-0 small fw-bold">Medicine</th>
-                                    <th class="border-0 small fw-bold">Dosage</th>
-                                    <th class="border-0 small fw-bold">Duration</th>
+                    <span class="overline mb-3 d-block" style="font-size: 0.65rem;">PRESCRIBED REGIMEN</span>
+                    <div class="table-responsive">
+                        <table class="table align-middle" style="border-top: 1px solid var(--black);">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <th class="ps-0 border-0 overline" style="font-size: 0.6rem;">MEDICATION</th>
+                                    <th class="border-0 overline" style="font-size: 0.6rem;">DOSAGE</th>
+                                    <th class="text-end pe-0 border-0 overline" style="font-size: 0.6rem;">DURATION</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for pm in appt.prescription.prescribedmedicine_set.all %}
-                                <tr>
-                                    <td class="py-3 border-0">
-                                        <div class="fw-bold text-dark">{{ pm.medicine.name }}</div>
-                                        <small class="text-muted">₹ {{ pm.medicine.price }}</small>
+                                <tr style="border-bottom: 1px solid #F0EDE8;">
+                                    <td class="ps-0 py-3 border-0">
+                                        <div class="fw-bold">{{ pm.medicine.name }}</div>
+                                        <div class="small text-muted">₹ {{ pm.medicine.price }}</div>
                                     </td>
                                     <td class="py-3 border-0">
-                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3">{{ pm.dosage }}</span>
+                                        <span class="small fw-bold px-2 py-1" style="background: #F5F2EE; border: 1px solid var(--border);">{{ pm.dosage }}</span>
                                     </td>
-                                    <td class="py-3 border-0 text-muted small">
-                                        <i class="far fa-calendar-alt me-1"></i>{{ pm.duration }}
+                                    <td class="text-end pe-0 py-3 border-0 small text-muted">
+                                        {{ pm.duration }}
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
-                            <tfoot class="border-top">
-                                <tr>
-                                    <td colspan="2" class="text-end fw-bold py-3">Total Amount:</td>
-                                    <td class="py-3 fw-bold text-primary">₹ {{ appt.prescription.total_amount }}</td>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
 
-                <div>
-                    <div class="d-flex align-items-center mb-3">
-                        <h6 class="fw-bold text-dark mb-0"><i class="fas fa-clipboard-list text-primary me-2"></i>Clinical Guidance</h6>
-                        <hr class="flex-grow-1 ms-3 opacity-10">
-                    </div>
-                    <div class="bg-light p-4 rounded-4 position-relative overflow-hidden">
-                        <div class="position-absolute end-0 top-0 p-3 opacity-10">
-                            <i class="fas fa-quote-right fa-2x"></i>
-                        </div>
-                        <p class="mb-0 text-dark" style="font-style: italic; line-height: 1.8;">
-                            {{ appt.prescription.notes|default:"No additional notes provided for this prescription." }}
+                <div class="mb-0">
+                    <span class="overline mb-2 d-block" style="font-size: 0.65rem;">CLINICAL GUIDANCE</span>
+                    <div class="p-4" style="background: #FDF6EC; border-left: 2px solid var(--gold);">
+                        <p class="mb-0 small" style="line-height: 1.6; font-style: italic;">
+                            "{{ appt.prescription.notes|default:"No additional notes provided." }}"
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer border-0 p-4 bg-light bg-opacity-50">
+            <div class="modal-footer border-0 p-4 bg-white" style="border-top: 1px solid var(--border) !important;">
                 <div class="w-100 d-flex justify-content-between align-items-center">
-                    <div class="text-muted small">
-                        <i class="fas fa-info-circle me-1"></i> Digital signature verified | 
+                    <div>
                         {% if appt.prescription.payment_status == 'paid' %}
-                            <span class="text-success fw-bold">Payment Paid</span>
+                            <span class="status-pill status-approved" style="font-size: 0.6rem;">FEE PAID</span>
                         {% else %}
-                            <span class="text-danger fw-bold">Payment Pending</span>
+                            <span class="status-pill status-rejected" style="font-size: 0.6rem;">PAYMENT PENDING</span>
                         {% endif %}
                     </div>
-                    <button type="button" class="btn btn-primary px-5 rounded-pill shadow-sm" data-bs-dismiss="modal">
-                        Close Document
-                    </button>
+                    <button type="button" class="btn-primary-luxury py-2 px-4" style="font-size: 0.7rem;" data-bs-dismiss="modal">Close Record</button>
                 </div>
             </div>
         </div>

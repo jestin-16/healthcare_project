@@ -1,173 +1,251 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard | Specialist Physician{% endblock %}
+{% block title %}Doctor Portal | DocBook Luxury Healthcare{% endblock %}
+
 {% block content %}
-<div class="row g-4 mb-5 fade-in">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm bg-primary text-white overflow-hidden" style="border-radius: var(--radius-lg);">
-            <div class="card-body p-5 position-relative">
-                <div class="position-relative z-index-1">
-                    <h1 class="display-6 fw-bold mb-2">Greetings, Dr. {{ user.last_name|default:user.username }}</h1>
-                    <p class="lead opacity-75 mb-0">You have {{ appointments.count }} scheduled consultations for today.</p>
-                </div>
-                <div class="position-absolute end-0 top-0 p-4 opacity-10">
-                    <i class="fas fa-user-md fa-10x"></i>
-                </div>
-            </div>
-        </div>
+<style>
+    body { background-color: var(--off-white); }
+    #content-wrapper { padding-top: 72px; }
+
+    .doctor-header {
+        background: var(--black);
+        padding: 60px 40px;
+        margin-bottom: 40px;
+        color: var(--white);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stat-card-luxury {
+        background: var(--white);
+        padding: 32px;
+        text-align: left;
+        position: relative;
+        transition: 0.3s;
+        border: none;
+        box-shadow: var(--shadow);
+    }
+    .stat-card-luxury:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .stat-card-luxury:hover::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gold);
+    }
+
+    .stat-number {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--gold);
+        line-height: 1;
+        margin-bottom: 8px;
+    }
+
+    .pending-panel {
+        background: #FDF6EC;
+        border-left: 3px solid var(--gold);
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+
+    .dashboard-card {
+        background: var(--white);
+        box-shadow: var(--shadow);
+        padding: 0;
+        overflow: hidden;
+    }
+    .dashboard-card-header {
+        padding: 32px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .luxury-table { width: 100%; border-collapse: collapse; }
+    .luxury-table th {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        padding: 16px 40px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+    }
+    .luxury-table td {
+        padding: 24px 40px;
+        border-bottom: 1px solid #F0EDE8;
+        font-size: 0.95rem;
+    }
+    .luxury-table tr:hover { background-color: #FAFAF8; }
+
+    .status-pill {
+        padding: 4px 12px;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        display: inline-block;
+    }
+    .status-pending   { background: #FDF6EC; color: #92400E; border: 1px solid #E8D5B0; }
+    .status-approved  { background: #EDF7F2; color: #2D6A4F; border: 1px solid #A8D5BC; }
+    .status-rejected  { background: #FDF0F1; color: #8B2635; border: 1px solid #E8B4BB; }
+    
+    .link-action {
+        color: var(--black);
+        text-decoration: none;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+        margin-left: 20px;
+        transition: 0.2s;
+    }
+    .link-action:hover { color: var(--gold); }
+    
+    .btn-action-sm {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 0;
+        border: 1px solid var(--black);
+        background: var(--black);
+        color: var(--white);
+        text-decoration: none;
+        display: inline-block;
+    }
+    .btn-action-outline-sm {
+        background: transparent;
+        color: var(--black);
+    }
+</style>
+
+<div class="doctor-header fade-in">
+    <div>
+        <span class="overline" style="color: var(--gold);">DOCTOR PORTAL</span>
+        <h2 class="mb-0 text-white">Dr. {{ user.last_name|default:user.username }}</h2>
+        <span class="small" style="color: var(--gold);">{{ user.doctor.specialization }}</span>
+    </div>
+    <div class="text-end">
+        <div class="stat-number mb-0" style="font-size: 2.5rem;">{% with today=0 %}{% for a in appointments %}{% if a.status == 'approved' %}{{ today|add:1 }}{% endif %}{% endfor %}{{ today }}{% endwith %}</div>
+        <span class="overline mb-0" style="color: rgba(255,255,255,0.5); font-size: 0.6rem;">Today's Appointments</span>
     </div>
 </div>
 
-<!-- Stats Overview -->
-<div class="row g-4 mb-5 fade-in">
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card">
-            <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-3">
-                <i class="fas fa-calendar-check"></i>
+<div class="container pb-5">
+    <!-- Stats Row -->
+    <div class="row g-4 mb-5 fade-in">
+        <div class="col-md-3">
+            <div class="stat-card-luxury">
+                <div class="stat-number">{{ appointments.count }}</div>
+                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Total Consults</div>
             </div>
-            <div class="stat-value">{{ appointments.count }}</div>
-            <div class="text-muted small fw-bold text-uppercase">Total Appointments</div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card-luxury">
+                <div class="stat-number">{% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}</div>
+                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Pending Review</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card-luxury">
+                <div class="stat-number">{% with approved=0 %}{% for a in appointments %}{% if a.status == 'approved' %}{{ approved|add:1 }}{% endif %}{% endfor %}{{ approved }}{% endwith %}</div>
+                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Confirmed Slots</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card-luxury">
+                <div class="stat-number">{{ appointments.count }}</div>
+                <div class="overline mb-0" style="color: var(--muted); font-size: 0.65rem;">Patient Reach</div>
+            </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--warning-color);">
-            <div class="stat-icon bg-warning bg-opacity-10 text-warning mb-3">
-                <i class="fas fa-hourglass-half"></i>
-            </div>
-            <div class="stat-value">
-                {% with pending=0 %}{% for a in appointments %}{% if a.status == 'pending' %}{{ pending|add:1 }}{% endif %}{% endfor %}{{ pending }}{% endwith %}
-            </div>
-            <div class="text-muted small fw-bold text-uppercase">Pending Review</div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--success-color);">
-            <div class="stat-icon bg-success bg-opacity-10 text-success mb-3">
-                <i class="fas fa-check-double"></i>
-            </div>
-            <div class="stat-value">
-                {% with approved=0 %}{% for a in appointments %}{% if a.status == 'approved' %}{{ approved|add:1 }}{% endif %}{% endfor %}{{ approved }}{% endwith %}
-            </div>
-            <div class="text-muted small fw-bold text-uppercase">Confirmed Slots</div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-4 stat-card" style="border-left-color: var(--info-color);">
-            <div class="stat-icon bg-info bg-opacity-10 text-info mb-3">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-value">{{ appointments.count }}</div>
-            <div class="text-muted small fw-bold text-uppercase">Unique Patients</div>
-        </div>
-    </div>
-</div>
 
-<div class="card border-0 shadow-lg mb-5 fade-in">
-    <div class="card-header border-0 bg-white pt-4 px-4 pb-0">
-        <div class="d-flex justify-content-between align-items-center">
-            <h4 class="fw-bold text-dark">Consultation Queue</h4>
-            <div class="badge bg-light text-dark border p-2">
-                <i class="fas fa-clock me-2 text-primary"></i>Live Updates
-            </div>
-        </div>
-    </div>
-    <div class="card-body p-0">
+    <!-- Pending Requests Panel -->
+    {% if has_pending %}
+    <div class="pending-panel fade-in">
+        <h3 class="mb-4">Pending Requests</h3>
         <div class="table-responsive">
-            <table class="table mb-0 align-middle">
+            <table class="luxury-table" style="background: transparent;">
+                <tbody>
+                    {% for appt in appointments %}
+                        {% if appt.status == 'pending' %}
+                        <tr>
+                            <td class="ps-0 border-0">
+                                <div class="fw-bold">{{ appt.patient.get_full_name|default:appt.patient.username }}</div>
+                                <div class="small text-muted">{{ appt.date|date:"d M" }} · {{ appt.time|time:"g:i A" }}</div>
+                            </td>
+                            <td class="border-0">{{ appt.reason|truncatechars:50 }}</td>
+                            <td class="text-end pe-0 border-0">
+                                <a href="{% url 'manage_appointment' appt.id 'approve' %}" class="btn-action-sm me-2 appointment-action" data-type="{{ appt.appointment_type }}">Approve</a>
+                                <a href="{% url 'manage_appointment' appt.id 'reject' %}" class="btn-action-sm btn-action-outline-sm appointment-action">Reject</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Consultation Queue -->
+    <div class="dashboard-card fade-in">
+        <div class="dashboard-card-header">
+            <h3 class="mb-0">Consultation Queue</h3>
+            <span class="small text-muted ls-wide">ALL APPOINTMENTS</span>
+        </div>
+        <div class="table-responsive">
+            <table class="luxury-table">
                 <thead>
                     <tr>
-                        <th class="ps-4">Patient Information</th>
+                        <th>Patient Information</th>
                         <th>Schedule</th>
-                        <th>Clinical Concern</th>
-                        <th>Current Status</th>
-                        <th class="text-end pe-4">Clinical Actions</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for appt in appointments %}
-                    <tr class="align-middle">
-                        <td class="ps-4 py-4">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
-                                    <span class="fw-bold">{{ appt.patient.username|slice:":1"|upper }}</span>
-                                </div>
-                                <div>
-                                    <a href="{% url 'patient_history' appt.patient.id %}" class="fw-bold text-dark fs-6 text-decoration-none hover-primary">
-                                        {{ appt.patient.get_full_name|default:appt.patient.username }}
-                                    </a>
-                                    <div class="text-muted x-small">ID: PM-{{ appt.id|stringformat:"05d" }}</div>
-                                </div>
-                            </div>
+                    <tr>
+                        <td>
+                            <div class="fw-bold">{{ appt.patient.get_full_name|default:appt.patient.username }}</div>
+                            <div class="small text-muted uppercase ls-wide" style="font-size: 0.7rem;">ID: PM-{{ appt.id|stringformat:"05d" }}</div>
                         </td>
                         <td>
-                            <div class="d-flex flex-column">
-                                <span class="fw-bold text-dark mb-1">{{ appt.date|date:"M d, Y" }}</span>
-                                <span class="text-primary small fw-semibold mb-1">
-                                    <i class="far fa-clock me-1"></i>{{ appt.time|time:"H:i A" }}
-                                </span>
-                                {% if appt.appointment_type == 'virtual' %}
-                                    <span class="badge bg-info bg-opacity-10 text-info x-small py-1 w-fit"><i class="fas fa-video me-1"></i>Virtual</span>
-                                {% else %}
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary x-small py-1 w-fit"><i class="fas fa-hospital me-1"></i>In-Person</span>
-                                {% endif %}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="text-muted small text-truncate" style="max-width: 200px;" title="{{ appt.reason }}">
-                                {{ appt.reason }}
-                            </div>
+                            <div class="text-dark">{{ appt.date|date:"d M, Y" }}</div>
+                            <div class="small text-muted">{{ appt.time|time:"g:i A" }} · {% if appt.appointment_type == 'virtual' %}Virtual{% else %}In-Clinic{% endif %}</div>
                         </td>
                         <td>
                             {% if appt.status == 'pending' %}
-                                <span class="badge bg-warning bg-opacity-10 text-warning border-0">Pending</span>
+                                <span class="status-pill status-pending">Pending</span>
                             {% elif appt.status == 'approved' %}
-                                <span class="badge bg-success bg-opacity-10 text-success border-0">Approved</span>
+                                <span class="status-pill status-approved">Approved</span>
                             {% else %}
-                                <span class="badge bg-danger bg-opacity-10 text-danger border-0">Declined</span>
+                                <span class="status-pill status-rejected">Declined</span>
                             {% endif %}
                         </td>
-                        <td class="text-end pe-4">
-                            <div class="d-flex gap-2 justify-content-end align-items-center">
-                                {% if appt.status == 'approved' and appt.appointment_type == 'virtual' %}
-                                    <a href="{% url 'video_call' appt.id %}" class="btn btn-sm btn-primary px-3 rounded-pill animate-pulse">
-                                        <i class="fas fa-video me-1"></i> Join Call
-                                    </a>
-                                {% endif %}
+                        <td class="text-end">
+                            {% if appt.status == 'approved' and appt.appointment_type == 'virtual' %}
+                                <a href="{% url 'video_call' appt.id %}" class="link-action" style="color: var(--gold);">Join Call</a>
+                            {% endif %}
 
-                                {% if appt.status == 'pending' %}
-                                    <div class="btn-group shadow-sm rounded-pill overflow-hidden">
-                                        <a href="{% url 'manage_appointment' appt.id 'approve' %}" class="btn btn-sm btn-success px-3 appointment-action" data-type="{{ appt.appointment_type }}">
-                                            <i class="fas fa-check me-1"></i> Approve
-                                        </a>
-                                        <a href="{% url 'manage_appointment' appt.id 'reject' %}" class="btn btn-sm btn-outline-danger px-3 appointment-action">
-                                            Reject
-                                        </a>
-                                    </div>
-                                {% elif appt.status == 'approved' %}
-                                    {% if appt.prescription %}
-                                        <button type="button" class="btn btn-sm btn-outline-primary px-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">
-                                            <i class="fas fa-eye me-1"></i> View
-                                        </button>
-                                        <a href="{% url 'prescribe_medicine' appt.id %}" class="btn btn-sm btn-primary px-3 shadow-sm rounded-pill">
-                                            <i class="fas fa-edit me-1"></i> Edit Rx
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'prescribe_medicine' appt.id %}" class="btn btn-sm btn-primary px-4 shadow-sm rounded-pill">
-                                            <i class="fas fa-prescription me-2"></i>E-Prescribe
-                                        </a>
-                                    {% endif %}
-                                {% else %}
-                                    <span class="badge bg-light text-muted border px-3">Archived</span>
+                            {% if appt.status == 'approved' %}
+                                <a href="{% url 'prescribe_medicine' appt.id %}" class="link-action">{% if appt.prescription %}Edit Rx{% else %}E-Prescribe{% endif %}</a>
+                                {% if appt.prescription %}
+                                    <a href="#" class="link-action" data-bs-toggle="modal" data-bs-target="#prescriptionModal{{ appt.id }}">View Records</a>
                                 {% endif %}
-                            </div>
+                                <a href="{% url 'manage_appointment' appt.id 'complete' %}" class="link-action">Mark Complete &rarr;</a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center py-5">
-                            <div class="opacity-25 mb-3">
-                                <i class="fas fa-calendar-times fa-4x"></i>
-                            </div>
-                            <h5 class="fw-bold text-dark">No Active Consultations</h5>
+                        <td colspan="4" class="text-center py-5">
                             <p class="text-muted">Your clinical schedule is currently clear.</p>
                         </td>
                     </tr>
@@ -194,43 +272,12 @@ document.querySelectorAll('.appointment-action').forEach(button => {
         e.preventDefault();
         const url = this.getAttribute('href');
         const row = this.closest('tr');
-        const statusBadge = row.querySelector('.badge');
-        const actionCell = row.querySelector('.text-end');
-
-        fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
+        
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                const apptId = url.split('/')[2];
-                const apptType = this.dataset.type;
-                // Update status badge
-                if (data.new_status === 'approved') {
-                    statusBadge.className = 'badge bg-success bg-opacity-10 text-success border-0';
-                    statusBadge.innerText = 'Approved';
-                    
-                    let actionsHtml = '';
-                    if (apptType === 'virtual') {
-                        actionsHtml += `
-                            <a href="/video-call/${apptId}/" class="btn btn-sm btn-primary px-3 rounded-pill animate-pulse">
-                                <i class="fas fa-video me-1"></i> Join Call
-                            </a>
-                        `;
-                    }
-                    actionsHtml += `
-                        <a href="/prescribe/${apptId}/" class="btn btn-sm btn-primary px-4 shadow-sm rounded-pill">
-                            <i class="fas fa-prescription me-2"></i>E-Prescribe
-                        </a>
-                    `;
-                    actionCell.innerHTML = `<div class="d-flex gap-2 justify-content-end align-items-center">${actionsHtml}</div>`;
-                } else if (data.new_status === 'rejected') {
-                    statusBadge.className = 'badge bg-danger bg-opacity-10 text-danger border-0';
-                    statusBadge.innerText = 'Declined';
-                    actionCell.innerHTML = '<span class="badge bg-light text-muted border px-3">Archived</span>';
-                }
+                location.reload(); // Refresh to update all counts and tables
             }
         });
     });

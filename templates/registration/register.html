@@ -1,105 +1,146 @@
 {% extends 'base.html' %}
-{% block title %}Register | ProHealth{% endblock %}
+{% block title %}Join DocBook — Premium Healthcare Registration{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center py-5 fade-in">
-    <div class="col-lg-11">
-        <div class="card border-0 shadow-premium overflow-hidden rounded-5">
-            <div class="row g-0">
-                <!-- Visual Side -->
-                <div class="col-md-5 d-none d-md-block position-relative bg-primary overflow-hidden">
-                    <img src="/static/images/prohealth_hero.png" class="w-100 h-100 object-fit-cover opacity-50" alt="Register Visual">
-                    <div class="position-absolute inset-0 d-flex flex-column justify-content-center p-5 text-white">
-                        <div class="badge bg-white bg-opacity-20 text-white mb-4 align-self-start px-3 py-2 rounded-pill small fw-bold">JOIN PROHEALTH</div>
-                        <h2 class="display-6 fw-bold mb-4">Your Health, <br>Our Priority</h2>
-                        <ul class="list-unstyled mb-0 opacity-75">
-                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>24/7 Appointment Booking</span></li>
-                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Instant Digital Prescriptions</span></li>
-                            <li class="mb-3 d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Secure Medical Records</span></li>
-                            <li class="d-flex align-items-center gap-3"><i class="fas fa-check-circle"></i> <span>Verified Specialist Network</span></li>
-                        </ul>
+<style>
+    body { background-color: var(--off-white); }
+    #content-wrapper { padding-top: 0 !important; }
+    
+    .split-layout {
+        min-height: 100vh;
+        display: flex;
+    }
+
+    .image-panel {
+        width: 50%;
+        background: linear-gradient(rgba(10,10,10,0.6), rgba(10,10,10,0.6)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--white);
+        padding: 60px;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+    }
+
+    .image-panel blockquote {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 500;
+        max-width: 400px;
+        margin-bottom: 30px;
+    }
+
+    .form-panel {
+        width: 50%;
+        background: var(--white);
+        padding: 100px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-container {
+        max-width: 450px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    /* Force luxury styling on Django forms */
+    .form-control {
+        border: none !important;
+        border-bottom: 1px solid var(--border) !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 12px 0 !important;
+        box-shadow: none !important;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--black);
+    }
+    .form-control:focus {
+        border-bottom-color: var(--black) !important;
+    }
+    .form-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 4px;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 992px) {
+        .image-panel { display: none; }
+        .form-panel { width: 100%; padding: 120px 40px; }
+    }
+</style>
+
+<div class="split-layout">
+    <div class="image-panel">
+        <blockquote class="fade-in">"Your health journey begins here."</blockquote>
+        <div class="gold-rule fade-in"></div>
+    </div>
+    
+    <div class="form-panel">
+        <div class="form-container fade-in">
+            <span class="overline">JOIN DOCBOOK</span>
+            <h2 class="mb-2">Create Your Account</h2>
+            <p class="small text-muted mb-5">Patients can join our network immediately. Doctors and staff are registered by administrators only.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}<div class="text-danger x-small mt-1">{{ form.username.errors.0 }}</div>{% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">First Name</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}<div class="text-danger x-small mt-1">{{ form.first_name.errors.0 }}</div>{% endif %}
                     </div>
-                    <div class="position-absolute end-0 bottom-0 p-4 opacity-10">
-                        <i class="fas fa-hand-holding-heart fa-10x"></i>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Last Name</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}<div class="text-danger x-small mt-1">{{ form.last_name.errors.0 }}</div>{% endif %}
                     </div>
                 </div>
-                <!-- Form Side -->
-                <div class="col-md-7 bg-white p-5">
-                    <div class="mb-5">
-                        <h2 class="fw-bold text-dark mb-1">Create Patient Account</h2>
-                        <p class="text-muted small">Join thousands of patients receiving world-class care.</p>
-                    </div>
-                    
-                    <form method="post" class="row g-4">
-                        {% csrf_token %}
-                        
-                        <div class="col-12">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Username</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-user"></i></span>
-                                {{ form.username }}
-                            </div>
-                            {% if form.username.errors %}<div class="text-danger x-small mt-1">{{ form.username.errors.0 }}</div>{% endif %}
-                        </div>
 
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">First Name</label>
-                            {{ form.first_name }}
-                            {% if form.first_name.errors %}<div class="text-danger x-small mt-1">{{ form.first_name.errors.0 }}</div>{% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Last Name</label>
-                            {{ form.last_name }}
-                            {% if form.last_name.errors %}<div class="text-danger x-small mt-1">{{ form.last_name.errors.0 }}</div>{% endif %}
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-envelope"></i></span>
-                                {{ form.email }}
-                            </div>
-                            {% if form.email.errors %}<div class="text-danger x-small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-lock"></i></span>
-                                {{ form.password }}
-                            </div>
-                            {% if form.password.errors %}<div class="text-danger x-small mt-1">{{ form.password.errors.0 }}</div>{% endif %}
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label x-small fw-bold text-uppercase ls-wide text-muted">Confirm Identity</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-white border-end-0 rounded-4 text-muted"><i class="fas fa-shield-alt"></i></span>
-                                {{ form.confirm_password }}
-                            </div>
-                            {% if form.confirm_password.errors %}<div class="text-danger x-small mt-1">{{ form.confirm_password.errors.0 }}</div>{% endif %}
-                        </div>
-
-                        <div class="col-12 mt-5">
-                            <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-lg rounded-pill">
-                                Initialize Account <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
-                            <div class="text-center mt-4">
-                                <span class="text-muted small">Already a patient?</span>
-                                <a href="{% url 'login' %}" class="fw-bold text-primary text-decoration-none ms-1">Sign In to Portal</a>
-                            </div>
-                        </div>
-                    </form>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}<div class="text-danger x-small mt-1">{{ form.email.errors.0 }}</div>{% endif %}
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}<div class="text-danger x-small mt-1">{{ form.password.errors.0 }}</div>{% endif %}
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label">Confirm Identity</label>
+                    {{ form.confirm_password }}
+                    {% if form.confirm_password.errors %}<div class="text-danger x-small mt-1">{{ form.confirm_password.errors.0 }}</div>{% endif %}
+                </div>
+
+                <button type="submit" class="btn-primary-luxury w-100 py-3 mb-4">Initialize Account &rarr;</button>
+                
+                <div class="text-center">
+                    <span class="text-muted small">Already a patient?</span>
+                    <a href="{% url 'login' %}" class="link-gold ms-1">Sign In to Portal &rarr;</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
-<style>
-    .shadow-premium { box-shadow: 0 30px 60px -12px rgba(0,0,0,0.12); }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .input-group-text { border: 1px solid #dee2e6; }
-    input.form-control { border: 1px solid #dee2e6 !important; border-radius: 1rem !important; padding: 0.75rem 1.25rem; }
-    .input-group input.form-control { border-left: 0 !important; border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; }
-    input.form-control:focus { border-color: var(--primary-color) !important; box-shadow: none !important; }
-</style>
 {% endblock %}
