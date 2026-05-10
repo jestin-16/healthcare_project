@@ -45,6 +45,7 @@ class Appointment(models.Model):
         ('pending', 'Pending'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
+        ('cancelled', 'Cancelled'),
     )
     APPOINTMENT_TYPE_CHOICES = (
         ('in_person', 'In-Person'),
@@ -54,6 +55,7 @@ class Appointment(models.Model):
         ('pending', 'Pending'),
         ('paid', 'Paid'),
         ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
     )
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_appointments')
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='doctor_appointments')
@@ -94,6 +96,7 @@ class Prescription(models.Model):
         ('pending', 'Pending'),
         ('paid', 'Paid'),
         ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
     )
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name='prescription')
     medicines = models.ManyToManyField(Medicine, through='PrescribedMedicine')

@@ -298,12 +298,37 @@ def book_appointment(request):
 @role_required(allowed_roles=['doctor'])
 def manage_appointment(request, appointment_id, action):
     appointment = get_object_or_404(Appointment, id=appointment_id, doctor=request.user.doctor_profile)
+    
     if action == 'approve':
+        if appointment.payment_status != 'paid':
+            msg = "Cannot approve. Patient has not paid the booking fee yet."
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'status': 'error', 'message': msg})
+            messages.error(request, msg)
+            return redirect('dashboard')
+            
         appointment.status = 'approved'
         msg = "Appointment approved."
     elif action == 'reject':
         appointment.status = 'rejected'
-        msg = "Appointment rejected."
+        # Refund logic if paid
+        if appointment.payment_status == 'paid':
+            # Simulate refund for demonstration
+            appointment.payment_status = 'refunded'
+            msg = "Appointment rejected and refund initiated."
+            
+            # Real Razorpay Refund Logic (Commented out for safety/demo)
+            # if appointment.razorpay_payment_id and not appointment.razorpay_payment_id.startswith('pay_demo_'):
+            #     try:
+            #         razorpay_client.payment.refund(appointment.razorpay_payment_id, {
+            #             "amount": int(appointment.booking_fee * 100),
+            #             "speed": "normal"
+            #         })
+            #     except Exception as e:
+            #         messages.warning(request, f"Note: Rejection successful but automated refund failed: {str(e)}")
+        else:
+            msg = "Appointment rejected."
+            
     appointment.save()
     
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -316,11 +341,32 @@ def manage_appointment(request, appointment_id, action):
 @role_required('patient')
 def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+    
     if appointment.status in ['pending', 'approved']:
-        appointment.delete()
-        messages.success(request, "Your appointment has been successfully cancelled.")
+        if appointment.payment_status == 'paid':
+            appointment.payment_status = 'refunded'
+            appointment.status = 'cancelled'
+            appointment.save()
+            
+            # Real Razorpay Refund Logic (Commented out for safety/demo)
+            # if appointment.razorpay_payment_id and not appointment.razorpay_payment_id.startswith('pay_demo_'):
+            #     try:
+            #         razorpay_client.payment.refund(appointment.razorpay_payment_id, {
+            #             "amount": int(appointment.booking_fee * 100),
+            #             "speed": "normal"
+            #         })
+            #     except Exception as e:
+            #         messages.warning(request, f"Note: Cancellation successful but automated refund failed: {str(e)}")
+            
+            messages.success(request, "Your appointment has been cancelled and a refund has been initiated.")
+        else:
+            # If not paid, we can just delete it or mark as cancelled
+            appointment.status = 'cancelled'
+            appointment.save()
+            messages.success(request, "Your appointment has been successfully cancelled.")
     else:
         messages.error(request, "This appointment cannot be cancelled.")
+        
     return redirect('dashboard')
 
 def doctor_list(request):
@@ -675,11 +721,20 @@ def view_appointment_invoice(request, appointment_id):
 @login_required
 @admin_only
 def transaction_list(request):
-    appointment_payments = Appointment.objects.filter(payment_status='paid').order_by('-created_at')
-    prescription_payments = Prescription.objects.filter(payment_status='paid').order_by('-created_at')
+    appointment_payments = Appointment.objects.filter(payment_status__in=['paid', 'refunded']).order_by('-created_at')
+    prescription_payments = Prescription.objects.filter(payment_status__in=['paid', 'refunded']).order_by('-created_at')
     
-    total_appointment_revenue = appointment_payments.aggregate(Sum('booking_fee'))['booking_fee__sum'] or 0
-    total_prescription_revenue = prescription_payments.aggregate(Sum('total_amount'))['total_amount__sum'] or 0
+    # Calculate revenue (Paid - Refunded for appointments)
+    total_appointment_revenue = (
+        (Appointment.objects.filter(payment_status='paid').aggregate(Sum('booking_fee'))['booking_fee__sum'] or 0) -
+        (Appointment.objects.filter(payment_status='refunded').aggregate(Sum('booking_fee'))['booking_fee__sum'] or 0)
+    )
+    
+    total_prescription_revenue = (
+        (Prescription.objects.filter(payment_status='paid').aggregate(Sum('total_amount'))['total_amount__sum'] or 0) -
+        (Prescription.objects.filter(payment_status='refunded').aggregate(Sum('total_amount'))['total_amount__sum'] or 0)
+    )
+    
     total_revenue = total_appointment_revenue + total_prescription_revenue
     
     context = {

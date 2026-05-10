@@ -78,12 +78,19 @@
                             {% for payment in appointment_payments %}
                             <tr>
                                 <td class="ps-4 py-3">
-                                    <div class="fw-bold text-dark">Consultation Fee</div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="fw-bold text-dark">Consultation Fee</div>
+                                        {% if payment.payment_status == 'refunded' %}
+                                            <span class="badge bg-danger bg-opacity-10 text-danger border-0 x-small">Refunded</span>
+                                        {% endif %}
+                                    </div>
                                     <div class="text-muted x-small">ID: AP-{{ payment.id|stringformat:"05d" }}</div>
                                 </td>
                                 <td>{{ payment.patient.get_full_name|default:payment.patient.username }}</td>
                                 <td>{{ payment.created_at|date:"M d, Y" }}</td>
-                                <td class="fw-bold text-success">₹{{ payment.booking_fee }}</td>
+                                <td class="fw-bold {% if payment.payment_status == 'refunded' %}text-danger{% else %}text-success{% endif %}">
+                                    {% if payment.payment_status == 'refunded' %}-{% endif %}₹{{ payment.booking_fee }}
+                                </td>
                                 <td class="text-center">
                                     <code class="small text-primary">{{ payment.razorpay_payment_id|truncatechars:15 }}</code>
                                 </td>
@@ -115,12 +122,19 @@
                             {% for payment in prescription_payments %}
                             <tr>
                                 <td class="ps-4 py-3">
-                                    <div class="fw-bold text-dark">Pharmacy Order</div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="fw-bold text-dark">Pharmacy Order</div>
+                                        {% if payment.payment_status == 'refunded' %}
+                                            <span class="badge bg-danger bg-opacity-10 text-danger border-0 x-small">Refunded</span>
+                                        {% endif %}
+                                    </div>
                                     <div class="text-muted x-small">ID: PR-{{ payment.id|stringformat:"05d" }}</div>
                                 </td>
                                 <td>{{ payment.appointment.patient.get_full_name|default:payment.appointment.patient.username }}</td>
                                 <td>{{ payment.created_at|date:"M d, Y" }}</td>
-                                <td class="fw-bold text-success">₹{{ payment.total_amount }}</td>
+                                <td class="fw-bold {% if payment.payment_status == 'refunded' %}text-danger{% else %}text-success{% endif %}">
+                                    {% if payment.payment_status == 'refunded' %}-{% endif %}₹{{ payment.total_amount }}
+                                </td>
                                 <td class="text-center">
                                     <code class="small text-primary">{{ payment.razorpay_payment_id|truncatechars:15 }}</code>
                                 </td>
