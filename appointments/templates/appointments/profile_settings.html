@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Account Settings | HealthCare Pro{% endblock %}
 {% block content %}
-<div class="row justify-content-center py-5 fade-in">
+<div class="row justify-content-center py-5" data-aos="fade-up">
     <div class="col-lg-8 col-xl-6">
         <div class="card border-0 shadow-lg overflow-hidden" style="border-radius: var(--radius-lg);">
             <div class="card-header bg-primary p-4 border-0 text-white text-center">
@@ -13,7 +13,7 @@
             </div>
             
             <div class="card-body p-4 p-md-5">
-                <form method="post" class="fade-in">
+                <form method="post" data-aos="fade-up">
                     {% csrf_token %}
                     
                     <div class="row g-4">

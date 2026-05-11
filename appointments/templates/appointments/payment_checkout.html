@@ -4,26 +4,20 @@
 
 {% block content %}
 <style>
-    body { background-color: var(--off-white); }
     #content-wrapper { padding-top: 100px; }
-
-    .checkout-card {
-        background: var(--white);
-        box-shadow: var(--shadow);
-        padding: 60px;
-        text-align: center;
-    }
-
+    
     .amount-display {
-        font-family: var(--font-display);
-        font-size: 3.5rem;
-        color: var(--black);
-        margin: 20px 0;
+        font-family: var(--font-heading);
+        font-size: 4rem;
+        color: var(--dark);
+        margin: 30px 0;
+        font-weight: 800;
+        text-shadow: var(--shadow-sm);
     }
 
     .detail-list {
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
+        border-top: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
         padding: 24px 0;
         margin-bottom: 40px;
         text-align: left;
@@ -31,14 +25,15 @@
     .detail-item {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 12px;
+        margin-bottom: 15px;
     }
-    .detail-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
-    .detail-value { font-size: 0.9rem; font-weight: 600; color: var(--black); }
+    .detail-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748B; font-weight: 700; }
+    .detail-value { font-size: 1rem; font-weight: 600; color: var(--dark); }
 
     .simulation-notice {
-        background: #FDF6EC;
-        border: 1px solid #E8D5B0;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        border-radius: var(--radius-lg);
         padding: 20px;
         margin-top: 40px;
         text-align: left;
@@ -46,10 +41,10 @@
 </style>
 
 <div class="container">
-    <div class="row justify-content-center fade-in">
+    <div class="row justify-content-center" data-aos="zoom-in">
         <div class="col-lg-6 col-md-8">
-            <div class="checkout-card">
-                <span class="overline">SECURE CHECKOUT</span>
+            <div class="glass-card p-5 text-center hover-lift">
+                <span class="badge-pill mb-3">SECURE CHECKOUT</span>
                 <h2 class="mb-4">Finalize Payment</h2>
                 
                 <div class="amount-display">₹ {{ amount_in_rupees }}</div>
@@ -75,7 +70,7 @@
                     </div>
                 </div>
 
-                <button id="rzp-button1" class="btn-primary-luxury w-100 py-3 mb-3">Pay via Razorpay &rarr;</button>
+                <button id="rzp-button1" class="btn btn-primary-grad w-100 py-3 mb-3 fs-5">Pay via Razorpay <i class="fas fa-arrow-right ms-2"></i></button>
 
                 {% if is_demo %}
                 <div class="simulation-notice">
@@ -86,13 +81,13 @@
                         <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
                         <input type="hidden" name="razorpay_payment_id" value="pay_demo_123">
                         <input type="hidden" name="razorpay_signature" value="sig_demo_123">
-                        <button type="submit" class="link-gold small fw-bold" style="background: transparent; border: none; padding: 0;">Simulate Success &rarr;</button>
+                        <button type="submit" class="btn btn-ghost w-100 py-2 small fw-bold mt-2">Simulate Success <i class="fas fa-check-circle ms-1"></i></button>
                     </form>
                 </div>
                 {% endif %}
 
                 <div class="mt-5">
-                    <a href="{% url 'dashboard' %}" class="small text-muted text-uppercase ls-wide" style="text-decoration: none;">&larr; Cancel and Return</a>
+                    <a href="{% url 'dashboard' %}" class="btn btn-link text-muted text-decoration-none small fw-bold text-uppercase ls-wide"><i class="fas fa-arrow-left me-2"></i>Cancel and Return</a>
                 </div>
             </div>
         </div>

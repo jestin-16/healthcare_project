@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Our Clinical Specialists | HealthCare Pro{% endblock %}
 {% block content %}
-<div class="row mb-5 fade-in">
+<div class="row mb-5" data-aos="fade-up">
     <div class="col-lg-8 mx-auto text-center">
         <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill ls-wide fw-bold">
             <i class="fas fa-stethoscope me-2"></i>WORLD-CLASS MEDICAL STAFF
@@ -12,7 +12,7 @@
 </div>
 
 <!-- Search & Filter Bar -->
-<div class="row mb-5 fade-in">
+<div class="row mb-5" data-aos="fade-up" data-aos-delay="100">
     <div class="col-12">
         <div class="glass-card p-3 border-0 shadow-sm">
             <form method="get" class="row g-2 align-items-center px-2">
@@ -41,7 +41,7 @@
 </div>
 
 
-<div class="row g-4 fade-in">
+<div class="row g-4" data-aos="fade-up" data-aos-delay="200">
     {% for doctor in doctors %}
     <div class="col-md-6 col-lg-4">
         <div class="glass-card h-100 border-0 overflow-hidden transition-all hover-lift">

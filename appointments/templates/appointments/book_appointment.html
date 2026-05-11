@@ -76,10 +76,10 @@
 
 <div class="split-layout">
     <div class="info-panel">
-        <h2 class="fade-in">Book a Consultation</h2>
-        <div class="gold-rule fade-in"></div>
+        <h2 data-aos="fade-up">Book a Consultation</h2>
+        <div class="gold-rule" data-aos="fade-up"></div>
         
-        <div class="doctor-preview fade-in">
+        <div class="doctor-preview" data-aos="fade-up">
             {% if selected_doctor %}
                 <span class="overline" style="color: var(--gold);">SELECTED SPECIALIST</span>
                 <h3 class="text-white mt-2">Dr. {{ selected_doctor.user.get_full_name|default:selected_doctor.user.username }}</h3>
@@ -93,13 +93,13 @@
             {% endif %}
         </div>
 
-        <blockquote class="fade-in">
+        <blockquote data-aos="fade-up">
             "We believe in care that's personal, precise, and always on your terms."
         </blockquote>
     </div>
     
     <div class="form-panel">
-        <div class="form-container fade-in">
+        <div class="form-container" data-aos="fade-up">
             <span class="overline">APPOINTMENT DETAILS</span>
             <h2 class="mb-5">Schedule Your Visit</h2>
             
