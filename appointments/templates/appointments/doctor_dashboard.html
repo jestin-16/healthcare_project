@@ -126,6 +126,8 @@
                                     <span class="badge bg-success bg-opacity-10 text-success border-0">Approved</span>
                                 {% elif appt.status == 'cancelled' %}
                                     <span class="badge bg-secondary bg-opacity-10 text-secondary border-0">Cancelled</span>
+                                {% elif appt.status == 'completed' %}
+                                    <span class="badge bg-dark bg-opacity-10 text-dark border-0">Completed</span>
                                 {% else %}
                                     <span class="badge bg-danger bg-opacity-10 text-danger border-0">Declined</span>
                                 {% endif %}
@@ -264,6 +266,10 @@ document.querySelectorAll('.appointment-action').forEach(button => {
                         payBadge.className = 'badge bg-danger bg-opacity-10 text-danger border-0 x-small';
                         payBadge.innerHTML = '<i class="fas fa-undo me-1"></i>Refunded';
                     }
+                } else if (data.new_status === 'completed') {
+                    mainBadge.className = 'badge bg-dark bg-opacity-10 text-dark border-0';
+                    mainBadge.innerText = 'Completed';
+                    actionCell.innerHTML = '<span class="badge bg-light text-muted border px-3">Archived</span>';
                 }
             } else {
                 // Show error message (e.g. "Cannot approve. Patient has not paid...")

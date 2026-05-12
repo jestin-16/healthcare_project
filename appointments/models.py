@@ -46,6 +46,7 @@ class Appointment(models.Model):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
         ('cancelled', 'Cancelled'),
+        ('completed', 'Completed'),
     )
     APPOINTMENT_TYPE_CHOICES = (
         ('in_person', 'In-Person'),

@@ -328,6 +328,9 @@ def manage_appointment(request, appointment_id, action):
             #         messages.warning(request, f"Note: Rejection successful but automated refund failed: {str(e)}")
         else:
             msg = "Appointment rejected."
+    elif action == 'complete':
+        appointment.status = 'completed'
+        msg = "Consultation marked as completed."
             
     appointment.save()
     

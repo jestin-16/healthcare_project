@@ -96,6 +96,8 @@
                                 {% else %}
                                     <br><span class="badge bg-danger bg-opacity-10 text-danger border-0 px-2 py-1 mt-1 small"><i class="fas fa-exclamation-circle me-1"></i>Fee Unpaid</span>
                                 {% endif %}
+                            {% elif appt.status == 'completed' %}
+                                <span class="badge bg-dark bg-opacity-10 text-dark border-0 px-3 py-2">Completed</span>
                             {% else %}
                                 <span class="badge bg-danger bg-opacity-10 text-danger border-0 px-3 py-2">{% if appt.status == 'cancelled' %}Cancelled{% else %}Declined{% endif %}</span>
                             {% endif %}
