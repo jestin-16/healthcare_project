@@ -16,6 +16,19 @@
                 
                 <form method="post">
                     {% csrf_token %}
+                    
+                    {% if form.errors or form.non_field_errors %}
+                        <div class="alert alert-danger bg-danger bg-opacity-10 border-0 text-danger small mb-4">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <strong>{{ field.label }}:</strong> {{ error }}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="mb-4">
                         <label class="form-label fw-bold small text-uppercase ls-wide">Username</label>
                         <div class="input-group">

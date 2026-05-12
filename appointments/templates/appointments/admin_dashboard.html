@@ -134,7 +134,7 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <span class="text-primary fw-bold me-2">Dr.</span>
-                                <span class="text-dark fw-semibold">{{ appointment.doctor.user.last_name|default:appointment.doctor.user.username }}</span>
+                                <span class="text-dark fw-semibold">{{ appointment.doctor.user.get_full_name|default:appointment.doctor.user.username }}</span>
                             </div>
                         </td>
                         <td>
